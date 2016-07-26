@@ -7,10 +7,15 @@ install:
 script:
 - bundle exec rspec
 - bundle exec rubocop --config .rubocop.yml
+services: "-postgresql"
+script:
+- bundle exec rake db:test:prepare
+- bundle exec rspec
+- bundle exec rubocop
 deploy:
   provider: heroku
   run:
-  "rake db:migrate"
+  - rake db:migrate
   api_key:
     secure: 459db56a-dcee-4b7f-b896-fbbb6b681bf6
   app:
