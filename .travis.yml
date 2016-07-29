@@ -1,0 +1,25 @@
+language: ruby
+rvm:
+- 2.2.4
+before_install: gem update --remote bundler
+install:
+- bundle install --retry=3
+script:
+- bundle exec rspec
+- bundle exec rubocop --config .rubocop.yml
+services: "-postgresql"
+script:
+- bundle exec rake db:test:prepare
+- bundle exec rspec
+- bundle exec rubocop
+deploy:
+  provider: heroku
+  run:
+  - rake db:migrate
+  api_key:
+    secure: 459db56a-dcee-4b7f-b896-fbbb6b681bf6
+  app:
+    production: chess-fusion
+    master: chess-fusion-staging
+  on:
+    repo: Team-Chess-Fusion/chess-fusion
