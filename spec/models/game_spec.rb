@@ -9,9 +9,16 @@ RSpec.describe Game, type: :model do
   end
 
   describe "available scope" do
+    before do
+      Game.destroy_all
+    end    
     it "should return available games" do
       available_game = FactoryGirl.create(:game, white_player_id: user.id)
       expect(Game.available).to include available_game
+    end
+
+    it "should return no games if none are available" do
+      expect(Game.available).to be_empty
     end
   end
 
