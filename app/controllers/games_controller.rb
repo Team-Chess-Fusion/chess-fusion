@@ -5,13 +5,10 @@ class GamesController < ApplicationController
 
   def create
     @game = Game.create(game_params)
-    if @game.valid?
-      redirect_to_root_path
-    end
+    redirect_to_root_path if @game.valid?
   end
 
   def show
-    
   end
 
   private
@@ -19,5 +16,4 @@ class GamesController < ApplicationController
   def game_params
     params.require(:game).permit(:name)
   end
-
 end
