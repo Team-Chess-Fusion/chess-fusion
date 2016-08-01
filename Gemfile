@@ -6,6 +6,9 @@ gem 'rails', '4.0.1'
 # Use postgresql as the database for Active Record
 gem 'pg'
 
+# add rubocop, and keep it at latest stable version.
+gem 'rubocop', '~> 0.42.0', require: false
+
 # Use rails_12factor for heroku debugging and performance improvements
 gem 'rails_12factor', group: :production
 
@@ -27,7 +30,7 @@ gem 'turbolinks'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 1.2'
 
-# Bootstrap 
+# Bootstrap
 gem 'bootstrap-sass', '~> 3.3.5.1'
 gem 'sprockets', '2.11.0'
 gem 'sass-rails'
