@@ -5,7 +5,7 @@ FactoryGirl.define do
     end
     password 'secretPassword'
     password_confirmation 'secretPassword'
-  end  
+  end
 
   factory :game do
     sequence :name do |n|
@@ -20,5 +20,4 @@ FactoryGirl.define do
       white_player_id 1
     end
   end
-    
 end
