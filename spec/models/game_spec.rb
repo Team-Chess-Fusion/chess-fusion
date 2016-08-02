@@ -31,13 +31,21 @@ RSpec.describe Game, type: :model do
   end
 
   describe 'populate board!' do
-    it 'white knight should be located at row 0 column 1' do
+    it 'should have a white knight located at row 0 column 1' do
       expect(game.pieces.where(type: 'Knight', color: 'white').first.row_coordinate).to eq(0)
       expect(game.pieces.where(type: 'Knight', color: 'white').first.column_coordinate).to eq(1)
     end
     it 'should have the white king located at row 0 column 4' do
       expect(game.pieces.where(type: 'King', color: 'white').first.row_coordinate).to eq(0)
       expect(game.pieces.where(type: 'King', color: 'white').first.column_coordinate).to eq(4)
+    end
+    it 'should have a black knight located at row 7 column 1' do
+      expect(game.pieces.where(type: 'Knight', color: 'black').first.row_coordinate).to eq(7)
+      expect(game.pieces.where(type: 'Knight', color: 'black').first.column_coordinate).to eq(1)
+    end
+    it 'should have the black king located at row 7 column 4' do
+      expect(game.pieces.where(type: 'King', color: 'black').first.row_coordinate).to eq(7)
+      expect(game.pieces.where(type: 'King', color: 'black').first.column_coordinate).to eq(4)
     end
     it 'the game should have 32 pieces' do
       expect(game.pieces.count).to eq(32)

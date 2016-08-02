@@ -9,23 +9,27 @@ class Game < ActiveRecord::Base
   after_create :populate_board!
 
   def populate_board!
-    [0, 1, 6, 7].each do |i|
-      color = if i.zero?
-                'white'
-              else
-                'black'
-              end
+    [0, 1, 6, 7].each do |row|
+      color = row.zero? ? 'white' : 'black'
 
-      (0..7).each do |j|
-        if i.zero?
-          pieces.create(type: 'Rook', color: color, row_coordinate: i, column_coordinate: j) if j.zero? || j == 7
-          pieces.create(type: 'Knight', color: color, row_coordinate: i, column_coordinate: j) if j == 1 || j == 6
-          pieces.create(type: 'Bishop', color: color, row_coordinate: i, column_coordinate: j) if j == 2 || j == 5
-          pieces.create(type: 'Queen', color: color, row_coordinate: i, column_coordinate: j) if j == 3
-          pieces.create(type: 'King', color: color, row_coordinate: i, column_coordinate: j) if j == 4
+      (0..7).each do |column|
+        if row == 1 || row == 6
+          type = 'Pawn'
         else
-          pieces.create(type: 'Pawn', color: color, row_coordinate: i, column_coordinate: j)
+          case column
+          when 0, 7
+            type = 'Rook'
+          when 1, 6
+            type = 'Knight'
+          when 2, 5
+            type = 'Bishop'
+          when 4
+            type = 'King'
+          else
+            type = 'Queen'
+          end
         end
+        pieces.create(type: type, color: color, row_coordinate: row, column_coordinate: column)
       end
     end
   end
