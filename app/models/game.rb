@@ -10,7 +10,7 @@ class Game < ActiveRecord::Base
 
   def populate_board!
     [0, 1, 6, 7].each do |row|
-      color = row < 1 ? 'white' : 'black'
+      color = row <= 1 ? 'white' : 'black'
 
       (0..7).each do |column|
         if row == 1 || row == 6
