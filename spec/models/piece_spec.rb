@@ -50,7 +50,7 @@ RSpec.describe Piece, type: :model do
     end
 
     it 'should return error' do
-      expect(@w_knight_1.obstructed?(4, 1)).to eq "invalid"
+      expect(@w_knight_1.obstructed?(4, 1)).to eq 'invalid'
     end
 
     it 'should return false' do
