@@ -2,8 +2,9 @@ require 'rails_helper'
 
 RSpec.describe Piece, type: :model do
   before :all do
+    Game.destroy_all
     @game = FactoryGirl.create(:game)
-    puts "new game is #{@game.inspect}"
+    Piece.destroy_all
     @b_rook_1 = FactoryGirl.create(:piece, game_id: @game.id, type: 'Rook', color: 'black', row_coordinate: 0, column_coordinate: 0)
     @b_knight_1 = FactoryGirl.create(:piece, game_id: @game.id, type: 'Knight', color: 'black', row_coordinate: 0, column_coordinate: 1)
     @b_king = FactoryGirl.create(:piece, game_id: @game.id, type: 'King', color: 'black', row_coordinate: 0, column_coordinate: 3)
@@ -33,8 +34,6 @@ RSpec.describe Piece, type: :model do
     @w_bishop_2 = FactoryGirl.create(:piece, game_id: @game.id, type: 'Bishop', color: 'white', row_coordinate: 7, column_coordinate: 5)
     @w_knight_2 = FactoryGirl.create(:piece, game_id: @game.id, type: 'Bishop', color: 'white', row_coordinate: 7, column_coordinate: 6)
     @w_rook_2 = FactoryGirl.create(:piece, game_id: @game.id, type: 'Rook', color: 'white', row_coordinate: 7, column_coordinate: 7)
-    puts "last piece is #{Piece.last}"
-    # puts "find pieces #{@game.pieces.all}"
   end
 
   describe 'obstructed? method' do
@@ -43,7 +42,7 @@ RSpec.describe Piece, type: :model do
     end
 
     it 'should return true' do
-      expect(@w_pawn_5.obstructed?(2, 3)).to eq true
+      expect(@b_bishop_1.obstructed?(2, 3)).to eq true
     end
 
     it 'should return true' do
@@ -51,7 +50,7 @@ RSpec.describe Piece, type: :model do
     end
 
     it 'should return error' do
-      expect(@w_knight_1.obstructed?(4, 1)).to eq :error
+      expect(@w_knight_1.obstructed?(4, 1)).to eq "invalid"
     end
 
     it 'should return false' do
