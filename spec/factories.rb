@@ -7,6 +7,7 @@ FactoryGirl.define do
     password_confirmation 'secretPassword'
   end
 
+  
   factory :game do
     sequence :name do |n|
       "AwesomeChessGame#{n}"
@@ -19,5 +20,12 @@ FactoryGirl.define do
     factory :single_player_game do
       white_player_id 1
     end
+  end
+
+  factory :piece do
+    color 'black'
+    type 'Rook'
+    row_coordinate 0
+    column_coordinate 0
   end
 end
