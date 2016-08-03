@@ -7,7 +7,6 @@ FactoryGirl.define do
     password_confirmation 'secretPassword'
   end
 
-  
   factory :game do
     sequence :name do |n|
       "AwesomeChessGame#{n}"
@@ -27,5 +26,6 @@ FactoryGirl.define do
     type 'Rook'
     row_coordinate 0
     column_coordinate 0
+    association :game
   end
 end
