@@ -49,7 +49,7 @@ RSpec.describe Piece, type: :model do
       expect(@b_rook_1.obstructed?(3, 0)).to eq true
     end
 
-    it 'should return error' do
+    it 'should return invalid' do
       expect(@w_knight_1.obstructed?(4, 1)).to eq 'invalid'
     end
 
@@ -63,6 +63,14 @@ RSpec.describe Piece, type: :model do
 
     it 'should return false' do
       expect(@b_pawn_7.obstructed?(2, 7)).to eq false
+    end
+
+    it 'should return true' do
+      expect(@w_rook_2.obstructed?(3, 7)).to eq true
+    end
+
+    it 'should return invalid' do
+      expect(@w_rook_2.obstructed?(3, 5)).to eq 'invalid'
     end
   end
 end
