@@ -60,5 +60,9 @@ RSpec.describe Piece, type: :model do
     it 'should return false' do
       expect(@w_rook_1.obstructed?(7, 2)).to eq false
     end
+
+    it 'should return false' do
+      expect(@b_pawn_7.obstructed?(2, 7)).to eq false
+    end
   end
 end
