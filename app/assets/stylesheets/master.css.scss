@@ -5,3 +5,19 @@
 .join-button {
   margin-bottom: 10px;
 }
+
+h1 {
+  text-align: center;
+}
+table {
+  margin: 0 auto;
+  background: white;
+  border: 2px solid black;
+}
+td {
+    width: 85px; height: 85px;
+}
+
+tr:nth-child(odd) td:nth-child(even), tr:nth-child(even) td:nth-child(odd) {
+  background: black;
+}
