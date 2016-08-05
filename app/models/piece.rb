@@ -13,6 +13,7 @@ class Piece < ActiveRecord::Base
       return true if check_square(row_coordinate, strt)
       strt += 1
     end
+    false
   end
 
   def check_vertical(destination_row)
@@ -23,6 +24,7 @@ class Piece < ActiveRecord::Base
       return true if check_square(strt, column_coordinate)
       strt += 1
     end
+    false
   end
 
   def check_diagonal(destination_row, destination_column)
@@ -45,18 +47,18 @@ class Piece < ActiveRecord::Base
         start_y -= 1
       end
     end
+    false
   end
 
   def obstructed?(destination_row, destination_column)
     if row_coordinate == destination_row
-      return true if check_horizontal(destination_column)
+      return check_horizontal(destination_column)
     elsif column_coordinate == destination_column
-      return true if check_vertical(destination_row)
+      return check_vertical(destination_row)
     elsif (row_coordinate - destination_row).abs == (column_coordinate - destination_column).abs
-      return true if check_diagonal(destination_row, destination_column)
+      return check_diagonal(destination_row, destination_column)
     else
       return 'invalid'
     end
-    false
   end
 end
