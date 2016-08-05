@@ -29,8 +29,8 @@ class Piece < ActiveRecord::Base
     slope = (destination_column - column_coordinate) / (destination_row - row_coordinate)
     start_x = [row_coordinate, destination_row].min + 1
     if slope > 0
-      end_x = [row_coordinate, destination_row].max + 1
-      start_y = [column_coordinate, destination_column].min - 1
+      end_x = [row_coordinate, destination_row].max - 1
+      start_y = [column_coordinate, destination_column].min + 1
       while start_x <= end_x
         return true if check_square(start_x, start_y)
         start_x += 1
