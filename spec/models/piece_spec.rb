@@ -35,6 +35,20 @@ RSpec.describe Piece, type: :model do
     @w_rook_2 = FactoryGirl.create(:piece, game_id: @game.id, type: 'Rook', color: 'white', row_coordinate: 7, column_coordinate: 7)
   end
 
+  describe 'move_to! method' do
+    it 'should return moved' do
+      expect(@w_knight_1.move_to!(4, 5)).to eq 'moved'
+    end
+
+    it 'should return invalid' do
+      expect(@b_knight_2.move_to!(1, 4)).to eq 'invalid'
+    end
+
+    it 'should return captured' do
+      expect(@w_bishop_1.move_to!(3, 2)).to eq 'captured'
+    end
+  end
+
   describe 'obstructed? method' do
     it 'should return false' do
       expect(@w_bishop_1.obstructed?(3, 2)).to eq false
@@ -48,9 +62,9 @@ RSpec.describe Piece, type: :model do
       expect(@b_rook_1.obstructed?(3, 0)).to eq true
     end
 
-    it 'should return invalid' do
-      expect(@w_knight_1.obstructed?(4, 1)).to eq 'invalid'
-    end
+    # it 'should return invalid' do
+    #  expect(@w_knight_1.obstructed?(4, 1)).to eq 'invalid'
+    # end
 
     it 'should return false' do
       expect(@w_rook_1.obstructed?(5, 0)).to eq false
