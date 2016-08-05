@@ -45,7 +45,7 @@ RSpec.describe Piece, type: :model do
     end
 
     it 'should return captured' do
-      expect((@w_bishop_1.move_to!(3, 2)).to eq 'captured'
+      expect(@w_bishop_1.move_to!(3, 2)).to eq 'captured'
     end
 
     it 'should return moved' do
