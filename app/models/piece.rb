@@ -13,6 +13,9 @@ class Piece < ActiveRecord::Base
     end
   end
 
+  def move_to!(new_row_coordinate, new_column_coordinate)
+  end
+
   private
 
   def square_taken?(x, y)
