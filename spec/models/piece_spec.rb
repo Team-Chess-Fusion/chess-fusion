@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Piece, type: :model do
-  before :all do
+  before :each do
     @game = FactoryGirl.create(:game)
     Piece.destroy_all
     @b_rook_1 = FactoryGirl.create(:piece, game_id: @game.id, type: 'Rook', color: 'black', row_coordinate: 0, column_coordinate: 0)
@@ -47,6 +47,22 @@ RSpec.describe Piece, type: :model do
     it 'should return captured' do
       expect(@w_bishop_1.move_to!(3, 2)).to eq 'captured'
     end
+
+    it 'should return moved' do
+      expect(@w_rook_1.move_to!(7, 2)).to eq 'moved'
+    end
+
+    it 'should return invalid' do
+      expect(@w_rook_1.move_to!(7, 3)).to eq 'invalid'
+    end
+
+    it 'should return moved' do
+      expect(@b_rook_1.move_to!(4, 0)).to eq 'moved'
+    end
+
+    it 'should return captured' do
+      expect(@b_rook_1.move_to!(5, 0)).to eq 'captured'
+    end
   end
 
   describe 'obstructed? method' do
@@ -62,9 +78,9 @@ RSpec.describe Piece, type: :model do
       expect(@b_rook_1.obstructed?(3, 0)).to eq true
     end
 
-    # it 'should return invalid' do
-    #  expect(@w_knight_1.obstructed?(4, 1)).to eq 'invalid'
-    # end
+    it 'should return invalid' do
+      expect(@w_knight_1.obstructed?(4, 1)).to eq 'invalid'
+    end
 
     it 'should return false' do
       expect(@w_rook_1.obstructed?(5, 0)).to eq false
