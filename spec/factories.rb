@@ -20,4 +20,12 @@ FactoryGirl.define do
       white_player_id 1
     end
   end
+
+  factory :piece do
+    color 'black'
+    type 'Rook'
+    row_coordinate 0
+    column_coordinate 0
+    association :game
+  end
 end
