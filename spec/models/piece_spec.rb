@@ -38,6 +38,9 @@ RSpec.describe Piece, type: :model do
   describe 'move_to! method' do
     it 'should return moved' do
       expect(@w_knight_1.move_to!(4, 5)).to eq 'moved'
+      @w_knight_1.reload
+      expect(@w_knight_1.row_coordinate).to eq 4
+      expect(@w_knight_1.column_coordinate).to eq 5
     end
 
     it 'should return invalid' do
@@ -46,6 +49,9 @@ RSpec.describe Piece, type: :model do
 
     it 'should return captured' do
       expect(@w_bishop_1.move_to!(3, 2)).to eq 'captured'
+      @b_pawn_3.reload
+      expect(@b_pawn_3.row_coordinate).to eq nil
+      expect(@b_pawn_3.column_coordinate).to eq nil
     end
 
     it 'should return moved' do
@@ -62,6 +68,9 @@ RSpec.describe Piece, type: :model do
 
     it 'should return captured' do
       expect(@b_rook_1.move_to!(5, 0)).to eq 'captured'
+      @w_bishop_1.reload
+      expect(@w_bishop_1.row_coordinate).to eq nil
+      expect(@w_bishop_1.column_coordinate).to eq nil
     end
   end
 
