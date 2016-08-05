@@ -2,7 +2,6 @@ require 'rails_helper'
 
 RSpec.describe Piece, type: :model do
   before :all do
-    Game.destroy_all
     @game = FactoryGirl.create(:game)
     Piece.destroy_all
     @b_rook_1 = FactoryGirl.create(:piece, game_id: @game.id, type: 'Rook', color: 'black', row_coordinate: 0, column_coordinate: 0)
