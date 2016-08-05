@@ -36,6 +36,6 @@ class Game < ActiveRecord::Base
 
   def render_piece(row, col)
     piece = pieces.where('row_coordinate = ? AND column_coordinate = ?', row, col)
-    render_text = piece.empty? ? '' : piece.first.color.capitalize!+ ' ' + piece.first.type
+    piece.empty? ? '' : piece.first.color.capitalize! + ' ' + piece.first.type
   end
 end
