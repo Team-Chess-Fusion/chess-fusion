@@ -17,9 +17,8 @@ class GamesController < ApplicationController
   end
 
   def update
-    @game = Game.find_by_id(params[:id])
+    @game = Game.find(params[:id])
 
-    return render_not_found unless @game.present?
     return render_not_found(:unauthorized) if @game.white_player_id.present? && @game.black_player_id.present?
 
     if @game.white_player_id.present?
