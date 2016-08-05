@@ -2,44 +2,44 @@ class Piece < ActiveRecord::Base
   belongs_to :game
 
   def check_square(x, y)
-    return true if @game.pieces.where(row_coordinate: x, column_coordinate: y).any?
+    game.pieces.where(row_coordinate: x, column_coordinate: y).any?
   end
 
-  def check_horizontal(s_x, _d_x, s_y, d_y)
-    strt = [s_y, d_y].min + 1
-    fin = [s_y, d_y].max - 1
+  def check_horizontal(destination_column)
+    strt = [column_coordinate, destination_column].min + 1
+    fin = [column_coordinate, destination_column].max - 1
 
     while strt <= fin
-      return true if check_square(s_x, strt)
+      return true if check_square(row_coordinate, strt)
       strt += 1
     end
   end
 
-  def check_vertical(s_x, d_x, s_y, _d_y)
-    strt = [s_x, d_x].min + 1
-    fin = [s_x, d_x].max - 1
+  def check_vertical(destination_row)
+    strt = [row_coordinate, destination_row].min + 1
+    fin = [row_coordinate, destination_row].max - 1
 
     while strt <= fin
-      return true if check_square(strt, s_y)
+      return true if check_square(strt, column_coordinate)
       strt += 1
     end
   end
 
-  def check_diagonal(s_x, d_x, s_y, d_y)
-    slope = (d_y - s_y) / (d_x - s_x)
+  def check_diagonal(destination_row, destination_column)
+    slope = (destination_column - column_coordinate) / (destination_row - row_coordinate)
     if slope > 0
-      start_x = [s_x, d_x].min + 1
-      end_x = [s_x, d_x].max + 1
-      start_y = [s_y, d_y].min - 1
+      start_x = [row_coordinate, destination_row].min + 1
+      end_x = [row_coordinate, destination_row].max + 1
+      start_y = [column_coordinate, destination_column].min - 1
       while start_x <= end_x
         return true if check_square(start_x, start_y)
         start_x += 1
         start_y += 1
       end
     else
-      start_x = [s_x, d_x].min + 1
-      end_x = [s_x, d_x].max - 1
-      start_y = [s_y, d_y].max - 1
+      start_x = [row_coordinate, destination_row].min + 1
+      end_x = [row_coordinate, destination_row].max - 1
+      start_y = [column_coordinate, destination_column].max - 1
       while start_x <= end_x
         return true if check_square(start_x, start_y)
         start_x += 1
@@ -48,33 +48,15 @@ class Piece < ActiveRecord::Base
     end
   end
 
-  def obstructed?(d_x, d_y)
-    @game = Game.find(game_id)
-    s_x = row_coordinate
-    s_y = column_coordinate
-
-    if s_x == d_x
-      direction = 'H'
-    elsif s_y == d_y
-      direction = 'V'
-    elsif (s_x - d_x).abs == (s_y - d_y).abs
-      direction = 'D'
+  def obstructed?(destination_row, destination_column)
+    if row_coordinate == destination_row
+      return true if check_horizontal(destination_column)
+    elsif column_coordinate == destination_column
+      return true if check_vertical(destination_row)
+    elsif (row_coordinate - destination_row).abs == (column_coordinate - destination_column).abs
+      return true if check_diagonal(destination_row, destination_column)
     else
       return 'invalid'
-    end
-
-    case direction
-    when 'H'
-      # horizontal
-      return true if check_horizontal(s_x, d_x, s_y, d_y)
-
-    when 'V'
-      # vertical
-      return true if check_vertical(s_x, d_x, s_y, d_y)
-
-    when 'D'
-      # diagonal
-      return true if check_diagonal(s_x, d_x, s_y, d_y)
     end
     false
   end
