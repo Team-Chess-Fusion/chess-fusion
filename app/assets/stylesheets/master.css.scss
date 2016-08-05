@@ -1,3 +1,11 @@
+.game-box {
+  border: 1px solid black; 
+}
+
+.join-button {
+  margin-bottom: 10px;
+}
+
 h1 {
   text-align: center;
 }
@@ -13,4 +21,3 @@ td {
 tr:nth-child(odd) td:nth-child(even), tr:nth-child(even) td:nth-child(odd) {
   background: black;
 }
-
