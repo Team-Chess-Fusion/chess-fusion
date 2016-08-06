@@ -7,7 +7,7 @@ ChessFusion::Application.routes.draw do
   root 'static_pages#index'
 
   resources :games, only: [:new, :create, :show, :index, :update] do
-    resources :pieces, only: :create
+    resources :pieces, only: [:create, :show]
   end
 
   # Example of regular route:
