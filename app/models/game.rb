@@ -33,4 +33,9 @@ class Game < ActiveRecord::Base
       end
     end
   end
+
+  def render_piece(row, col)
+    piece = pieces.where('row_coordinate = ? AND column_coordinate = ?', row, col)
+    piece.empty? ? '' : piece.first.color.capitalize! + ' ' + piece.first.type
+  end
 end
