@@ -4,7 +4,7 @@ RSpec.describe King, type: :model do
   before :all do
     @game = FactoryGirl.create(:game)
     Piece.destroy_all
-    @king = FactoryGirl.create(:piece, game_id: @game.id, type: 'King', color: 'black', row_coordinate: 3, column_coordinate: 3)
+    @king = FactoryGirl.create(:king)
   end
 
   describe 'valid_move?' do
