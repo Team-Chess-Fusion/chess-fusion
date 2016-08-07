@@ -14,6 +14,7 @@ RSpec.describe Game, type: :model do
   describe 'available scope' do
     before do
       Game.destroy_all
+      User.destroy_all
     end
     it 'should return available games' do
       available_game = FactoryGirl.create(:game, white_player_id: user.id)
