@@ -8,7 +8,6 @@ RSpec.describe PiecesController, type: :controller do
   describe '#show' do
     context 'user signed in' do
       before do
-        User.destroy_all
         sign_in user
       end
       it 'should show game board with http status success' do
@@ -35,7 +34,6 @@ RSpec.describe PiecesController, type: :controller do
   describe '#update' do
     context 'user signed in' do
       before do
-        User.destroy_all
         sign_in user
       end
       it 'should update piece position' do
@@ -51,7 +49,7 @@ RSpec.describe PiecesController, type: :controller do
       end
 
       it 'should return 404 error if piece not found' do
-        patch :update, id: 'pieceid' , piece: {
+        patch :update, id: 'pieceid', piece: {
           row_coordinate: 4,
           column_coordinate: 5
         }
@@ -70,7 +68,7 @@ RSpec.describe PiecesController, type: :controller do
         fullgame.pieces.first.reload
 
         expect(fullgame.pieces.first.row_coordinate).to eq 0
-        expect(fullgame.pieces.first.column_coordinate).to eq 0    
+        expect(fullgame.pieces.first.column_coordinate).to eq 0
         expect(response).to redirect_to new_user_session_path
       end
     end
