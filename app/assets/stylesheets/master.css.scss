@@ -22,3 +22,22 @@ tr:nth-child(odd) td:nth-child(even), tr:nth-child(even) td:nth-child(odd) {
   background: black;
   color: white;
 }
+
+.selected-piece {
+  background-color: blue;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  color: white;
+}
+
+.empty-square {
+  width: 100%;
+  height: 100%;
+}
+.empty-square a {
+  display: inline-block;
+  width: 100%;
+  height: 100%;
+}

@@ -6,9 +6,10 @@ RSpec.describe PiecesController, type: :controller do
   let(:piece) { FactoryGirl.create(:game) }
 
   describe '#show' do
-    context 'user signed in' do
+    context 'user signed in' do    
       it 'should show game board with http status success' do
-        puts fullgame.white_player.inspect
+        get :show, game_id: fullgame.id, id: fullgame.pieces.first.id
+        expect(response).to have_http_status(:success)
       end
       it 'should return 404 error if piece not found' do
       end

@@ -21,11 +21,11 @@ FactoryGirl.define do
     end
   end
 
-  factory :chess_piece do
+  factory :piece do
     type 'Knight'
     color 'white'
     row_coordinate 0
     column_coordinate 0
-    association :full_game
+    association :game, factory: :full_game
   end
 end

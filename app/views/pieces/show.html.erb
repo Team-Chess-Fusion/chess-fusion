@@ -1,0 +1,27 @@
+<h1>Game Details</h1>
+
+<table>
+  <% (0..7).each do |row| %>
+    <tr>
+      <% (0..7).each do |col| %>
+        <td>
+          <% if @game.piece_at_location(row, col).present? %>
+            <% if @game.piece_at_location(row, col).first == @selected_piece %>
+              <div class='selected-piece'>
+                <%= @game.render_piece(row, col) %>            
+              </div>
+            <% else %>
+                <%= @game.render_piece(row, col) %>            
+            <% end %>
+          <% else %>
+            <div class='empty-square'>
+              <%= link_to root_path do %>
+                <%= @game.render_piece(row,col) %>
+              <% end %>
+            </div>
+          <% end %>
+        </td>
+      <% end %>
+    </tr>
+  <% end %>
+</table>
