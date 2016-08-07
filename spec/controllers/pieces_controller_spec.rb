@@ -6,7 +6,7 @@ RSpec.describe PiecesController, type: :controller do
   let(:piece) { FactoryGirl.create(:piece) }
 
   describe '#show' do
-    context 'user signed in' do    
+    context 'user signed in' do
       before do
         sign_in user
       end
@@ -48,5 +48,4 @@ RSpec.describe PiecesController, type: :controller do
       end
     end
   end
-
 end

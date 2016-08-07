@@ -10,7 +10,6 @@ RSpec.describe GamesController, type: :controller do
         sign_in user
       end
       it 'should allow user to join a game' do
-        initial_black_player = single_player_game.black_player_id
         post :update, id: single_player_game.id
 
         single_player_game.reload

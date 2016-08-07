@@ -40,6 +40,6 @@ class Game < ActiveRecord::Base
   end
 
   def piece_at_location(row, col)
-    piece = pieces.where('row_coordinate = ? AND column_coordinate = ?', row, col)
+    pieces.where('row_coordinate = ? AND column_coordinate = ?', row, col)
   end
 end
