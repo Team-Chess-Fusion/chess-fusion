@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Piece, type: :model do
-  before :all do
+  before :each do
     @game = FactoryGirl.create(:game)
     Piece.destroy_all
     @b_rook_1 = FactoryGirl.create(:piece, game_id: @game.id, type: 'Rook', color: 'black', row_coordinate: 0, column_coordinate: 0)
@@ -33,6 +33,45 @@ RSpec.describe Piece, type: :model do
     @w_bishop_2 = FactoryGirl.create(:piece, game_id: @game.id, type: 'Bishop', color: 'white', row_coordinate: 7, column_coordinate: 5)
     @w_knight_2 = FactoryGirl.create(:piece, game_id: @game.id, type: 'Bishop', color: 'white', row_coordinate: 7, column_coordinate: 6)
     @w_rook_2 = FactoryGirl.create(:piece, game_id: @game.id, type: 'Rook', color: 'white', row_coordinate: 7, column_coordinate: 7)
+  end
+
+  describe 'move_to! method' do
+    it 'should return moved' do
+      expect(@w_knight_1.move_to!(4, 5)).to eq 'moved'
+      @w_knight_1.reload
+      expect(@w_knight_1.row_coordinate).to eq 4
+      expect(@w_knight_1.column_coordinate).to eq 5
+    end
+
+    it 'should return invalid' do
+      expect(@b_knight_2.move_to!(1, 4)).to eq 'invalid'
+    end
+
+    it 'should return captured' do
+      expect(@w_bishop_1.move_to!(3, 2)).to eq 'captured'
+      @b_pawn_3.reload
+      expect(@b_pawn_3.row_coordinate).to eq nil
+      expect(@b_pawn_3.column_coordinate).to eq nil
+    end
+
+    it 'should return moved' do
+      expect(@w_rook_1.move_to!(7, 2)).to eq 'moved'
+    end
+
+    it 'should return invalid' do
+      expect(@w_rook_1.move_to!(7, 3)).to eq 'invalid'
+    end
+
+    it 'should return moved' do
+      expect(@b_rook_1.move_to!(4, 0)).to eq 'moved'
+    end
+
+    it 'should return captured' do
+      expect(@b_rook_1.move_to!(5, 0)).to eq 'captured'
+      @w_bishop_1.reload
+      expect(@w_bishop_1.row_coordinate).to eq nil
+      expect(@w_bishop_1.column_coordinate).to eq nil
+    end
   end
 
   describe 'obstructed? method' do
