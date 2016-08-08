@@ -5,21 +5,7 @@
     <tr>
       <% (0..7).each do |col| %>
         <td>
-          <% if @game.piece_at_location(row, col).present? %>
-            <% if @game.piece_at_location(row, col) == @selected_piece %>
-              <div class='selected-piece'>
-                <%= @game.render_piece(row, col) %>            
-              </div>
-            <% else %>
-                <%= @game.render_piece(row, col) %>            
-            <% end %>
-          <% else %>
-            <div class='empty-square'>
-              <%= link_to piece_path(@selected_piece, piece: { row_coordinate: row, column_coordinate: col }), method: :patch do %>
-                <%= @game.render_piece(row,col) %>
-              <% end %>
-            </div>
-          <% end %>
+          <%= render_piece_after_selection(row,col) %>
         </td>
       <% end %>
     </tr>
