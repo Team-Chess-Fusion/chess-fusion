@@ -36,10 +36,10 @@ class Game < ActiveRecord::Base
 
   def render_piece(row, col)
     piece = piece_at_location(row, col)
-    piece_at_location(row, col).empty? ? '' : piece.first.color.capitalize! + ' ' + piece.first.type
+    piece_at_location(row, col).nil? ? '' : piece.color.capitalize! + ' ' + piece.type
   end
 
   def piece_at_location(row, col)
-    pieces.where('row_coordinate = ? AND column_coordinate = ?', row, col)
+    pieces.find_by('row_coordinate = ? AND column_coordinate = ?', row, col)
   end
 end

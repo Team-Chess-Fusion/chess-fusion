@@ -6,7 +6,7 @@
       <% (0..7).each do |col| %>
         <td>
           <% if @game.piece_at_location(row, col).present? %>
-            <% if @game.piece_at_location(row, col).first == @selected_piece %>
+            <% if @game.piece_at_location(row, col) == @selected_piece %>
               <div class='selected-piece'>
                 <%= @game.render_piece(row, col) %>            
               </div>
