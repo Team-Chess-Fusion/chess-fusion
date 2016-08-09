@@ -25,15 +25,15 @@ RSpec.describe Rook, type: :model do
     end
 
     it 'should return false if destination is (row 1, col 4)' do
-      expect(rook.valid_move?(3, 4)).to eq false
+      expect(rook.valid_move?(1, 4)).to eq false
     end
 
     it 'should return false if destination is (row 3, col 6)' do
-      expect(rook.valid_move?(3, 4)).to eq false
+      expect(rook.valid_move?(3, 6)).to eq false
     end
 
     it 'should return false if destination is (row 1, col 6)' do
-      expect(rook.valid_move?(3, 4)).to eq false
+      expect(rook.valid_move?(1, 6)).to eq false
     end
   end
 end
