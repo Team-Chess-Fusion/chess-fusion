@@ -1,5 +1,10 @@
 class Pawn < Piece
   def valid_move?(destination_row, destination_column)
+    if (destination_column == column_coordinate) && ((destination_row - row_coordinate).abs == 1) &&
+       square_taken?(destination_row, destination_column)
+      return false
+    end
+
     case color
     when 'black'
       black_pawn_valid?(destination_row, destination_column)
@@ -20,5 +25,9 @@ class Pawn < Piece
     return true if (row_coordinate - destination_row == 1) && ((destination_column - column_coordinate).abs <= 1)
     row_coordinate == 6 && (row_coordinate - destination_row) == 2 &&
       (destination_column == column_coordinate) && !obstructed?(destination_row, destination_column)
+  end
+
+  def square_taken?(x, y)
+    game.pieces.where(row_coordinate: x, column_coordinate: y).any?
   end
 end

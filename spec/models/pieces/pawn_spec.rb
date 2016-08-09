@@ -54,6 +54,7 @@ RSpec.describe Pawn, type: :model do
       expect(w_pawn_2.column_coordinate).to eq 5
       expect(b_pawn_3.obstructed?(3, 5)).to eq true
       expect(b_pawn_3.valid_move?(3, 5)).to eq false
+      expect(b_pawn_3.valid_move?(2, 5)).to eq false
     end
   end
 end
