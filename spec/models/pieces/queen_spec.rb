@@ -1,9 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe Queen, type: :model do
-let(:queen) { FactoryGirl.create(:queen) }
+  let(:queen) { FactoryGirl.create(:queen) }
 
-  describe 'valid_move? method' do
+  describe 'valid_move?' do
     it 'should return true if destination is (row 6, col 5)' do
       expect(queen.valid_move?(6, 5)).to eq true
     end
