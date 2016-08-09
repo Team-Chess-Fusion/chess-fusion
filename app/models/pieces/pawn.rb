@@ -24,8 +24,4 @@ class Pawn < Piece
     row_coordinate == 6 && (row_coordinate - destination_row) == 2 &&
       (destination_column == column_coordinate) && !obstructed?(destination_row, destination_column)
   end
-
-  def square_taken?(x, y)
-    game.pieces.where(row_coordinate: x, column_coordinate: y).any?
-  end
 end
