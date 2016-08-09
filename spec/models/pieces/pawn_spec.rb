@@ -1,17 +1,17 @@
 require 'rails_helper'
 
 RSpec.describe Pawn, type: :model do
-  before :all do
-    @game = FactoryGirl.create(:game)
-    Piece.destroy_all
-  end
-
   describe 'valid_move? for pawn method' do
-    let(:b_pawn) { FactoryGirl.create(:pawn, game_id: @game.id, row_coordinate: 1, column_coordinate: 1, color: 'black') }
-    let(:w_pawn) { FactoryGirl.create(:pawn, game_id: @game.id, row_coordinate: 5, column_coordinate: 1, color: 'white') }
-    let(:b_pawn_2) { FactoryGirl.create(:pawn, game_id: @game.id, row_coordinate: 6, column_coordinate: 2, color: 'black') }
-    let(:b_pawn_3) { FactoryGirl.create(:pawn, game_id: @game.id, row_coordinate: 1, column_coordinate: 5, color: 'black') }
-    let(:w_pawn_2) { FactoryGirl.create(:pawn, game_id: @game.id, row_coordinate: 2, column_coordinate: 5, color: 'white') }
+    before do
+      allow_any_instance_of(Game).to receive(:populate_board!).and_return true
+    end
+
+    let(:game) { FactoryGirl.create(:game) }
+    let(:b_pawn) { FactoryGirl.create(:pawn, game_id: game.id, row_coordinate: 1, column_coordinate: 1, color: 'black') }
+    let(:w_pawn) { FactoryGirl.create(:pawn, game_id: game.id, row_coordinate: 5, column_coordinate: 1, color: 'white') }
+    let(:b_pawn_2) { FactoryGirl.create(:pawn, game_id: game.id, row_coordinate: 6, column_coordinate: 2, color: 'black') }
+    let(:b_pawn_3) { FactoryGirl.create(:pawn, game_id: game.id, row_coordinate: 1, column_coordinate: 5, color: 'black') }
+    let(:w_pawn_2) { FactoryGirl.create(:pawn, game_id: game.id, row_coordinate: 2, column_coordinate: 5, color: 'white') }
 
     it 'should return true' do
       expect(b_pawn.valid_move?(3, 1)).to eq true
