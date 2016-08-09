@@ -1,9 +1,7 @@
 class Pawn < Piece
   def valid_move?(destination_row, destination_column)
-    if (destination_column == column_coordinate) && ((destination_row - row_coordinate).abs == 1) &&
-       square_taken?(destination_row, destination_column)
-      return false
-    end
+    return false if (destination_column == column_coordinate) && ((destination_row - row_coordinate).abs == 1) &&
+                    square_taken?(destination_row, destination_column)
 
     case color
     when 'black'
