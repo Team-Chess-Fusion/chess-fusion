@@ -26,12 +26,15 @@ RSpec.describe GamesController, type: :controller do
         expect(response).to have_http_status(:not_found)
       end
       it 'should return unauthorized if game is full' do
+        initial_white_player = full_game.white_player_id
+        initial_black_player = full_game.black_player_id
+
         post :update, id: full_game
 
         full_game.reload
 
-        expect(full_game.white_player_id).to eq(1)
-        expect(full_game.black_player_id).to eq(3)
+        expect(full_game.white_player_id).to eq(initial_white_player)
+        expect(full_game.black_player_id).to eq(initial_black_player)
         expect(response).to have_http_status(:unauthorized)
       end
     end

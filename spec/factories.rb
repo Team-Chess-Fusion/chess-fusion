@@ -12,20 +12,20 @@ FactoryGirl.define do
       "AwesomeChessGame#{n}"
     end
     factory :full_game do
-      white_player_id 1
-      black_player_id 3
+      association :white_player, factory: :user
+      association :black_player, factory: :user
     end
 
     factory :single_player_game do
-      white_player_id 1
+      association :white_player, factory: :user
     end
   end
 
   factory :piece do
-    color 'black'
-    type 'Rook'
+    type 'Knight'
+    color 'white'
     row_coordinate 0
     column_coordinate 0
-    association :game
+    association :game, factory: :full_game
   end
 end
