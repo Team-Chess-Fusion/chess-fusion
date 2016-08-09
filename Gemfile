@@ -3,6 +3,13 @@ source 'https://rubygems.org'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.0.1'
 
+# Add omniauth-facebook gem for integrated facebook login
+gem 'omniauth-facebook'
+
+# Add Figaro gem to store configuration information securely
+
+gem 'figaro'
+
 # Use postgresql as the database for Active Record
 gem 'pg'
 
