@@ -12,12 +12,12 @@ RSpec.describe Rook, type: :model do
       expect(rook.valid_move?(2, 7)).to eq true
     end
 
-    it 'should return true if destination is (row 0, col 5)' do
-      expect(rook.valid_move?(0, 5)).to eq true
+    it 'should return false if destination is (row 0, col 5)(obstruction)' do
+      expect(rook.valid_move?(0, 5)).to eq false
     end
 
-    it 'should return true if destination is (row 6, col 5)' do
-      expect(rook.valid_move?(6, 5)).to eq true
+    it 'should return false if destination is (row 7, col 5)(obstruction)' do
+      expect(rook.valid_move?(7, 5)).to eq false
     end
 
     it 'should return false if destination is (row 3, col 4)' do
