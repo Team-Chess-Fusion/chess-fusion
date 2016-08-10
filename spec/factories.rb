@@ -44,4 +44,12 @@ FactoryGirl.define do
     column_coordinate 1
     association :game
   end
+
+  factory :king do
+    color 'black'
+    type 'King'
+    row_coordinate 3
+    column_coordinate 3
+    association :game
+  end
 end
