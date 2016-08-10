@@ -1,8 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe King, type: :model do
-  let(:game) { FactoryGirl.create(:game) }
-  Piece.destroy_all
   let(:king) { FactoryGirl.create(:king) }
 
   describe 'valid_move?' do
