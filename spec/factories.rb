@@ -64,8 +64,8 @@ FactoryGirl.define do
   factory :queen do
     color 'black'
     type 'Queen'
-    row_coordinate 6
-    column_coordinate 2
+    row_coordinate 3
+    column_coordinate 4
     association :game
   end
 end
