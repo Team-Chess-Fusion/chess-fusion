@@ -1,3 +1,19 @@
+@font-face {
+  font-family: 'merifont';
+  src: url('chess-merida-unicode.ttf') format('ttf');
+  font-weight: normal;
+  font-style: normal;
+}
+
+.piece-font {
+  font-family: 'merifont';
+  font-size: 50px;
+  font-style: normal;
+  font-variant: normal;
+  font-weight: 400;
+  line-height: 20px;
+}
+
 .game-box {
   border: 1px solid black; 
 }
