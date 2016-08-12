@@ -1,47 +1,55 @@
 module PiecesHelper
+  def display_white_piece(piece, css_class)
+    case piece.type
+    when 'King'
+      css_class += ' white-king'
+      content_tag(:p, '', class: css_class)
+    when 'Queen'
+      css_class += ' white-queen'
+      content_tag(:p, '', class: css_class)
+    when 'Rook'
+      css_class += ' white-rook'
+      content_tag(:p, '', class: css_class)
+    when 'Bishop'
+      css_class += ' white-bishop'
+      content_tag(:p, '', class: css_class)
+    when 'Knight'
+      css_class += ' white-knight'
+      content_tag(:p, '', class: css_class)
+    when 'Pawn'
+      css_class += ' white-pawn'
+      content_tag(:p, '', class: css_class)
+    end
+  end
+
+  def display_black_piece(piece, css_class)
+    case piece.type
+    when 'King'
+      css_class += ' black-king'
+      content_tag(:p, '', class: css_class)
+    when 'Queen'
+      css_class += ' black-queen'
+      content_tag(:p, '', class: css_class)
+    when 'Rook'
+      css_class += ' black-rook'
+      content_tag(:p, '', class: css_class)
+    when 'Bishop'
+      css_class += ' black-bishop'
+      content_tag(:p, '', class: css_class)
+    when 'Knight'
+      css_class += ' black-knight'
+      content_tag(:p, '', class: css_class)
+    when 'Pawn'
+      css_class += ' black-pawn'
+      content_tag(:p, '', class: css_class)
+    end
+  end
+
   def display_piece(piece, css_class)
     if piece.color == 'white'
-      case piece.type
-      when 'King'
-        css_class += ' white-king'
-        content_tag(:p, '', class: css_class)
-      when 'Queen'
-        css_class += ' white-queen'
-        content_tag(:p, '', class: css_class)
-      when 'Rook'
-        css_class += ' white-rook'
-        content_tag(:p, '', class: css_class)
-      when 'Bishop'
-        css_class += ' white-bishop'
-        content_tag(:p, '', class: css_class)
-      when 'Knight'
-        css_class += ' white-knight'
-        content_tag(:p, '', class: css_class)
-      when 'Pawn'
-        css_class += ' white-pawn'
-        content_tag(:p, '', class: css_class)
-      end
+      display_white_piece(piece, css_class)
     else
-      case piece.type
-      when 'King'
-        css_class += ' black-king'
-        content_tag(:p, '', class: css_class)
-      when 'Queen'
-        css_class += ' black-queen'
-        content_tag(:p, '', class: css_class)
-      when 'Rook'
-        css_class += ' black-rook'
-        content_tag(:p, '', class: css_class)
-      when 'Bishop'
-        css_class += ' black-bishop'
-        content_tag(:p, '', class: css_class)
-      when 'Knight'
-        css_class += ' black-knight'
-        content_tag(:p, '', class: css_class)
-      when 'Pawn'
-        css_class += ' black-pawn'
-        content_tag(:p, '', class: css_class)
-      end
+      display_black_piece(piece, css_class)
     end
   end
 
