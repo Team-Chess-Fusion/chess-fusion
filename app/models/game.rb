@@ -8,6 +8,18 @@ class Game < ActiveRecord::Base
 
   after_create :populate_board!
 
+  def determine_check
+    %w(white black).each do |color|
+      king = pieces.find_by(type: 'King', color: color)
+
+      pieces.where('color != ?', color).find_each do |enemy|
+        return true if enemy.valid_move?(king.row_coordinate, king.column_coordinate)
+      end
+    end
+
+    false
+  end
+
   def populate_board!
     [0, 1, 6, 7].each do |row|
       color = row <= 1 ? 'white' : 'black'

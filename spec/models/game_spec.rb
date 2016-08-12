@@ -5,9 +5,70 @@ RSpec.describe Game, type: :model do
   let(:game) { FactoryGirl.create(:game) }
   let(:full_game) { FactoryGirl.create(:full_game) }
   let(:single_player_game) { FactoryGirl.create(:single_player_game) }
-  describe 'initial test' do
-    it 'should be true' do
-      expect(true).to eq true
+
+  describe 'determine_check method' do
+    before do
+      allow_any_instance_of(Game).to receive(:populate_board!).and_return true
+      FactoryGirl.create(:king, color: 'white', game_id: game.id, row_coordinate: 7, column_coordinate: 4)
+      FactoryGirl.create(:king, color: 'black', game_id: game.id, row_coordinate: 0, column_coordinate: 4)
+    end
+    context 'white king is being checked' do
+      it 'should return true if black knight can capture king' do
+        FactoryGirl.create(:knight, color: 'black', game_id: game.id, row_coordinate: 5, column_coordinate: 3)
+        expect(game.determine_check).to eq true
+      end
+
+      it 'should return true if black rook can capture king' do
+        FactoryGirl.create(:rook, color: 'black', game_id: game.id, row_coordinate: 7, column_coordinate: 2)
+        expect(game.determine_check).to eq true
+      end
+
+      it 'should return true black queen can capture king' do
+        FactoryGirl.create(:queen, color: 'black', game_id: game.id, row_coordinate: 4, column_coordinate: 1)
+        expect(game.determine_check).to eq true
+      end
+    end
+
+    context 'white king is not checked' do
+      it 'should return false if black pawn is out of range' do
+        FactoryGirl.create(:pawn, game_id: game.id)
+        expect(game.determine_check).to eq false
+      end
+      it 'should return false if rook is blocked' do
+        FactoryGirl.create(:rook, game_id: game.id, row_coordinate: 7, column_coordinate: 1)
+        FactoryGirl.create(:knight, game_id: game.id, row_coordinate: 7, column_coordinate: 2)
+        expect(game.determine_check).to eq false
+      end
+      it 'should return false if kings are out of range' do
+        expect(game.determine_check).to eq false
+      end
+    end
+
+    context 'black king is checked' do
+      it 'should return true if white knight can capture king' do
+        FactoryGirl.create(:knight, color: 'white', game_id: game.id, row_coordinate: 2, column_coordinate: 5)
+        expect(game.determine_check).to eq true
+      end
+      it 'should return true if white pawn can capture king' do
+        FactoryGirl.create(:pawn, color: 'white', game_id: game.id, row_coordinate: 1, column_coordinate: 3)
+        expect(game.determine_check).to eq true
+      end
+      it 'should return true if white rook can capture king' do
+        FactoryGirl.create(:rook, color: 'white', game_id: game.id, row_coordinate: 6, column_coordinate: 4)
+        expect(game.determine_check).to eq true
+      end
+    end
+
+    context 'black king is not checked' do
+      it 'should return false if white queen is blocked' do
+        FactoryGirl.create(:queen, color: 'white', game_id: game.id, row_coordinate: 3, column_coordinate: 1)
+        FactoryGirl.create(:knight, game_id: game.id, row_coordinate: 2, column_coordinate: 2)
+        expect(game.determine_check).to eq false
+      end
+      it 'should return false if rook is out of range' do
+        FactoryGirl.create(:rook, color: 'white', game_id: game.id, row_coordinate: 1, column_coordinate: 1)
+        expect(game.determine_check).to eq false
+      end
     end
   end
 
