@@ -7,32 +7,32 @@ module GamesHelper
       if piece.color == 'white'
         case piece.type
         when 'King'
-          content_tag(:div, '&#9812', class: 'piece-font', escape: false)
+          content_tag(:div, '&#9812'.html_safe, class: 'piece-font')
         when 'Queen'
-          content_tag(:div, '&#9813', class: 'piece-font', escape: false)
+          content_tag(:div, '&#9813'.html_safe, class: 'piece-font')
         when 'Rook'
-          content_tag(:div, '&#9814', class: 'piece-font', escape: false)
+          content_tag(:div, '&#9814'.html_safe, class: 'piece-font')
         when 'Bishop'
-          content_tag(:div, '&#9815', class: 'piece-font', escape: false)
+          content_tag(:div, '&#9815'.html_safe, class: 'piece-font')
         when 'Knight'
-          content_tag(:div, '&#9816', class: 'piece-font', escape: false)
+          content_tag(:div, '&#9816'.html_safe, class: 'piece-font')
         when 'Pawn'
-          content_tag(:div, '&#9817', class: 'piece-font', escape: false)
+          content_tag(:div, '&#9817'.html_safe, class: 'piece-font')
         end
       else
         case piece.type
         when 'King'
-          content_tag(:div, '&#9818', class: 'piece-font', escape: false)
+          content_tag(:div, '&#9818'.html_safe, class: 'piece-font')
         when 'Queen'
-          content_tag(:div, '&#9819', class: 'piece-font', escape: false)
+          content_tag(:div, '&#9819'.html_safe, class: 'piece-font')
         when 'Rook'
-          content_tag(:div, '&#9820', class: 'piece-font', escape: false)
+          content_tag(:div, '&#9820'.html_safe, class: 'piece-font')
         when 'Bishop'
-          content_tag(:div, '&#9821', class: 'piece-font', escape: false)
+          content_tag(:div, '&#9821'.html_safe, class: 'piece-font')
         when 'Knight'
-          content_tag(:div, '&#9822', class: 'piece-font', escape: false)
+          content_tag(:div, '&#9822'.html_safe, class: 'piece-font')
         when 'Pawn'
-          content_tag(:div, '&#9823', class: 'piece-font', escape: false)
+          content_tag(:div, '&#9823'.html_safe, class: 'piece-font')
         end
       end
     end
