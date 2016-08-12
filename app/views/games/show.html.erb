@@ -1,4 +1,12 @@
-<h1>Game Details</h1>
+<h1>Game: <%= @game.name %></h1>
+
+<div class="gravatar">
+  <%= image_tag @game.white_player.gravatar_url %>
+  <h4>White Player</h4>
+  <h5><%= @game.white_player.email %> </h5> 
+</div>
+
+<div class="clear"></div>
 
 <table>
   <% (0..7).each do |row| %>
@@ -11,3 +19,12 @@
     </tr>
   <% end %>
 </table>
+
+<div class="clear"></div>
+
+<div class="gravatar">
+  <%= image_tag @game.black_player.gravatar_url %>
+  <h4>Black Player</h4>
+  <h5><%= @game.black_player.email %> </h5> 
+</div>
+
