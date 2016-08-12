@@ -1,34 +1,46 @@
 module PiecesHelper
-  def display_piece(piece, css_class = 'piece-font')
+  def display_piece(piece, css_class)
     if piece.color == 'white'
       case piece.type
       when 'King'
-        content_tag(:p, '&#9812'.html_safe, class: css_class)
+        css_class += ' white-king'
+        content_tag(:p, '', class: css_class)
       when 'Queen'
-        content_tag(:p, '&#9813'.html_safe, class: css_class)
+        css_class += ' white-queen'
+        content_tag(:p, '', class: css_class)
       when 'Rook'
-        content_tag(:p, '&#9814'.html_safe, class: css_class)
+        css_class += ' white-rook'
+        content_tag(:p, '', class: css_class)
       when 'Bishop'
-        content_tag(:p, '&#9815'.html_safe, class: css_class)
+        css_class += ' white-bishop'
+        content_tag(:p, '', class: css_class)
       when 'Knight'
-        content_tag(:p, '&#9816'.html_safe, class: css_class)
+        css_class += ' white-knight'
+        content_tag(:p, '', class: css_class)
       when 'Pawn'
-        content_tag(:p, '&#9817'.html_safe, class: css_class)
+        css_class += ' white-pawn'
+        content_tag(:p, '', class: css_class)
       end
     else
       case piece.type
       when 'King'
-        content_tag(:p, '&#9818'.html_safe, class: css_class)
+        css_class += ' black-king'
+        content_tag(:p, '', class: css_class)
       when 'Queen'
-        content_tag(:p, '&#9819'.html_safe, class: css_class)
+        css_class += ' black-queen'
+        content_tag(:p, '', class: css_class)
       when 'Rook'
-        content_tag(:p, '&#9820'.html_safe, class: css_class)
+        css_class += ' black-rook'
+        content_tag(:p, '', class: css_class)
       when 'Bishop'
-        content_tag(:p, '&#9821'.html_safe, class: css_class)
+        css_class += ' black-bishop'
+        content_tag(:p, '', class: css_class)
       when 'Knight'
-        content_tag(:p, '&#9822'.html_safe, class: css_class)
+        css_class += ' black-knight'
+        content_tag(:p, '', class: css_class)
       when 'Pawn'
-        content_tag(:p, '&#9823'.html_safe, class: css_class)
+        css_class += ' black-pawn'
+        content_tag(:p, '', class: css_class)
       end
     end
   end

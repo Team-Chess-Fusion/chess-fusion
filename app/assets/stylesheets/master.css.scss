@@ -5,12 +5,61 @@
   font-style: normal;
 }
 
+.white-king:after {
+  content: '\2654';
+}
+
+.white-queen:after {
+  content: '\2655';
+}
+
+.white-rook:after {
+  content: '\2656';
+}
+
+.white-bishop:after {
+  content: '\2657';
+}
+
+.white-knight:after {
+  content: '\2658';
+}
+
+.white-pawn:after {
+  content: '\2659';
+}
+
+.black-king:after {
+  content: '\265A';
+}
+
+.black-queen:after {
+  content: '\265B';
+}
+
+.black-rook:after {
+  content: '\265C';
+}
+
+.black-bishop:after {
+  content: '\265D';
+}
+
+.black-knight:after {
+  content: '\265E';
+}
+
+.black-pawn:after {
+  content: '\265F';
+}
+
 .piece-font {
   font-family: 'merifont';
   font-size: 50px;
   font-style: normal;
   font-variant: normal;
   font-weight: 400;
+  color: #4169e1;
   line-height: 20px;
   text-align: center;
   margin-left: auto;
