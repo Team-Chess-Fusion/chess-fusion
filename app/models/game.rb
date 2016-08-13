@@ -6,7 +6,11 @@ class Game < ActiveRecord::Base
   belongs_to :black_player, class_name: 'User'
   belongs_to :white_player, class_name: 'User'
 
-  after_create :populate_board!
+  def self.create_and_populate_board!(params)
+    create(params)
+    populate_board!
+    self
+  end
 
   def populate_board!
     [0, 1, 6, 7].each do |row|

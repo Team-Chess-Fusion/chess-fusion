@@ -32,6 +32,9 @@ RSpec.describe Game, type: :model do
   end
 
   describe 'populate board!' do
+    before do
+      game.populate_board!
+    end
     it 'should have a white knight located at row 0 column 1' do
       expect(game.pieces.where(type: 'Knight', color: 'white').first.row_coordinate).to eq(0)
       expect(game.pieces.where(type: 'Knight', color: 'white').first.column_coordinate).to eq(1)
