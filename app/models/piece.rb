@@ -15,7 +15,7 @@ class Piece < ActiveRecord::Base
 
   def move_to!(new_row_coordinate, new_column_coordinate)
     if !square_taken?(new_row_coordinate, new_column_coordinate)
-      update_attributes(row_coordinate: new_row_coordinate, column_coordinate: new_column_coordinate)
+      update_attributes(row_coordinate: new_row_coordinate, column_coordinate: new_column_coordinate, has_moved?: true)
       return 'moved'
     else
       other_piece = game.pieces.find_by(row_coordinate: new_row_coordinate, column_coordinate: new_column_coordinate)
