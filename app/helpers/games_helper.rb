@@ -4,7 +4,7 @@ module GamesHelper
 
     return '' unless piece.present?
     link_to game_piece_path(game_id: @game, id: @game.piece_at_location(row, col)) do
-      piece.color.capitalize! + ' ' + piece.type
+      display_piece(piece, 'piece-font')
     end
   end
 end
