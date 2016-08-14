@@ -8,6 +8,9 @@ class User < ActiveRecord::Base
   has_many :white_player_games, class_name: 'Game', foreign_key: 'white_player_id'
   has_many :black_player_games, class_name: 'Game', foreign_key: 'black_player_id'
 
+  include Gravtastic
+  has_gravatar
+
   def self.from_omniauth(auth)
     where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
       user.email = auth.info.email
