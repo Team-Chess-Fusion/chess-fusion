@@ -8,11 +8,17 @@ class King < Piece
     return false if has_moved? || rook.has_moved?
     return false if obstructed?(rook.row_coordinate, rook.column_coordinate)
     return false if castle_into_or_through_or_out_of_check?(rook.column_coordinate)
-      
+
     true
   end
 
   def castle!(rook)
+    # can_castle? to be called before this?
+    rook_dest_col = rook.column_coordinate < column_coordinate ? 3 : 5
+    king_dest_col = rook.column_coordinate < column_coordinate ? 2 : 6
+
+    update_attributes(column_coordinate: king_dest_col, has_moved?: true)
+    rook.update_attributes(column_coordinate: rook_dest_col, has_moved?: true)
   end
 
   private
@@ -27,6 +33,6 @@ class King < Piece
       return true if game.location_is_under_attack_by_color?(opposing_color, row_coordinate, col)
     end
 
-    false    
+    false
   end
 end

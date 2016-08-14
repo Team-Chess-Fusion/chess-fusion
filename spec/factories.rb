@@ -51,7 +51,7 @@ FactoryGirl.define do
     row_coordinate 3
     column_coordinate 3
     association :game
-    
+
     factory :moved_king do
       has_moved true
     end

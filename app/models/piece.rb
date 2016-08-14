@@ -19,7 +19,14 @@ class Piece < ActiveRecord::Base
       return 'moved'
     else
       other_piece = game.pieces.find_by(row_coordinate: new_row_coordinate, column_coordinate: new_column_coordinate)
-      return 'invalid' if color == other_piece.color
+      if color == other_piece.color
+        if type == 'King' && other_piece.type == 'Rook' && can_castle?(other_piece)
+          castle!(other_piece)
+          return 'castling'
+        else
+          return 'invalid'
+        end
+      end
       other_piece.update_attributes(row_coordinate: nil, column_coordinate: nil)
       return 'captured'
     end
