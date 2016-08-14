@@ -9,15 +9,15 @@ class Game < ActiveRecord::Base
   after_create :populate_board!
 
   def determine_check
-    %w(white black).each do |color|
-      king = pieces.find_by(type: 'King', color: color)
+    %w(white black).each do |king_color|
+      king = pieces.find_by(type: 'King', color: king_color)
 
-      pieces.where('color != ?', color).find_each do |enemy|
-        return true if enemy.valid_move?(king.row_coordinate, king.column_coordinate)
-      end
+      enemy_color =  %w(white black).select { |color| king_color != color }
+
+      return king if location_is_under_attack_by_color?(enemy_color, king.row_coordinate, king.column_coordinate)
     end
 
-    false
+    nil
   end
 
   def populate_board!
@@ -48,5 +48,13 @@ class Game < ActiveRecord::Base
 
   def piece_at_location(row, col)
     pieces.find_by('row_coordinate = ? AND column_coordinate = ?', row, col)
+  end
+
+  def location_is_under_attack_by_color?(color, row, col)
+    pieces.where('color = ?', color).find_each do |enemy|
+      return true if enemy.valid_move?(row, col)
+    end
+
+    false
   end
 end
