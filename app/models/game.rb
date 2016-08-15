@@ -69,12 +69,11 @@ class Game < ActiveRecord::Base
     if unique_player_ids.size == 1
       self.winner = user
     else
-      not_user_id = player_ids.reject{|id| id == user.id}.first
+      not_user_id = player_ids.reject { |id| id == user.id }.first
       self.winner = User.find(not_user_id)
     end
     self.forfeit = true
     self.active = false
-    self.save
+    save
   end
-  
 end
