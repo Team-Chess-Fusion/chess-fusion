@@ -15,47 +15,47 @@ RSpec.describe Game, type: :model do
     context 'white king is being checked' do
       it 'should return true if black knight can capture king' do
         FactoryGirl.create(:knight, color: 'black', game_id: game.id, row_coordinate: 5, column_coordinate: 3)
-        expect(game.determine_check).to eq @white_king
+        expect(game.in_check?).to eq @white_king
       end
 
       it 'should return true if black rook can capture king' do
         FactoryGirl.create(:rook, color: 'black', game_id: game.id, row_coordinate: 7, column_coordinate: 2)
-        expect(game.determine_check).to eq @white_king
+        expect(game.in_check?).to eq @white_king
       end
 
       it 'should return true black queen can capture king' do
         FactoryGirl.create(:queen, color: 'black', game_id: game.id, row_coordinate: 4, column_coordinate: 1)
-        expect(game.determine_check).to eq @white_king
+        expect(game.in_check?).to eq @white_king
       end
     end
 
     context 'white king is not checked' do
       it 'should return false if black pawn is out of range' do
         FactoryGirl.create(:pawn, game_id: game.id)
-        expect(game.determine_check).to eq nil
+        expect(game.in_check?).to eq nil
       end
       it 'should return false if rook is blocked' do
         FactoryGirl.create(:rook, game_id: game.id, row_coordinate: 7, column_coordinate: 1)
         FactoryGirl.create(:knight, game_id: game.id, row_coordinate: 7, column_coordinate: 2)
-        expect(game.determine_check).to eq nil
+        expect(game.in_check?).to eq nil
       end
       it 'should return false if kings are out of range' do
-        expect(game.determine_check).to eq nil
+        expect(game.in_check?).to eq nil
       end
     end
 
     context 'black king is checked' do
       it 'should return true if white knight can capture king' do
         FactoryGirl.create(:knight, color: 'white', game_id: game.id, row_coordinate: 2, column_coordinate: 5)
-        expect(game.determine_check).to eq @black_king
+        expect(game.in_check?).to eq @black_king
       end
       it 'should return true if white pawn can capture king' do
         FactoryGirl.create(:pawn, color: 'white', game_id: game.id, row_coordinate: 1, column_coordinate: 3)
-        expect(game.determine_check).to eq @black_king
+        expect(game.in_check?).to eq @black_king
       end
       it 'should return true if white rook can capture king' do
         FactoryGirl.create(:rook, color: 'white', game_id: game.id, row_coordinate: 6, column_coordinate: 4)
-        expect(game.determine_check).to eq @black_king
+        expect(game.in_check?).to eq @black_king
       end
     end
 
@@ -63,11 +63,11 @@ RSpec.describe Game, type: :model do
       it 'should return false if white queen is blocked' do
         FactoryGirl.create(:queen, color: 'white', game_id: game.id, row_coordinate: 3, column_coordinate: 1)
         FactoryGirl.create(:knight, game_id: game.id, row_coordinate: 2, column_coordinate: 2)
-        expect(game.determine_check).to eq nil
+        expect(game.in_check?).to eq nil
       end
       it 'should return false if rook is out of range' do
         FactoryGirl.create(:rook, color: 'white', game_id: game.id, row_coordinate: 1, column_coordinate: 1)
-        expect(game.determine_check).to eq nil
+        expect(game.in_check?).to eq nil
       end
     end
   end
