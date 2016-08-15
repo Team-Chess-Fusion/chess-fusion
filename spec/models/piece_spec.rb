@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe Piece, type: :model do
+  let(:game) { FactoryGirl.create(:game) }
+
   before :each do
     @game = FactoryGirl.create(:game)
     Piece.destroy_all

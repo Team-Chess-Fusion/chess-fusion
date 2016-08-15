@@ -4,6 +4,9 @@ RSpec.describe Rook, type: :model do
   let(:rook) { FactoryGirl.create(:rook) }
 
   describe 'valid_move?' do
+    before do
+      rook.game.populate_board!
+    end
     it 'should return true if destination is (row 2, col 3)' do
       expect(rook.valid_move?(2, 3)).to eq true
     end
