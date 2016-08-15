@@ -6,7 +6,11 @@ class Game < ActiveRecord::Base
   belongs_to :black_player, class_name: 'User'
   belongs_to :white_player, class_name: 'User'
 
-  after_create :populate_board!
+  def self.create_and_populate_board!(params)
+    new_game = create(params)
+    new_game.populate_board!
+    new_game
+  end
 
   def in_check?
     %w(white black).each do |king_color|
