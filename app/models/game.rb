@@ -8,7 +8,7 @@ class Game < ActiveRecord::Base
 
   after_create :populate_board!
 
-  def determine_check
+  def in_check?
     %w(white black).each do |king_color|
       king = pieces.find_by(type: 'King', color: king_color)
 
