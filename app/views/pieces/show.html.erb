@@ -11,3 +11,11 @@
     </tr>
   <% end %>
 </table>
+
+<% if @game.forfeit %>
+  <p>Game forfeited</p>
+<% else %>
+  <%= form_for(@game, url: forfeit_game_path(@game), method: :put) do |f| %>
+    <%= f.submit "Forfeit"%>
+  <% end %>
+<% end %>

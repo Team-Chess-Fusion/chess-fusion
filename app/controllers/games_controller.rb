@@ -30,6 +30,16 @@ class GamesController < ApplicationController
     redirect_to root_path
   end
 
+  def forfeit
+    game = Game.find(params[:id])
+
+    return render_not_found(:unauthorized) if game.white_player_id == current_user.id || game.black_player_id == current_user.id
+
+    game.forfeit!(current_user)
+    redirect_to game
+
+  end
+
   private
 
   def game_params

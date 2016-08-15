@@ -5,6 +5,7 @@ class Game < ActiveRecord::Base
   has_many :pieces
   belongs_to :black_player, class_name: 'User'
   belongs_to :white_player, class_name: 'User'
+  belongs_to :winner, class_name: 'User'
 
   after_create :populate_board!
 
@@ -37,4 +38,19 @@ class Game < ActiveRecord::Base
   def piece_at_location(row, col)
     pieces.find_by('row_coordinate = ? AND column_coordinate = ?', row, col)
   end
+
+  def forfeit!(user)
+    player_ids = [black_player_id, white_player_id]
+    unique_player_ids = player_ids.uniq
+    if unique_player_ids.size == 1
+      self.winner = user
+    else
+      not_user_id = player_ids.reject{|id| id == user.id}.first
+      self.winner = User.find(not_user_id)
+    end
+    self.forfeit = true
+    self.active = false
+    self.save
+  end
+
 end

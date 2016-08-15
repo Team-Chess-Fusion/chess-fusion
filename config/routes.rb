@@ -8,6 +8,9 @@ ChessFusion::Application.routes.draw do
 
   resources :pieces, only: [:update]
   resources :games, only: [:new, :create, :show, :index, :update] do
+    member do
+      put 'forfeit'
+    end
     resources :pieces, only: [:create, :show]
   end
 
