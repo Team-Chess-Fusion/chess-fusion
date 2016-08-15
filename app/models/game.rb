@@ -7,9 +7,9 @@ class Game < ActiveRecord::Base
   belongs_to :white_player, class_name: 'User'
 
   def self.create_and_populate_board!(params)
-    create(params)
-    populate_board!
-    self
+    new_game = create(params)
+    new_game.populate_board!
+    new_game
   end
 
   def populate_board!
