@@ -1,4 +1,31 @@
-<h1>Game Details</h1>
+<h1>Game: <%= @game.name %></h1>
+<% if @game.active %>
+  <h5>Game status: <span id="active-status">Active<span></h5>
+<% else %>
+  <h5> Game status: <span id="inactive-status">Inactive</span><h5>
+<% end %>
+
+<% if @game.forfeit %>
+  <p>Game forfeited!</p>
+  <p><%= current_user.email %> forfeits the game</p>
+  <% if @game.winner_id == @game.white_player_id %>
+    <p>The white player has won!</p>
+  <% else %>
+    <p>The black player has won!</p>
+  <% end %>
+<% end %>
+
+<div class="gravatar">
+  <%= image_tag @game.white_player.gravatar_url %>
+  <h4>White Player: <%= @game.white_player.email %></h4>
+  <% if @game.active %>
+    <%= simple_form_for @game, url: forfeit_game_path(@game), method: :put do |f| %>
+      <%= f.button :submit, 'Forfeit', class: "btn btn-danger btn-sm" %>
+    <% end %>  
+  <% end %>
+</div>
+
+<div class="clear"></div>
 
 <table>
   <% (0..7).each do |row| %>
@@ -12,11 +39,20 @@
   <% end %>
 </table>
 
-<% if @game.forfeit %>
-  <p>Game forfeited</p>
-<% else %>
-  <%= form_for(@game, url: forfeit_game_path(@game), method: :put) do |f| %>
-    <%= f.submit "Forfeit"%>
-  <% end %>
-<% end %>
+<div class="clear"></div>
+
+<div class="gravatar">
+  <%= image_tag @game.black_player.gravatar_url %>
+  <h4>Black Player: <%= @game.black_player.email %></h4>
+  <% if @game.active %>
+    <%= simple_form_for @game, url: forfeit_game_path(@game), method: :put do |f| %>
+      <%= f.button :submit, 'Forfeit', class: "btn btn-danger btn-sm" %>
+    <% end %>  
+  <% end %> 
+</div>
+
+
+
+
+
 
