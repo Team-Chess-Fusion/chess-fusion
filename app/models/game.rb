@@ -24,6 +24,10 @@ class Game < ActiveRecord::Base
     nil
   end
 
+  def checkmate?
+
+  end
+
   def populate_board!
     [0, 1, 6, 7].each do |row|
       color = row <= 1 ? 'white' : 'black'
