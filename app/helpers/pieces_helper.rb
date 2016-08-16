@@ -1,47 +1,21 @@
 module PiecesHelper
-  def display_white_piece(piece, css_class, data)
-    case piece.type
-    when 'King'
-      css_class += ' white-king'
-    when 'Queen'
-      css_class += ' white-queen'
-    when 'Rook'
-      css_class += ' white-rook'
-    when 'Bishop'
-      css_class += ' white-bishop'
-    when 'Knight'
-      css_class += ' white-knight'
-    when 'Pawn'
-      css_class += ' white-pawn'
-    end
-    content_tag(:p, '', class: css_class, data: { update_url: data })
-  end
-
-  def display_black_piece(piece, css_class, data)
-    case piece.type
-    when 'King'
-      css_class += ' black-king'
-    when 'Queen'
-      css_class += ' black-queen'
-    when 'Rook'
-      css_class += ' black-rook'
-    when 'Bishop'
-      css_class += ' black-bishop'
-    when 'Knight'
-      css_class += ' black-knight'
-    when 'Pawn'
-      css_class += ' black-pawn'
-    end
-    content_tag(:p, '', class: css_class, data: { update_url: data })
-  end
-
   def display_piece(piece, css_class)
     data = piece_path(piece)
-    if piece.color == 'white'
-      display_white_piece(piece, css_class, data)
-    else
-      display_black_piece(piece, css_class, data)
+    case piece.type
+    when 'King'
+      css_class += ' ' + piece.color + '-king'
+    when 'Queen'
+      css_class += ' ' + piece.color + '-queen'
+    when 'Rook'
+      css_class += ' ' + piece.color + '-rook'
+    when 'Bishop'
+      css_class += ' ' + piece.color + '-bishop'
+    when 'Knight'
+      css_class += ' ' + piece.color + '-knight'
+    when 'Pawn'
+      css_class += ' ' + piece.color + '-pawn'
     end
+    content_tag(:p, '', class: css_class, data: { update_url: data })
   end
 
   def render_piece_after_selection(row, col)

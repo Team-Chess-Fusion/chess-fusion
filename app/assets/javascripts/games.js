@@ -11,7 +11,7 @@ $(function(){
           type: 'PUT',
           url: ui.draggable.data('update-url'),
           dataType: 'json',
-          data: {piece: {row_coordinate: $(this).attr("data-row"), column_coordinate: $(this).attr("data-column")}}
+          data: {piece: {row_coordinate: $(this).data("row"), column_coordinate: $(this).data("column")}}
       });
     }
   });
