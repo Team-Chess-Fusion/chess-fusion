@@ -1,10 +1,5 @@
 class PiecesController < ApplicationController
   before_action :authenticate_user!
-  def show
-    @game = Game.find(params[:game_id])
-    @selected_piece = Piece.find(params[:id])
-  end
-
   def update
     @piece = Piece.find(params[:id])
     @piece.update_attributes(piece_params)

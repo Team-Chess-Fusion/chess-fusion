@@ -12,7 +12,7 @@
   <% (0..7).each do |row| %>
     <tr>
       <% (0..7).each do |col| %>
-        <td>
+        <td data-row="<%= row %>" data-column="<%= col %>">
           <%= render_piece(row, col) %>
         </td>
       <% end %>
