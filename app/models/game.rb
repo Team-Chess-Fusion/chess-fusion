@@ -28,8 +28,6 @@ class Game < ActiveRecord::Base
     king = in_check?
     return false if king.nil?
 
-    # data_lists = []
-
     # scan entire board to collect required data
     data_lists = build_attackers_and_friendly_lists(king)
     king_moves_list, attackers, friendly_list = data_lists
@@ -43,19 +41,11 @@ class Game < ActiveRecord::Base
     return true if attackers.count > 1
 
     # determine if attacker can be captured
-    return false if king_attacker_can_be_captured(friendly_list, attackers)
+    return false if king_attacker_can_be_captured?(attackers.first, friendly_list)
 
     # determine if check can be blocked
+    return false if check_can_be_blocked?(king, attackers.first, friendly_list)
 
-    single_attacker = attackers.first
-
-    if king.row_coordinate == attacker.row_coordinate
-      return false if attacker_can_be_blocked_horizontally?(king, single_attacker, friendly_list)
-    elsif king.column_coordinate == attacker.column_coordinate
-      return false if attacker_can_be_blocked_vertically?(king, single_attacker, friendly_list)
-    elsif (king.column_coordinate - attacker.column_coordinate).abs == (king.row_coordinate - attacker.row_coordinate).abs
-      return false if attacker_can_be_blocked_diagonally?(king, single_attacker, friendly_list)
-    end
     true
   end
 
@@ -140,11 +130,20 @@ class Game < ActiveRecord::Base
     false
   end
 
-  def king_attacker_can_be_captured?(friendly_list, attackers)
+  def king_attacker_can_be_captured?(single_attacker, friendly_list)
     friendly_list.each do |friendly|
-      attackers.each do |attacker|
-        return true if friendly.valid_move?(attacker.row_coordinate, attacker.column_coordinate)
-      end
+      return true if friendly.valid_move?(single_attacker.row_coordinate, single_attacker.column_coordinate)
+    end
+    false
+  end
+
+  def check_can_be_blocked?(king, single_attacker, friendly_list)
+    if king.row_coordinate == attacker.row_coordinate
+      return true if attacker_can_be_blocked_horizontally?(king, single_attacker, friendly_list)
+    elsif king.column_coordinate == attacker.column_coordinate
+      return true if attacker_can_be_blocked_vertically?(king, single_attacker, friendly_list)
+    elsif (king.column_coordinate - attacker.column_coordinate).abs == (king.row_coordinate - attacker.row_coordinate).abs
+      return true if attacker_can_be_blocked_diagonally?(king, single_attacker, friendly_list)
     end
     false
   end
@@ -179,25 +178,20 @@ class Game < ActiveRecord::Base
     slope = (king.column_coordinate - single_attacker.column_coordinate) / (king.row_coordinate - single_attacker.row_coordinate)
     start_x = [king.row_coordinate, single_attacker.row_coordinate].min + 1
     if slope > 0
-      end_x = [king.row_coordinate, single_attacker.row_coordinate].max - 1
-      start_y = [king.column_coordinate, single_attacker.column_coordinate].min + 1
-      while start_x <= end_x
-        friendly_list.each do |friendly|
-          return true if friendly.valid_move?(start_x, start_y)
-        end
-        start_x += 1
-        start_y += 1
-      end
+      start_y_increment = 1
+      start_y = [king.column_coordinate, single_attacker.column_coordinate].min + start_y_increment
     else
-      end_x = [king.row_coordinate, single_attacker.row_coordinate].max - 1
-      start_y = [king.column_coordinate, single_attacker.column_coordinate].max - 1
-      while start_x <= end_x
-        friendly_list.each do |friendly|
-          return true if friendly.valid_move?(start_x, start_y)
-        end
-        start_x += 1
-        start_y -= 1
+      start_y_increment = -1
+      start_y = [king.column_coordinate, single_attacker.column_coordinate].max + start_y_increment
+    end
+    end_x = [king.row_coordinate, single_attacker.row_coordinate].max - 1
+
+    while start_x <= end_x
+      friendly_list.each do |friendly|
+        return true if friendly.valid_move?(start_x, start_y)
       end
+      start_x += 1
+      start_y += start_y_increment
     end
     false
   end
