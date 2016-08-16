@@ -6,6 +6,25 @@ RSpec.describe Game, type: :model do
   let(:full_game) { FactoryGirl.create(:full_game) }
   let(:single_player_game) { FactoryGirl.create(:single_player_game) }
 
+  describe '#checkmate? method' do
+    # before do
+    #   allow_any_instance_of(Game).to receive(:populate_board!).and_return true
+    # end
+    before :all do
+      @game2 = FactoryGirl.create(:game)
+      @b_king = FactoryGirl.create(:king, game_id: @game2.id, row_coordinate: 4, column_coordinate: 7, color: 'black')
+      @w_king = FactoryGirl.create(:king, game_id: @game2.id, row_coordinate: 4, column_coordinate: 5, color: 'white')
+    end
+
+    it 'should return false' do
+      FactoryGirl.create(:rook, game_id: @game2.id, row_coordinate: 0, column_coordinate: 7, color: 'white')
+      FactoryGirl.create(:knight, game_id: @game2.id, row_coordinate: 7, column_coordinate: 6, color: 'black')
+      FactoryGirl.create(:rook, game_id: @game2.id, row_coordinate: 0, column_coordinate: 4, color: 'black')
+      FactoryGirl.create(:knight, game_id: @game2.id, row_coordinate: 5, column_coordinate: 5, color: 'white')
+      expect(@game2.checkmate?).to eq true
+    end
+  end
+
   describe 'determine_check method' do
     before do
       allow_any_instance_of(Game).to receive(:populate_board!).and_return true

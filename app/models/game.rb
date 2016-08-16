@@ -16,7 +16,7 @@ class Game < ActiveRecord::Base
     %w(white black).each do |king_color|
       king = pieces.find_by(type: 'King', color: king_color)
 
-      enemy_color =  %w(white black).select { |color| king_color != color }
+      enemy_color = %w(white black).select { |color| king_color != color }
 
       return king if location_is_under_attack_by_color?(enemy_color, king.row_coordinate, king.column_coordinate)
     end
@@ -25,7 +25,38 @@ class Game < ActiveRecord::Base
   end
 
   def checkmate?
+    king = in_check?
+    return false if king.nil?
 
+    # data_lists = []
+
+    # scan entire board to collect required data
+    data_lists = build_attackers_and_friendly_lists(king)
+    king_moves_list, attackers, friendly_list = data_lists
+
+    # puts "attackers list #{attackers.inspect}"
+    # puts "friendly list is #{friendly_list.inspect}"
+    # puts "king moves list is #{king_moves_list}"
+
+    return false if king_can_move_out_of_check?(king, king_moves_list)
+
+    return true if attackers.count > 1
+
+    # determine if attacker can be captured
+    return false if king_attacker_can_be_captured(friendly_list, attackers)
+
+    # determine if check can be blocked
+
+    single_attacker = attackers.first
+
+    if king.row_coordinate == attacker.row_coordinate
+      return false if attacker_can_be_blocked_horizontally?(king, single_attacker, friendly_list)
+    elsif king.column_coordinate == attacker.column_coordinate
+      return false if attacker_can_be_blocked_vertically?(king, single_attacker, friendly_list)
+    elsif (king.column_coordinate - attacker.column_coordinate).abs == (king.row_coordinate - attacker.row_coordinate).abs
+      return false if attacker_can_be_blocked_diagonally?(king, single_attacker, friendly_list)
+    end
+    true
   end
 
   def populate_board!
@@ -63,6 +94,111 @@ class Game < ActiveRecord::Base
       return true if enemy.valid_move?(row, col)
     end
 
+    false
+  end
+
+  private
+
+  def build_attackers_and_friendly_lists(king)
+    king_moves_list = []
+    attackers = []
+    friendly_list = []
+    output_list = [king_moves_list, attackers, friendly_list]
+
+    (0..7).each do |col|
+      (0..7).each do |row|
+        next if row == king.row_coordinate && col == king.column_coordinate
+        king_moves_list << [row, col] if king.valid_move?(row, col)
+        other_piece = piece_at_location(row, col)
+        # puts "other piece is #{other_piece.inspect}"
+
+        next if other_piece.nil?
+        if other_piece.color == king.color
+          friendly_list << other_piece
+        elsif other_piece.valid_move?(king.row_coordinate, king.column_coordinate)
+          attackers << other_piece
+        end
+      end
+    end
+    output_list
+  end
+
+  def king_can_move_out_of_check?(king, king_moves_list)
+    opposite_color = %w(white black).select { |color| king.color != color }
+    save_row = king.row_coordinate
+    save_column = king.column_coordinate
+    king.update_attributes(row_coordinate: nil, column_coordinate: nil)
+
+    king_moves_list.each do |move|
+      row, col = move
+      unless location_is_under_attack_by_color?(opposite_color, row, col)
+        king.update_attributes(row_coordinate: save_row, column_coordinate: save_column)
+        return true
+      end
+    end
+    king.update_attributes(row_coordinate: save_row, column_coordinate: save_column)
+    false
+  end
+
+  def king_attacker_can_be_captured?(friendly_list, attackers)
+    friendly_list.each do |friendly|
+      attackers.each do |attacker|
+        return true if friendly.valid_move?(attacker.row_coordinate, attacker.column_coordinate)
+      end
+    end
+    false
+  end
+
+  def attacker_can_be_blocked_horizontally?(king, single_attacker, friendly_list)
+    start = [single_attacker.column_coordinate, king.column_coordinate].min + 1
+    finish = [single_attacker.column_coordinate, king.column_coordinate].max - 1
+
+    while start <= finish
+      friendly_list.each do |friendly|
+        return true if friendly.valid_move?(king.row_coordinate, start)
+      end
+      start += 1
+    end
+    false
+  end
+
+  def attacker_can_be_blocked_vertically?(king, single_attacker, friendly_list)
+    start = [single_attacker.row_coordinate, king.row_coordinate].min + 1
+    finish = [single_attacker.row_coordinate, king.row_coordinate].max - 1
+
+    while start <= finish
+      friendly_list.each do |friendly|
+        return true if friendly.valid_move?(start, king.column_coordinate)
+      end
+      start += 1
+    end
+    false
+  end
+
+  def attacker_can_be_blocked_diagonally?(king, single_attacker, friendly_list)
+    slope = (king.column_coordinate - single_attacker.column_coordinate) / (king.row_coordinate - single_attacker.row_coordinate)
+    start_x = [king.row_coordinate, single_attacker.row_coordinate].min + 1
+    if slope > 0
+      end_x = [king.row_coordinate, single_attacker.row_coordinate].max - 1
+      start_y = [king.column_coordinate, single_attacker.column_coordinate].min + 1
+      while start_x <= end_x
+        friendly_list.each do |friendly|
+          return true if friendly.valid_move?(start_x, start_y)
+        end
+        start_x += 1
+        start_y += 1
+      end
+    else
+      end_x = [king.row_coordinate, single_attacker.row_coordinate].max - 1
+      start_y = [king.column_coordinate, single_attacker.column_coordinate].max - 1
+      while start_x <= end_x
+        friendly_list.each do |friendly|
+          return true if friendly.valid_move?(start_x, start_y)
+        end
+        start_x += 1
+        start_y -= 1
+      end
+    end
     false
   end
 end
