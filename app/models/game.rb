@@ -29,13 +29,9 @@ class Game < ActiveRecord::Base
     return false if king.nil?
 
     # scan entire board to collect required data
-    # data_lists = build_attackers_and_friendly_lists(king)
     king_moves_list, attackers, friendly_list = build_attackers_and_friendly_lists(king)
 
-    # puts "attackers list #{attackers.inspect}"
-    # puts "friendly list is #{friendly_list.inspect}"
-    # puts "king moves list is #{king_moves_list}"
-
+    # determine if King can move out of check
     return false if king_can_move_out_of_check?(king, king_moves_list)
 
     return true if attackers.count > 1
