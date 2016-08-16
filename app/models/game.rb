@@ -29,8 +29,8 @@ class Game < ActiveRecord::Base
     return false if king.nil?
 
     # scan entire board to collect required data
-    data_lists = build_attackers_and_friendly_lists(king)
-    king_moves_list, attackers, friendly_list = data_lists
+    # data_lists = build_attackers_and_friendly_lists(king)
+    king_moves_list, attackers, friendly_list = build_attackers_and_friendly_lists(king)
 
     # puts "attackers list #{attackers.inspect}"
     # puts "friendly list is #{friendly_list.inspect}"
@@ -100,7 +100,6 @@ class Game < ActiveRecord::Base
         next if row == king.row_coordinate && col == king.column_coordinate
         king_moves_list << [row, col] if king.valid_move?(row, col)
         other_piece = piece_at_location(row, col)
-        # puts "other piece is #{other_piece.inspect}"
 
         next if other_piece.nil?
         if other_piece.color == king.color
@@ -138,11 +137,12 @@ class Game < ActiveRecord::Base
   end
 
   def check_can_be_blocked?(king, single_attacker, friendly_list)
-    if king.row_coordinate == attacker.row_coordinate
+    if king.row_coordinate == single_attacker.row_coordinate
       return true if attacker_can_be_blocked_horizontally?(king, single_attacker, friendly_list)
-    elsif king.column_coordinate == attacker.column_coordinate
+    elsif king.column_coordinate == single_attacker.column_coordinate
       return true if attacker_can_be_blocked_vertically?(king, single_attacker, friendly_list)
-    elsif (king.column_coordinate - attacker.column_coordinate).abs == (king.row_coordinate - attacker.row_coordinate).abs
+    elsif (king.column_coordinate - single_attacker.column_coordinate).abs ==
+          (king.row_coordinate - single_attacker.row_coordinate).abs
       return true if attacker_can_be_blocked_diagonally?(king, single_attacker, friendly_list)
     end
     false
