@@ -5,6 +5,7 @@ class Game < ActiveRecord::Base
   has_many :pieces
   belongs_to :black_player, class_name: 'User'
   belongs_to :white_player, class_name: 'User'
+  belongs_to :winner, class_name: 'User'
 
   def self.create_and_populate_board!(params)
     new_game = create(params)
@@ -60,5 +61,13 @@ class Game < ActiveRecord::Base
     end
 
     false
+  end
+
+  def forfeiting_user(user)
+    players = [black_player, white_player]
+    self.winner = players.find { |player| player.id != user.id }
+    self.forfeit = true
+    self.active = false
+    save
   end
 end
