@@ -31,10 +31,9 @@ class GamesController < ApplicationController
   end
 
   def forfeit
-    game = Game.find(params[:id])
-    return render_not_found(:unauthorized) if @game.white_player_id.present? && @game.black_player_id.present?
-    game.forfeit!(current_user)
-    redirect_to game
+    @game = Game.find(params[:id])
+    @game.forfeiting_user(current_user)
+    redirect_to @game
   end
 
   private

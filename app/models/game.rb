@@ -63,15 +63,9 @@ class Game < ActiveRecord::Base
     false
   end
 
-  def forfeit!(user)
-    player_ids = [black_player_id, white_player_id]
-    unique_player_ids = player_ids.uniq
-    if unique_player_ids.size == 1
-      self.winner = user
-    else
-      not_user_id = player_ids.reject { |id| id == user.id }.first
-      self.winner = User.find(not_user_id)
-    end
+  def forfeiting_user(user)
+    players = [black_player, white_player]
+    self.winner = players.find { |player| player.id != user.id }
     self.forfeit = true
     self.active = false
     save

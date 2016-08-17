@@ -18,7 +18,7 @@
 <div class="gravatar">
   <%= image_tag @game.white_player.gravatar_url %>
   <h4>White Player: <%= @game.white_player.email %></h4>
-  <% if @game.active %>
+  <% if @game.active && current_user == @game.white_player %>
     <%= simple_form_for @game, url: forfeit_game_path(@game), method: :put do |f| %>
       <%= f.button :submit, 'Forfeit', class: "btn btn-danger btn-sm" %>
     <% end %>  
@@ -44,7 +44,7 @@
 <div class="gravatar">
   <%= image_tag @game.black_player.gravatar_url %>
   <h4>Black Player: <%= @game.black_player.email %></h4>
-  <% if @game.active %>
+  <% if @game.active && current_user == @game.black_player %>
     <%= simple_form_for @game, url: forfeit_game_path(@game), method: :put do |f| %>
       <%= f.button :submit, 'Forfeit', class: "btn btn-danger btn-sm" %>
     <% end %>  

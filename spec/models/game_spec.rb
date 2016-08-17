@@ -117,12 +117,12 @@ RSpec.describe Game, type: :model do
     end
   end
 
-  describe 'end game' do
+  describe '#forfeiting_user' do
     it 'should allow the white player to forfeit' do
       game = full_game
       expect(game.forfeit).to eq(false)
       expect(game.active).to eq(true)
-      game.forfeit!(game.white_player)
+      game.forfeiting_user(game.white_player)
       expect(game.forfeit).to eq(true)
       expect(game.active).to eq(false)
       expect(game.winner_id).to eq(game.black_player_id)
@@ -131,7 +131,7 @@ RSpec.describe Game, type: :model do
       game = full_game
       expect(game.forfeit).to eq(false)
       expect(game.active).to eq(true)
-      game.forfeit!(game.black_player)
+      game.forfeiting_user(game.black_player)
       expect(game.forfeit).to eq(true)
       expect(game.active).to eq(false)
       expect(game.winner_id).to eq(game.white_player_id)
