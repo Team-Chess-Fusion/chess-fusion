@@ -48,6 +48,7 @@ class Game < ActiveRecord::Base
         pieces.create(type: type, color: color, row_coordinate: row, column_coordinate: column)
       end
     end
+    update_attributes(move_turn: 'white')
   end
 
   def piece_at_location(row, col)

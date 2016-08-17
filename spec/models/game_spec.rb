@@ -115,5 +115,8 @@ RSpec.describe Game, type: :model do
     it 'the game should have 32 pieces' do
       expect(game.pieces.count).to eq(32)
     end
+    it 'it should be white to move' do
+      expect(game.move_turn).to eq 'white'
+    end
   end
 end
