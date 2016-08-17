@@ -4,8 +4,7 @@ RSpec.describe Piece, type: :model do
   let(:game) { FactoryGirl.create(:game) }
 
   before :each do
-    @game = FactoryGirl.create(:game)
-    Piece.destroy_all
+    @game = FactoryGirl.create(:game, move_turn: 'white')
     @b_rook_1 = FactoryGirl.create(:piece, game_id: @game.id, type: 'Rook', color: 'black', row_coordinate: 0, column_coordinate: 0)
     @b_knight_1 = FactoryGirl.create(:piece, game_id: @game.id, type: 'Knight', color: 'black', row_coordinate: 0, column_coordinate: 1)
     @b_king = FactoryGirl.create(:piece, game_id: @game.id, type: 'King', color: 'black', row_coordinate: 0, column_coordinate: 3)
@@ -37,6 +36,22 @@ RSpec.describe Piece, type: :model do
     @w_rook_2 = FactoryGirl.create(:piece, game_id: @game.id, type: 'Rook', color: 'white', row_coordinate: 7, column_coordinate: 7)
   end
 
+  describe 'move turn logic within #move_to! method' do
+    let!(:game2) { FactoryGirl.create(:game, move_turn: 'white') }
+    let!(:white_pawn) { FactoryGirl.create(:pawn, game: game2, row_coordinate: 1, column_coordinate: 4, color: 'white') }
+    let!(:black_pawn) { FactoryGirl.create(:pawn, game: game2, row_coordinate: 6, column_coordinate: 4, color: 'black') }
+
+    it 'should return black to move' do
+      expect(white_pawn.move_to!(2, 4)).to eq 'moved'
+      game2.reload
+      expect(game2.move_turn).to eq 'black'
+    end
+
+    it 'should return invalid' do
+      expect(black_pawn.move_to!(5, 4)).to eq 'invalid'
+    end
+  end
+
   describe 'move_to! method' do
     it 'should return moved' do
       expect(@w_knight_1.move_to!(4, 5)).to eq 'moved'
@@ -65,10 +80,14 @@ RSpec.describe Piece, type: :model do
     end
 
     it 'should return moved' do
+      @game.update_attributes(move_turn: 'black')
+      @game.reload
       expect(@b_rook_1.move_to!(4, 0)).to eq 'moved'
     end
 
     it 'should return captured' do
+      @game.update_attributes(move_turn: 'black')
+      @game.reload
       expect(@b_rook_1.move_to!(5, 0)).to eq 'captured'
       @w_bishop_1.reload
       expect(@w_bishop_1.row_coordinate).to eq nil
