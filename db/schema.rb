@@ -41,6 +41,7 @@ ActiveRecord::Schema.define(version: 20160814231018) do
     t.integer  "row_coordinate"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "has_moved?",        default: false
   end
 
   add_index "pieces", ["game_id"], name: "index_pieces_on_game_id", using: :btree
