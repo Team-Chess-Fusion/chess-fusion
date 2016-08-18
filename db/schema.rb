@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160817180458) do
+ActiveRecord::Schema.define(version: 20160818233235) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -22,11 +22,17 @@ ActiveRecord::Schema.define(version: 20160817180458) do
     t.datetime "updated_at"
     t.integer  "black_player_id"
     t.integer  "white_player_id"
-    t.string   "move_turn"
+    t.string   "move_turn",       default: "white"
+    t.boolean  "forfeit",         default: false
+    t.boolean  "active",          default: true
+    t.integer  "winner_id"
   end
 
+  add_index "games", ["active"], name: "index_games_on_active", using: :btree
   add_index "games", ["black_player_id"], name: "index_games_on_black_player_id", using: :btree
+  add_index "games", ["forfeit"], name: "index_games_on_forfeit", using: :btree
   add_index "games", ["white_player_id", "black_player_id"], name: "index_games_on_white_player_id_and_black_player_id", using: :btree
+  add_index "games", ["winner_id"], name: "index_games_on_winner_id", using: :btree
 
   create_table "pieces", force: true do |t|
     t.string   "type"
@@ -36,6 +42,7 @@ ActiveRecord::Schema.define(version: 20160817180458) do
     t.integer  "row_coordinate"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "has_moved?",        default: false
   end
 
   add_index "pieces", ["game_id"], name: "index_pieces_on_game_id", using: :btree

@@ -37,7 +37,7 @@ RSpec.describe Piece, type: :model do
   end
 
   describe 'move turn logic within #move_to! method' do
-    let!(:game2) { FactoryGirl.create(:game, move_turn: 'white') }
+    let!(:game2) { FactoryGirl.create(:game) }
     let!(:white_pawn) { FactoryGirl.create(:pawn, game: game2, row_coordinate: 1, column_coordinate: 4, color: 'white') }
     let!(:black_pawn) { FactoryGirl.create(:pawn, game: game2, row_coordinate: 6, column_coordinate: 4, color: 'black') }
 
