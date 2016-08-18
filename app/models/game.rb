@@ -16,7 +16,7 @@ class Game < ActiveRecord::Base
     %w(white black).each do |king_color|
       king = pieces.find_by(type: 'King', color: king_color)
 
-      enemy_color = %w(white black).select { |color| king_color != color }
+      enemy_color =  %w(white black).select { |color| king_color != color }
 
       return king if location_is_under_attack_by_color?(enemy_color, king.row_coordinate, king.column_coordinate)
     end
