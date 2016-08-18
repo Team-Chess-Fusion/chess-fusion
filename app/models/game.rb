@@ -201,4 +201,3 @@ class Game < ActiveRecord::Base
     false
   end
 end
-
