@@ -5,7 +5,7 @@ class GamesController < ApplicationController
   end
 
   def create
-    @game = Game.create(game_params)
+    @game = Game.create_and_populate_board!(game_params)
     redirect_to root_path if @game.valid?
   end
 
@@ -28,6 +28,12 @@ class GamesController < ApplicationController
       @game.update_attributes(white_player_id: current_user.id)
     end
     redirect_to root_path
+  end
+
+  def forfeit
+    @game = Game.find(params[:id])
+    @game.forfeiting_user(current_user)
+    redirect_to @game
   end
 
   private

@@ -5,6 +5,10 @@ RSpec.describe PiecesController, type: :controller do
   let(:fullgame) { FactoryGirl.create(:full_game) }
   let(:piece) { FactoryGirl.create(:piece) }
 
+  before do
+    fullgame.populate_board!
+  end
+
   describe '#show' do
     context 'user signed in' do
       before do

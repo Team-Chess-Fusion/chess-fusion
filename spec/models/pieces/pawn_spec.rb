@@ -2,10 +2,6 @@ require 'rails_helper'
 
 RSpec.describe Pawn, type: :model do
   describe 'valid_move? for pawn method' do
-    before do
-      allow_any_instance_of(Game).to receive(:populate_board!).and_return true
-    end
-
     let(:game) { FactoryGirl.create(:game) }
     let(:b_pawn) { FactoryGirl.create(:pawn, game_id: game.id, row_coordinate: 1, column_coordinate: 1, color: 'black') }
     let(:w_pawn) { FactoryGirl.create(:pawn, game_id: game.id, row_coordinate: 5, column_coordinate: 1, color: 'white') }

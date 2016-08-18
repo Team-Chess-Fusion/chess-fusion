@@ -48,6 +48,9 @@ gem 'simple_form'
 # Devise
 gem 'devise', '>= 3.2.4'
 
+# Gravatar
+gem 'gravtastic'
+
 # Rspec
 group :development, :test do
   gem 'rspec-rails', '~> 3.0'

@@ -14,12 +14,9 @@ script:
 - bundle exec rubocop
 deploy:
   provider: heroku
-  run:
-  - rake db:migrate
+  run: "rake db:migrate"
   api_key:
     secure: 459db56a-dcee-4b7f-b896-fbbb6b681bf6
-  app:
-    production: chess-fusion
-    master: chess-fusion-staging
+  app: chess-fusion
   on:
     repo: Team-Chess-Fusion/chess-fusion
