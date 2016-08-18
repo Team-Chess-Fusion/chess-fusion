@@ -13,6 +13,16 @@ class Piece < ActiveRecord::Base
     end
   end
 
+  def mock_move(destination_row, destination_column)
+    if !square_taken?(destination_row, destination_column)
+      return 'moved'
+    else
+      other_piece = game.pieces.find_by(row_coordinate: destination_row, column_coordinate: destination_column)
+      return 'invalid' if color == other_piece.color
+      return 'captured'
+    end
+  end
+
   def move_to!(new_row_coordinate, new_column_coordinate)
     if !square_taken?(new_row_coordinate, new_column_coordinate)
       update_attributes(row_coordinate: new_row_coordinate, column_coordinate: new_column_coordinate, has_moved?: true)

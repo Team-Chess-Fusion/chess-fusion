@@ -13,6 +13,26 @@ class Game < ActiveRecord::Base
     new_game
   end
 
+  def stalemate?(color)
+    king_moves_list = []
+    stalemate = true
+    enemy_color = color == 'white' ? 'black' : 'white'
+    king = pieces.find_by(type: 'King', color: color)
+
+    (0..7).each do |col|
+      (0..7).each do |row|
+        king_moves_list << [row, col] if king.valid_move?(row, col) && king.mock_move(row, col) != 'invalid'
+      end
+    end
+
+    stalemate = false if king_moves_list.empty?
+    king_moves_list.each do |row, col|
+      stalemate = false if !location_is_under_attack_by_color?(enemy_color, row, col)
+    end
+
+    return stalemate
+  end
+
   def in_check?
     %w(white black).each do |king_color|
       king = pieces.find_by(type: 'King', color: king_color)
