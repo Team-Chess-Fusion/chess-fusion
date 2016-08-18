@@ -51,6 +51,10 @@ FactoryGirl.define do
     row_coordinate 3
     column_coordinate 3
     association :game
+
+    factory :moved_king do
+      has_moved true
+    end
   end
 
   factory :rook do
@@ -59,6 +63,10 @@ FactoryGirl.define do
     row_coordinate 2
     column_coordinate 5
     association :game
+
+    factory :moved_rook do
+      has_moved true
+    end
   end
 
   factory :queen do

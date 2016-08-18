@@ -75,7 +75,7 @@
   margin-bottom: 10px;
 }
 
-h1 {
+h1, h5 {
   text-align: center;
   padding-bottom: 10px;
 }
@@ -129,4 +129,12 @@ tr:nth-child(odd) td:nth-child(even), tr:nth-child(even) td:nth-child(odd) {
 
 .clear {
   clear:both;
+}
+
+#active-status {
+  color: #44BF2C;
+}
+
+#inactive-status {
+  color: #A2A3AB;
 }

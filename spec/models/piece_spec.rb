@@ -2,6 +2,8 @@ require 'rails_helper'
 
 RSpec.describe Piece, type: :model do
   let(:game) { FactoryGirl.create(:game) }
+  let(:black_king) { FactoryGirl.create(:king, row_coordinate: 0, column_coordinate: 4, game_id: game.id) }
+  let(:queen_side_black_rook) { FactoryGirl.create(:rook, row_coordinate: 0, column_coordinate: 0, game_id: game.id) }
 
   before :each do
     @game = FactoryGirl.create(:game)
@@ -43,6 +45,25 @@ RSpec.describe Piece, type: :model do
       @w_knight_1.reload
       expect(@w_knight_1.row_coordinate).to eq 4
       expect(@w_knight_1.column_coordinate).to eq 5
+    end
+
+    it 'should return castling if castling is possible' do
+      game
+      Piece.destroy_all
+      expect(black_king.move_to!(queen_side_black_rook.row_coordinate, queen_side_black_rook.column_coordinate)).to eq 'castling'
+
+      black_king.reload
+      queen_side_black_rook.reload
+
+      expect(black_king.column_coordinate).to eq 2
+      expect(queen_side_black_rook.column_coordinate).to eq 3
+    end
+
+    it 'should return invalid if castling is possible' do
+      game
+      Piece.destroy_all
+      black_king.update_attributes(has_moved?: true)
+      expect(black_king.move_to!(queen_side_black_rook.row_coordinate, queen_side_black_rook.column_coordinate)).to eq 'invalid'
     end
 
     it 'should return invalid' do
