@@ -2,8 +2,11 @@ class PiecesController < ApplicationController
   before_action :authenticate_user!
   def update
     @piece = Piece.find(params[:id])
+    return render json: { update_attempt: 'invalid move' } if @piece.valid_move?(params[:piece][:row_coordinate].to_i, params[:piece][:column_coordinate].to_i) == false
     @piece.update_attributes(piece_params)
-    redirect_to game_path(@piece.game)
+    in_check = @piece.game.in_check?.present? ? true : false
+
+    render json: { update_attempt: 'success', in_check: in_check }
   end
 
   private

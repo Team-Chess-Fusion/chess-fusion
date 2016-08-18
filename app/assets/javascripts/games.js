@@ -12,7 +12,16 @@ $(function(){
           url: ui.draggable.data('update-url'),
           dataType: 'json',
           data: {piece: {row_coordinate: $(this).data("row"), column_coordinate: $(this).data("column")}}
+      }).done(function(data){
+        if (data.update_attempt === 'invalid move') {
+          ui.draggable.animate({left : 0, top: 0},"slow");
+        } else {
+          if (data.in_check === true) {
+            alert('Check!');
+          }
+          alert('next');
+        }
       });
-    }
+    },
   });
 });
