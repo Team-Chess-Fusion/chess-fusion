@@ -175,7 +175,7 @@ RSpec.describe Game, type: :model do
       expect(game.stalemate?('black')).to eq false
     end
 
-    it 'should return true for white king' do
+    it 'should return true, no moves for white king' do
       FactoryGirl.create(:king, color: 'white', game_id: game.id, row_coordinate: 3, column_coordinate: 4)
       FactoryGirl.create(:rook, color: 'black', game_id: game.id, row_coordinate: 4, column_coordinate: 2)
       FactoryGirl.create(:rook, color: 'black', game_id: game.id, row_coordinate: 1, column_coordinate: 3)
@@ -183,40 +183,63 @@ RSpec.describe Game, type: :model do
       expect(game.stalemate?('white')).to eq true
     end
 
-    it 'should return false for white king' do
+    it 'should return false, moves open for white king' do
       FactoryGirl.create(:king, color: 'white', game_id: game.id, row_coordinate: 3, column_coordinate: 4)
       FactoryGirl.create(:rook, color: 'black', game_id: game.id, row_coordinate: 4, column_coordinate: 2)
       FactoryGirl.create(:queen, color: 'black', game_id: game.id, row_coordinate: 2, column_coordinate: 6)
       expect(game.stalemate?('white')).to eq false
     end
 
-    it 'should return true for white king' do
+    it 'should return true, no moves for white king' do
       FactoryGirl.create(:king, color: 'white', game_id: game.id, row_coordinate: 7, column_coordinate: 0)
       FactoryGirl.create(:rook, color: 'black', game_id: game.id, row_coordinate: 6, column_coordinate: 1)
       FactoryGirl.create(:queen, color: 'black', game_id: game.id, row_coordinate: 5, column_coordinate: 2)
       expect(game.stalemate?('white')).to eq true
     end
 
-    it 'should return true for white king' do
+    it 'should return true, no moves for white king' do
       FactoryGirl.create(:king, color: 'white', game_id: game.id, row_coordinate: 0, column_coordinate: 0)
       FactoryGirl.create(:pawn, color: 'black', game_id: game.id, row_coordinate: 1, column_coordinate: 0)
-      FactoryGirl.create(:queen, color: 'black', game_id: game.id, row_coordinate: 2, column_coordinate: 0)
-      FactoryGirl.create(:bishop, color: 'black', game_id: game.id, row_coordinate: 4, column_coordinate: 5)
+      FactoryGirl.create(:queen, color: 'black', game_id: game.id, row_coordinate: 1, column_coordinate: 2)
       expect(game.stalemate?('white')).to eq true
     end
 
-    it 'should return true for black king' do
+    it 'should return true, no moves for black king' do
       FactoryGirl.create(:king, color: 'black', game_id: game.id, row_coordinate: 0, column_coordinate: 5)
       FactoryGirl.create(:pawn, color: 'white', game_id: game.id, row_coordinate: 1, column_coordinate: 5)
       FactoryGirl.create(:king, color: 'white', game_id: game.id, row_coordinate: 2, column_coordinate: 5)
       expect(game.stalemate?('black')).to eq true
     end
 
-    it 'should return true for black king, piece blocking' do
+    it 'should return true, no legal moves for black' do
       FactoryGirl.create(:king, color: 'black', game_id: game.id, row_coordinate: 0, column_coordinate: 0)
       FactoryGirl.create(:bishop, color: 'black', game_id: game.id, row_coordinate: 0, column_coordinate: 1)
       FactoryGirl.create(:king, color: 'white', game_id: game.id, row_coordinate: 2, column_coordinate: 1)
       FactoryGirl.create(:rook, color: 'white', game_id: game.id, row_coordinate: 0, column_coordinate: 4)
+      expect(game.stalemate?('black')).to eq true
+    end
+
+    it 'should return false, legal moves open for black pieces' do
+      FactoryGirl.create(:king, color: 'black', game_id: game.id, row_coordinate: 0, column_coordinate: 0)
+      FactoryGirl.create(:bishop, color: 'black', game_id: game.id, row_coordinate: 0, column_coordinate: 1)
+      FactoryGirl.create(:knight, color: 'black', game_id: game.id, row_coordinate: 5, column_coordinate: 5)
+      FactoryGirl.create(:king, color: 'white', game_id: game.id, row_coordinate: 2, column_coordinate: 1)
+      FactoryGirl.create(:rook, color: 'white', game_id: game.id, row_coordinate: 0, column_coordinate: 4)
+      expect(game.stalemate?('black')).to eq false
+    end
+
+    it 'should return true, no legal moves for black' do
+      black_king = FactoryGirl.create(:king, color: 'black', game_id: game.id, row_coordinate: 3, column_coordinate: 4)
+      FactoryGirl.create(:bishop, color: 'black', game_id: game.id, row_coordinate: 4, column_coordinate: 4)
+      FactoryGirl.create(:rook, color: 'black', game_id: game.id, row_coordinate: 4, column_coordinate: 3)
+
+      FactoryGirl.create(:bishop, color: 'white', game_id: game.id, row_coordinate: 3, column_coordinate: 6)
+      FactoryGirl.create(:bishop, color: 'white', game_id: game.id, row_coordinate: 5, column_coordinate: 2)
+      FactoryGirl.create(:rook, color: 'white', game_id: game.id, row_coordinate: 1, column_coordinate: 3)
+      FactoryGirl.create(:knight, color: 'white', game_id: game.id, row_coordinate: 1, column_coordinate: 6)
+      FactoryGirl.create(:pawn, color: 'white', game_id: game.id, row_coordinate: 4, column_coordinate: 6)
+      FactoryGirl.create(:queen, color: 'white', game_id: game.id, row_coordinate: 6, column_coordinate: 4)
+      FactoryGirl.create(:king, color: 'white', game_id: game.id, row_coordinate: 7, column_coordinate: 4)
       expect(game.stalemate?('black')).to eq true
     end
   end
