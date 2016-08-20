@@ -15,11 +15,11 @@ class Piece < ActiveRecord::Base
 
   def mock_move(destination_row, destination_column)
     if !square_taken?(destination_row, destination_column)
-      return 'moved' if !obstructed(destination_row, destination_column)
+      return 'moved' if !obstructed?(destination_row, destination_column)
     else
       other_piece = game.pieces.find_by(row_coordinate: destination_row, column_coordinate: destination_column)
       return 'invalid' if color == other_piece.color
-      return 'captured' if !obstructed(destination_row, destination_column)
+      return 'captured' if !obstructed?(destination_row, destination_column)
       return 'obstructed'
     end
   end
