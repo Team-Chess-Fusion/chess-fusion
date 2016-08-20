@@ -38,11 +38,15 @@ FactoryGirl.define do
   end
 
   factory :pawn do
-    color 'black'
+    color 'white'
     type 'Pawn'
     row_coordinate 1
     column_coordinate 1
     association :game
+
+    factory :en_passant_pawn do
+      en_passant nil
+    end
   end
 
   factory :king do
