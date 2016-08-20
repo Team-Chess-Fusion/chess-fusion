@@ -19,7 +19,7 @@ class Game < ActiveRecord::Base
     enemy_color = color == 'white' ? 'black' : 'white'
     king = pieces.find_by(type: 'King', color: color)
     king_moves_list, attackers, friendly_list = build_attackers_and_friendly_lists(king)
-
+  
     stalemate = false if king_moves_list.empty?
     king_moves_list.each do |row, col|
       stalemate = false if !location_is_under_attack_by_color?(enemy_color, row, col)
@@ -35,6 +35,12 @@ class Game < ActiveRecord::Base
         blockers << friendly_piece if in_check? == king
         friendly_piece.update_attributes(row_coordinate: row, column_coordinate: col)
       end
+    end
+
+    # if the king is the only one left, no need to check if all others are blocking
+    if !friendly_list.empty?
+      # if there is more friendlys than blocking pieces, a move can be made
+      stalemate = false unless blockers.count == friendly_list.count
     end
 
     return stalemate

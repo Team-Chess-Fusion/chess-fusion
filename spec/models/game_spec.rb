@@ -211,6 +211,14 @@ RSpec.describe Game, type: :model do
       FactoryGirl.create(:king, color: 'white', game_id: game.id, row_coordinate: 2, column_coordinate: 5)
       expect(game.stalemate?('black')).to eq true
     end
+
+    it 'should return true for black king, piece blocking' do
+      FactoryGirl.create(:king, color: 'black', game_id: game.id, row_coordinate: 0, column_coordinate: 0)
+      FactoryGirl.create(:bishop, color: 'black', game_id: game.id, row_coordinate: 0, column_coordinate: 1)
+      FactoryGirl.create(:king, color: 'white', game_id: game.id, row_coordinate: 2, column_coordinate: 1)
+      FactoryGirl.create(:rook, color: 'white', game_id: game.id, row_coordinate: 0, column_coordinate: 4)
+      expect(game.stalemate?('black')).to eq true
+    end
   end
 
 
