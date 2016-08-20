@@ -20,7 +20,7 @@ class Game < ActiveRecord::Base
 
     king_moves_list, _attackers, friendly_list = build_attackers_and_friendly_lists(king)
     stalemate = false if king_moves_list.empty?
-    
+
     king_moves_list.each do |row, col|
       stalemate = false unless location_is_under_attack_by_color?(enemy_color, row, col)
     end
