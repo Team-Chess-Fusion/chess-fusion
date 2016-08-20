@@ -20,13 +20,6 @@ class Game < ActiveRecord::Base
     king = pieces.find_by(type: 'King', color: color)
     king_moves_list, attackers, friendly_list = build_attackers_and_friendly_lists(king)
 
-    #(0..7).each do |col|
-      #(0..7).each do |row|
-        #king_moves_list << [row, col] if king.valid_move?(row, col) && king.mock_move(row, col) != 'invalid'
-        #piece = piece_at_location(row, col) unless piece_at_location(row, col).nil?
-      #end
-    #end
-
     stalemate = false if king_moves_list.empty?
     king_moves_list.each do |row, col|
       stalemate = false if !location_is_under_attack_by_color?(enemy_color, row, col)
@@ -112,7 +105,9 @@ class Game < ActiveRecord::Base
 
   def location_is_under_attack_by_color?(color, row, col)
     pieces.where('color = ?', color).find_each do |enemy|
-      return true if enemy.valid_move?(row, col)
+      unless enemy.row_coordinate.nil?
+        return true if enemy.valid_move?(row, col)
+      end
     end
 
     false
