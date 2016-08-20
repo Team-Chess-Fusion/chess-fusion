@@ -221,7 +221,6 @@ RSpec.describe Game, type: :model do
     end
   end
 
-
   describe 'available scope' do
     before do
       Game.destroy_all
