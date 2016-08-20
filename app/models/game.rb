@@ -14,20 +14,34 @@ class Game < ActiveRecord::Base
   end
 
   def stalemate?(color)
-    king_moves_list = []
     stalemate = true
+    blockers = []
     enemy_color = color == 'white' ? 'black' : 'white'
     king = pieces.find_by(type: 'King', color: color)
+    king_moves_list, attackers, friendly_list = build_attackers_and_friendly_lists(king)
 
-    (0..7).each do |col|
-      (0..7).each do |row|
-        king_moves_list << [row, col] if king.valid_move?(row, col) && king.mock_move(row, col) != 'invalid'
-      end
-    end
+    #(0..7).each do |col|
+      #(0..7).each do |row|
+        #king_moves_list << [row, col] if king.valid_move?(row, col) && king.mock_move(row, col) != 'invalid'
+        #piece = piece_at_location(row, col) unless piece_at_location(row, col).nil?
+      #end
+    #end
 
     stalemate = false if king_moves_list.empty?
     king_moves_list.each do |row, col|
       stalemate = false if !location_is_under_attack_by_color?(enemy_color, row, col)
+    end
+
+    # look for friendly pieces that may be blocking the king
+    friendly_list.each do |friendly_piece|
+      if friendly_piece != king
+        row = friendly_piece.row_coordinate
+        col = friendly_piece.column_coordinate
+
+        friendly_piece.update_attributes(row_coordinate: nil, column_coordinate: nil)
+        blockers << friendly_piece if in_check? == king
+        friendly_piece.update_attributes(row_coordinate: row, column_coordinate: col)
+      end
     end
 
     return stalemate
