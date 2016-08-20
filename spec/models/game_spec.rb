@@ -229,7 +229,7 @@ RSpec.describe Game, type: :model do
     end
 
     it 'should return true, no legal moves for black' do
-      black_king = FactoryGirl.create(:king, color: 'black', game_id: game.id, row_coordinate: 3, column_coordinate: 4)
+      FactoryGirl.create(:king, color: 'black', game_id: game.id, row_coordinate: 3, column_coordinate: 4)
       FactoryGirl.create(:bishop, color: 'black', game_id: game.id, row_coordinate: 4, column_coordinate: 4)
       FactoryGirl.create(:rook, color: 'black', game_id: game.id, row_coordinate: 4, column_coordinate: 3)
 
