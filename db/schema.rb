@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160817180458) do
+ActiveRecord::Schema.define(version: 20160818233235) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -22,7 +22,7 @@ ActiveRecord::Schema.define(version: 20160817180458) do
     t.datetime "updated_at"
     t.integer  "black_player_id"
     t.integer  "white_player_id"
-    t.string   "move_turn"
+    t.string   "move_turn",       default: "white"
     t.boolean  "forfeit",         default: false
     t.boolean  "active",          default: true
     t.integer  "winner_id"
