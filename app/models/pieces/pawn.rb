@@ -25,7 +25,7 @@ class Pawn < Piece
   end
 
   # This is check whether there's a pawn of the opposing color to the left
-  # the capturing pawn 
+  # the capturing pawn
   def check_left_for_pawn(column_coordinate)
     opposing_color = color == 'white' ? 'black' : 'white'
     left = game.pieces.find_by(column_coordinate: column_coordinate - 1, row_coordinate: row_coordinate)
@@ -33,7 +33,7 @@ class Pawn < Piece
   end
 
   # This is check whether there's a pawn of the opposing color to the right
-  # the capturing pawn 
+  # the capturing pawn
   def check_right_for_pawn(column_coordinate)
     opposing_color = color == 'white' ? 'black' : 'white'
     right = game.pieces.find_by(column_coordinate: column_coordinate + 1, row_coordinate: row_coordinate)
@@ -42,7 +42,7 @@ class Pawn < Piece
 
   # This is to check if the white pawn can capture a black pawn through en pasant
   def white_pawn_capture_enpassant
-    # Should return false since en passant can't happen unless the white piece is already 
+    # Should return false since en passant can't happen unless the white piece is already
     # at the row the black piece jumps two rows to get to
     return false if row_coordinate != 4
     # This is to check if anything exists to the left of the white pawn
@@ -60,7 +60,7 @@ class Pawn < Piece
       # This checks to see if the piece to the right is a pawn and an opposing color
       check_right_for_pawn(column_coordinate)
       # This assigns the black pawn a variable
-      # The check_adjacent_right method is in the Piece model      
+      # The check_adjacent_right method is in the Piece model
       opposing_pawn = check_adjacent_right(column_coordinate)
       # Exit if the black pawn already moved one row
       return false if opposing_pawn.en_passant == false
