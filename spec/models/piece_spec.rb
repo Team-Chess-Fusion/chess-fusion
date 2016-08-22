@@ -64,6 +64,7 @@ RSpec.describe Piece, type: :model do
 
     it 'should return castling if castling is possible' do
       game
+      game.update_attributes(current_move_color: 'black')
       Piece.destroy_all
       expect(black_king.move_to!(queen_side_black_rook.row_coordinate, queen_side_black_rook.column_coordinate)).to eq 'castling'
 
