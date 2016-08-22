@@ -44,7 +44,7 @@ RSpec.describe Piece, type: :model do
     it 'should return black to move' do
       expect(white_pawn.move_to!(2, 4)).to eq 'moved'
       game2.reload
-      expect(game2.move_turn).to eq 'black'
+      expect(game2.current_move_color).to eq 'black'
     end
 
     it 'should return invalid' do
@@ -80,13 +80,13 @@ RSpec.describe Piece, type: :model do
     end
 
     it 'should return moved' do
-      @game.update_attributes(move_turn: 'black')
+      @game.update_attributes(current_move_color: 'black')
       @game.reload
       expect(@b_rook_1.move_to!(4, 0)).to eq 'moved'
     end
 
     it 'should return captured' do
-      @game.update_attributes(move_turn: 'black')
+      @game.update_attributes(current_move_color: 'black')
       @game.reload
       expect(@b_rook_1.move_to!(5, 0)).to eq 'captured'
       @w_bishop_1.reload

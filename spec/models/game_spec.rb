@@ -116,7 +116,7 @@ RSpec.describe Game, type: :model do
       expect(game.pieces.count).to eq(32)
     end
     it 'sets white to move first' do
-      expect(game.move_turn).to eq 'white'
+      expect(game.current_move_color).to eq 'white'
     end
   end
 end
