@@ -208,7 +208,7 @@ RSpec.describe Game, type: :model do
       FactoryGirl.create(:king, color: 'black', game_id: game.id, row_coordinate: 0, column_coordinate: 5)
       FactoryGirl.create(:pawn, color: 'white', game_id: game.id, row_coordinate: 1, column_coordinate: 5)
       FactoryGirl.create(:king, color: 'white', game_id: game.id, row_coordinate: 2, column_coordinate: 5)
-      expect(game.stalemate?('black')).to eq true
+      expect(game.stalemate?('black')).to eq false
     end
 
     it 'should return true, no legal moves for black' do
@@ -286,6 +286,9 @@ RSpec.describe Game, type: :model do
     end
     it 'the game should have 32 pieces' do
       expect(game.pieces.count).to eq(32)
+    end
+    it 'sets white to move first' do
+      expect(game.current_move_color).to eq 'white'
     end
   end
 
