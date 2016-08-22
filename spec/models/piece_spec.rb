@@ -4,7 +4,7 @@ RSpec.describe Piece, type: :model do
   let(:game) { FactoryGirl.create(:game) }
 
   before :each do
-    @game = FactoryGirl.create(:game, move_turn: 'white')
+    @game = FactoryGirl.create(:game)
     @b_rook_1 = FactoryGirl.create(:piece, game_id: @game.id, type: 'Rook', color: 'black', row_coordinate: 0, column_coordinate: 0)
     @b_knight_1 = FactoryGirl.create(:piece, game_id: @game.id, type: 'Knight', color: 'black', row_coordinate: 0, column_coordinate: 1)
     @b_king = FactoryGirl.create(:piece, game_id: @game.id, type: 'King', color: 'black', row_coordinate: 0, column_coordinate: 3)

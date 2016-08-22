@@ -1,6 +1,6 @@
 <h1>Game: <%= @game.name %></h1>
 
-<h2><%= @game.move_turn %> to move</h2>
+<h2><%= @game.current_move_color %> to move</h2>
 
 <div class="gravatar">
   <%= image_tag @game.white_player.gravatar_url %>
