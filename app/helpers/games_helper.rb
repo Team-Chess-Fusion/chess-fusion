@@ -3,8 +3,6 @@ module GamesHelper
     piece = @game.piece_at_location(row, col)
 
     return '' unless piece.present?
-    link_to game_piece_path(game_id: @game, id: @game.piece_at_location(row, col)) do
-      display_piece(piece, 'piece-font')
-    end
+    display_piece(piece, 'piece-font')
   end
 end

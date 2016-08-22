@@ -60,10 +60,11 @@
   font-variant: normal;
   font-weight: 400;
   color: #4169e1;
-  line-height: 20px;
+  line-height: 85px;
   text-align: center;
   margin-left: auto;
   margin-right: auto;
+  margin-bottom: 0px;
 }
 
 .game-box {
@@ -74,7 +75,7 @@
   margin-bottom: 10px;
 }
 
-h1 {
+h1, h5 {
   text-align: center;
   padding-bottom: 10px;
 }
@@ -84,6 +85,7 @@ table {
   background: white;
   border: 2px solid black;
 }
+
 td {
     width: 85px; height: 85px;
 }
@@ -127,4 +129,12 @@ tr:nth-child(odd) td:nth-child(even), tr:nth-child(even) td:nth-child(odd) {
 
 .clear {
   clear:both;
+}
+
+#active-status {
+  color: #44BF2C;
+}
+
+#inactive-status {
+  color: #A2A3AB;
 }
