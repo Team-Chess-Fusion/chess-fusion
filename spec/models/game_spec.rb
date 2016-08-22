@@ -205,10 +205,10 @@ RSpec.describe Game, type: :model do
     end
 
     it 'should return true, no moves for black king' do
-      FactoryGirl.create(:king, color: 'black', game_id: game.id, row_coordinate: 0, column_coordinate: 5)
-      FactoryGirl.create(:pawn, color: 'white', game_id: game.id, row_coordinate: 1, column_coordinate: 5)
-      FactoryGirl.create(:king, color: 'white', game_id: game.id, row_coordinate: 2, column_coordinate: 5)
-      expect(game.stalemate?('black')).to eq true
+       FactoryGirl.create(:king, color: 'black', game_id: game.id, row_coordinate: 0, column_coordinate: 5)
+       FactoryGirl.create(:pawn, color: 'white', game_id: game.id, row_coordinate: 1, column_coordinate: 5)
+       FactoryGirl.create(:king, color: 'white', game_id: game.id, row_coordinate: 2, column_coordinate: 5)
+       expect(game.stalemate?('black')).to eq false
     end
 
     it 'should return true, no legal moves for black' do
