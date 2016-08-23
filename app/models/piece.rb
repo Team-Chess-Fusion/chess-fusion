@@ -14,8 +14,12 @@ class Piece < ActiveRecord::Base
   end
 
   def move_to!(new_row_coordinate, new_column_coordinate)
+    return 'invalid' if color != game.current_move_color
+    switch_turn_color = game.current_move_color == 'white' ? 'black' : 'white'
+
     if !square_taken?(new_row_coordinate, new_column_coordinate)
       update_attributes(row_coordinate: new_row_coordinate, column_coordinate: new_column_coordinate, has_moved?: true)
+      game.update_attributes(current_move_color: switch_turn_color)
       return 'moved'
     else
       other_piece = game.pieces.find_by(row_coordinate: new_row_coordinate, column_coordinate: new_column_coordinate)
@@ -28,6 +32,7 @@ class Piece < ActiveRecord::Base
         end
       end
       other_piece.update_attributes(row_coordinate: nil, column_coordinate: nil)
+      game.update_attributes(current_move_color: switch_turn_color)
       return 'captured'
     end
   end
