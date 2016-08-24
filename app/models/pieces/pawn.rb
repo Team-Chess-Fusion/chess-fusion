@@ -18,9 +18,21 @@ class Pawn < Piece
   def change_enpassant_status
     case color
     when 'black'
-      update_attributes(en_passant: false) if row_coordinate == 5
+      if row_coordinate == 4 && en_passant.nil?
+        update_attributes(en_passant: true)
+      elsif game.current_move_color == color && en_passant == true
+        update_attributes(en_passant: false)
+      else
+        update_attributes(en_passant: false)
+      end
     when 'white'
-      update_attributes(en_passant: false) if row_coordinate == 2
+      if row_coordinate == 3 && en_passant.nil?
+        update_attributes(en_passant: true)
+      elsif game.current_move_color == color && en_passant == true
+        update_attributes(en_passant: false)
+      else
+        update_attributes(en_passant: false)
+      end
     end
   end
 
