@@ -7,7 +7,7 @@ class Bishop < Piece
       false
     else
       slope = (col_move / row_move)
-      slope == 1
+      slope == 1 && !obstructed?(row_destination, column_destination)
     end
   end
 end

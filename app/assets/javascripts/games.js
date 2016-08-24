@@ -1,4 +1,5 @@
 $(function(){
+
   $(".piece-font").draggable({
     snap: "td",
     snapMode: "inner",
@@ -19,9 +20,28 @@ $(function(){
           if (data.in_check === true) {
             alert('Check!');
           }
-          alert('next');
+          if (data.promote_pawn !== null ) {
+            $('#myModal').attr('data-pieceid', data.promote_pawn);
+            $('#myModal').modal({
+              backdrop: 'static',
+              keyboard: false
+            });            
+          }
         }
       });
     },
   });
+
+  $(".change-piece-button").click(function(){
+    var url = "/pieces/"+$('#myModal').data('pieceid')+"/promote_pawn";
+    $.ajax({
+      type: 'PUT',
+      url: url,
+      dataType: 'json',
+      data: {piece: {type: $(this).data('type')}}
+    }).done(function(data){
+      location.reload();
+    });
+  });
+
 });

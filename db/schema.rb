@@ -22,10 +22,10 @@ ActiveRecord::Schema.define(version: 20160822163839) do
     t.datetime "updated_at"
     t.integer  "black_player_id"
     t.integer  "white_player_id"
-    t.string   "current_move_color", default: "white"
     t.boolean  "forfeit",            default: false
     t.boolean  "active",             default: true
     t.integer  "winner_id"
+    t.string   "current_move_color", default: "white"
   end
 
   add_index "games", ["active"], name: "index_games_on_active", using: :btree
