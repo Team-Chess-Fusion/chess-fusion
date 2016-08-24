@@ -1,7 +1,11 @@
 require 'rails_helper'
 
 RSpec.describe Bishop, type: :model do
+  let(:game) { FactoryGirl.create(:game) }
   let(:bishop) { FactoryGirl.create(:bishop) }
+  let(:white_bishop) { FactoryGirl.create(:bishop, color: 'white', row_coordinate: 0, column_coordinate: 2, game_id: game.id) }
+  let(:black_pawn) { FactoryGirl.create(:pawn, game_id: game.id, row_coordinate: 6, column_coordinate: 7, color: 'black') }
+  let(:black_rook) { FactoryGirl.create(:rook, color: 'black', row_coordinate: 7, column_coordinate: 7, game_id: game.id) }
 
   describe 'valid_move?' do
     it 'should return true when the bishop moves up diagonally' do
@@ -31,6 +35,14 @@ RSpec.describe Bishop, type: :model do
     it 'should return false when the bishop moves down diagnonally but slope not 1' do
       expect(bishop.valid_move?(1, 0)).to eq false
       expect(bishop.valid_move?(5, 1)).to eq false
+    end
+
+    it 'should return false if destination is obstructed' do
+      expect(white_bishop.valid_move?(1, 2)).to eq false
+    end
+    it 'should return false if destination is obstructed' do
+      expect(white_bishop.valid_move?(1, 1)).to eq true
+      expect(white_bishop.valid_move?(7, 7)).to eq false
     end
   end
 end
