@@ -87,4 +87,12 @@ class Piece < ActiveRecord::Base
     end
     false
   end
+
+  def check_adjacent_left(column_coordinate)
+    game.pieces.find_by(column_coordinate: column_coordinate - 1, row_coordinate: row_coordinate)
+  end
+
+  def check_adjacent_right(column_coordinate)
+    game.pieces.find_by(column_coordinate: column_coordinate + 1, row_coordinate: row_coordinate)
+  end
 end
