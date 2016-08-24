@@ -32,6 +32,6 @@ class PiecesController < ApplicationController
     return nil unless piece.type == 'Pawn'
     last_row = piece.color == 'white' ? 7 : 0
     return piece.id if piece.row_coordinate == last_row
-    return nil
+    nil
   end
 end

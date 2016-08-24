@@ -14,11 +14,11 @@ RSpec.describe PiecesController, type: :controller do
         promoted_pawn = fullgame.pieces.create(type: 'Pawn', color: 'black', row_coordinate: 0, column_coordinate: 0)
 
         put :promote_pawn, piece_id: promoted_pawn.id, piece: {
-          type: 'Queen',
+          type: 'Queen'
         }
 
         new_piece = Queen.last
-        
+
         expect(new_piece.type).to eq 'Queen'
         expect(new_piece.color).to eq 'black'
         expect(new_piece.row_coordinate).to eq 0
@@ -30,7 +30,7 @@ RSpec.describe PiecesController, type: :controller do
   describe '#update' do
     before do
       fullgame.populate_board!
-    end    
+    end
     context 'user signed in' do
       before do
         sign_in user
