@@ -132,7 +132,6 @@ RSpec.describe Piece, type: :model do
         expect(king.move_to!(4, 5)).to eq 'moved'
       end
     end
-
   end
 
   describe 'obstructed? method' do
