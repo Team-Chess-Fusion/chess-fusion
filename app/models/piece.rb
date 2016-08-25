@@ -17,6 +17,9 @@ class Piece < ActiveRecord::Base
     return 'invalid' if color != game.current_move_color
     switch_turn_color = game.current_move_color == 'white' ? 'black' : 'white'
 
+    # stop from moving king into a positsion of check
+    return 'invalid' if type == 'King' && game.location_is_under_attack_by_color?(switch_turn_color, new_row_coordinate, new_column_coordinate)
+
     if !square_taken?(new_row_coordinate, new_column_coordinate)
       update_attributes(row_coordinate: new_row_coordinate, column_coordinate: new_column_coordinate, has_moved?: true)
       game.update_attributes(current_move_color: switch_turn_color)
