@@ -3,13 +3,11 @@ class PiecesController < ApplicationController
   def update
     @piece = Piece.find(params[:id])
     return render json: { update_attempt: 'invalid move' } unless @piece.valid_move?(params[:piece][:row_coordinate].to_i, params[:piece][:column_coordinate].to_i)
-
-    move_result = @piece.move_to!(params[:piece][:row_coordinate].to_i, params[:piece][:column_coordinate].to_i)
-    return render json: { update_attempt: 'invalid move' } if move_result == 'invalid'
-
+    @piece.update_attributes(piece_params)
     in_check = @piece.game.in_check?.present?
+    stalemate = @piece.game.stalemate?(@piece.color)
 
-    render json: { update_attempt: 'success', in_check: in_check }
+    render json: { update_attempt: 'success', in_check: in_check, stalemate: stalemate }
   end
 
   private

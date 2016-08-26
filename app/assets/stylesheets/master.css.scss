@@ -138,3 +138,15 @@ tr:nth-child(odd) td:nth-child(even), tr:nth-child(even) td:nth-child(odd) {
 #inactive-status {
   color: #A2A3AB;
 }
+.btn-danger {
+  margin: 5px;
+}
+
+.check-status {
+  margin: 0 auto;
+  padding-top: 10px;
+}
+.stalemate-status {
+  margin: 0 auto;
+  padding-top: 10px;
+}
