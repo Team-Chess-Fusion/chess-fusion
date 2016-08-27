@@ -15,17 +15,29 @@ class Piece < ActiveRecord::Base
 
   def move_to!(new_row_coordinate, new_column_coordinate)
     return 'invalid' if color != game.current_move_color
+    return 'invalid' if type == 'King' && game.location_is_under_attack_by_color?(color == 'white' ? 'black' : 'white', new_row_coordinate, new_column_coordinate)
+    move_piece(new_row_coordinate, new_column_coordinate)
+  end
+
+  private
+
+  def square_taken?(x, y)
+    game.pieces.where(row_coordinate: x, column_coordinate: y).any?
+  end
+
+  def move_piece(row, col)
     switch_turn_color = game.current_move_color == 'white' ? 'black' : 'white'
 
-    if !square_taken?(new_row_coordinate, new_column_coordinate)
-      update_attributes(row_coordinate: new_row_coordinate, column_coordinate: new_column_coordinate, has_moved?: true)
+    if !square_taken?(row, col)
+      update_attributes(row_coordinate: row, column_coordinate: col, has_moved?: true)
       game.update_attributes(current_move_color: switch_turn_color)
       return 'moved'
     else
-      other_piece = game.pieces.find_by(row_coordinate: new_row_coordinate, column_coordinate: new_column_coordinate)
+      other_piece = game.pieces.find_by(row_coordinate: row, column_coordinate: col)
       if color == other_piece.color
         if type == 'King' && other_piece.type == 'Rook' && can_castle?(other_piece)
           castle!(other_piece)
+          game.update_attributes(current_move_color: switch_turn_color)
           return 'castling'
         else
           return 'invalid'
@@ -35,12 +47,6 @@ class Piece < ActiveRecord::Base
       game.update_attributes(current_move_color: switch_turn_color)
       return 'captured'
     end
-  end
-
-  private
-
-  def square_taken?(x, y)
-    game.pieces.where(row_coordinate: x, column_coordinate: y).any?
   end
 
   def check_horizontal(destination_column)

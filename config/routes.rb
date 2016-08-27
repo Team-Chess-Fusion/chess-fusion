@@ -6,8 +6,11 @@ ChessFusion::Application.routes.draw do
   # You can have the root of your site routed with "root"
   root 'static_pages#index'
 
-  resources :users, only: [:show]
-  resources :pieces, only: [:update]
+
+  resources :users, only: [:show}
+  resources :pieces, only: [:update] do
+    put 'promote_pawn'
+  end
   resources :games, only: [:new, :create, :show, :index, :update] do
     member do
       put 'forfeit'

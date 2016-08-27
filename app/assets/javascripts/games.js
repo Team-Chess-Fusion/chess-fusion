@@ -1,4 +1,5 @@
 $(function(){
+
   $(".piece-font").draggable({
     snap: "td",
     snapMode: "inner",
@@ -17,11 +18,33 @@ $(function(){
           ui.draggable.animate({left : 0, top: 0},"slow");
         } else {
           if (data.in_check === true) {
-            alert('Check!');
+            $(".check-status").text("Check!").addClass(".alert alert-warning");
           }
-          alert('next');
+          else {
+            $(".check-status").text("").removeClass(".alert alert-warning");
+          }
+          if (data.promote_pawn !== null ) {
+            $('#myModal').attr('data-pieceid', data.promote_pawn);
+            $('#myModal').modal({
+              backdrop: 'static',
+              keyboard: false
+            });            
+          }
         }
       });
     },
   });
+
+  $(".change-piece-button").click(function(){
+    var url = "/pieces/"+$('#myModal').data('pieceid')+"/promote_pawn";
+    $.ajax({
+      type: 'PUT',
+      url: url,
+      dataType: 'json',
+      data: {piece: {type: $(this).data('type')}}
+    }).done(function(data){
+      location.reload();
+    });
+  });
+
 });
