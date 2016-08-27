@@ -37,6 +37,7 @@ class Piece < ActiveRecord::Base
       if color == other_piece.color
         if type == 'King' && other_piece.type == 'Rook' && can_castle?(other_piece)
           castle!(other_piece)
+          game.update_attributes(current_move_color: switch_turn_color)
           return 'castling'
         else
           return 'invalid'
