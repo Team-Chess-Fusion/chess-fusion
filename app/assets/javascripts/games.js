@@ -18,7 +18,10 @@ $(function(){
           ui.draggable.animate({left : 0, top: 0},"slow");
         } else {
           if (data.in_check === true) {
-            alert('Check!');
+            $(".check-status").text("Check!").addClass(".alert alert-warning");
+          }
+          else {
+            $(".check-status").text("").removeClass(".alert alert-warning");
           }
           if (data.promote_pawn !== null ) {
             $('#myModal').attr('data-pieceid', data.promote_pawn);

@@ -115,6 +115,23 @@ RSpec.describe Piece, type: :model do
       expect(@w_bishop_1.row_coordinate).to eq nil
       expect(@w_bishop_1.column_coordinate).to eq nil
     end
+
+    context 'cannot move into check' do
+      it 'should return invalid' do
+        king = FactoryGirl.create(:king, color: 'white', game_id: game.id, row_coordinate: 3, column_coordinate: 4)
+        FactoryGirl.create(:rook, color: 'black', game_id: game.id, row_coordinate: 1, column_coordinate: 3)
+        FactoryGirl.create(:queen, color: 'black', game_id: game.id, row_coordinate: 2, column_coordinate: 6)
+
+        expect(king.move_to!(2, 3)).to eq 'invalid'
+        expect(king.move_to!(2, 4)).to eq 'invalid'
+        expect(king.move_to!(2, 5)).to eq 'invalid'
+        expect(king.move_to!(3, 3)).to eq 'invalid'
+        expect(king.move_to!(3, 5)).to eq 'invalid'
+        expect(king.move_to!(4, 3)).to eq 'invalid'
+        expect(king.move_to!(4, 4)).to eq 'invalid'
+        expect(king.move_to!(4, 5)).to eq 'moved'
+      end
+    end
   end
 
   describe 'obstructed? method' do
