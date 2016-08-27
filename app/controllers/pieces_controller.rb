@@ -32,7 +32,7 @@ class PiecesController < ApplicationController
   end
 
   def pawn_promotion(piece)
-    return nil unless piece.type == 'Pawn'
+    return nil unless piece.is_a? Pawn
     last_row = piece.color == 'white' ? 7 : 0
     return piece.id if piece.row_coordinate == last_row
     nil
