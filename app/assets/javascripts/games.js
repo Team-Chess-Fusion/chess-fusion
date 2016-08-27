@@ -19,9 +19,13 @@ $(function(){
         } else {
           if (data.in_check === true) {
             $(".check-status").text("Check!").addClass(".alert alert-warning");
-          }
-          else {
+          } else {
             $(".check-status").text("").removeClass(".alert alert-warning");
+          }
+          if (data.stalemate === true) {
+            $(".stalemate-status").text("Stalemate. Game Over!").addClass(".alert alert-warning");
+          } else {
+            $(".stalemate-status").text("").removeClass(".alert alert-warning");
           }
           if (data.promote_pawn !== null ) {
             $('#myModal').attr('data-pieceid', data.promote_pawn);
@@ -46,5 +50,4 @@ $(function(){
       location.reload();
     });
   });
-
 });
