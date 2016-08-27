@@ -7,6 +7,8 @@
   <h5> Game status: <span id="inactive-status">Inactive</span><h5>
 <% end %>
 
+<h5 class="move-turn"><%= @game.current_move_color %> to move</h5>
+
 <% if @game.forfeit %>
   <p>Game forfeited!</p>
   <p><%= current_user.email %> forfeits the game</p>
@@ -16,8 +18,6 @@
     <p>The black player has won!</p>
   <% end %>
 <% end %>
-
-<h2><%= @game.current_move_color %> to move</h2>
 
 <div class="gravatar">
   <%= image_tag @game.black_player.gravatar_url %>

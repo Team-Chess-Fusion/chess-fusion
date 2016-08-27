@@ -1,5 +1,5 @@
 $(function(){
-
+        
   $(".piece-font").draggable({
     snap: "td",
     snapMode: "inner",
@@ -14,6 +14,13 @@ $(function(){
           dataType: 'json',
           data: {piece: {row_coordinate: $(this).data("row"), column_coordinate: $(this).data("column")}}
       }).done(function(data){
+
+        if (data.move_color === 'white') {
+          $(".move-turn").text("White to move");
+        } else {
+          $(".move-turn").text("Black to move");
+        }
+
         if (data.update_attempt === 'invalid move') {
           ui.draggable.animate({left : 0, top: 0},"slow");
         } else {
