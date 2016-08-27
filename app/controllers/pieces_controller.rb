@@ -2,10 +2,8 @@ class PiecesController < ApplicationController
   before_action :authenticate_user!
   def update
     @piece = Piece.find(params[:id])
-    return render json: { update_attempt: 'invalid move' } unless @piece.valid_move?(params[:piece][:row_coordinate].to_i, params[:piece][:column_coordinate].to_i)
 
-    move_result = @piece.move_to!(params[:piece][:row_coordinate].to_i, params[:piece][:column_coordinate].to_i)
-    return render json: { update_attempt: 'invalid move' } if move_result == 'invalid'
+    check_move_validity(@piece)
 
     in_check = @piece.game.in_check?.present?
     pawn_to_promote = pawn_promotion(@piece)
@@ -36,5 +34,12 @@ class PiecesController < ApplicationController
     last_row = piece.color == 'white' ? 7 : 0
     return piece.id if piece.row_coordinate == last_row
     nil
+  end
+
+  def check_move_validity(piece)
+    return render json: { update_attempt: 'invalid move' } unless piece.valid_move?(params[:piece][:row_coordinate].to_i, params[:piece][:column_coordinate].to_i)
+
+    move_result = piece.move_to!(params[:piece][:row_coordinate].to_i, params[:piece][:column_coordinate].to_i)
+    return render json: { update_attempt: 'invalid move' } if move_result == 'invalid'
   end
 end
