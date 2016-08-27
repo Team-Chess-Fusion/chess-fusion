@@ -110,6 +110,7 @@ class Game < ActiveRecord::Base
   def forfeiting_user(user)
     players = [black_player, white_player]
     self.winner = players.find { |player| player.id != user.id }
+    self.forfeit_id = players.find { |player| player.id == user.id }
     self.forfeit = true
     self.active = false
     save
