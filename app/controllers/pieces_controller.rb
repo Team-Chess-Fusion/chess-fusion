@@ -2,6 +2,7 @@ class PiecesController < ApplicationController
   before_action :authenticate_user!
   def update
     @piece = Piece.find(params[:id])
+    puts 'checked valid move'
     return render json: { update_attempt: 'invalid move' } unless @piece.valid_move?(params[:piece][:row_coordinate].to_i, params[:piece][:column_coordinate].to_i)
 
     move_result = @piece.move_to!(params[:piece][:row_coordinate].to_i, params[:piece][:column_coordinate].to_i)

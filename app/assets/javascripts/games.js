@@ -9,18 +9,23 @@ $(function(){
   $("td").droppable({
     drop: function(event, ui) {
       var destination_square = $(this);
-      var origin_piece = ui.draggable;
+      var origin_square = ui.draggable.parent();
       $.ajax({
           type: 'PUT',
           url: ui.draggable.data('update-url'),
           dataType: 'json',
           data: {piece: {row_coordinate: $(this).data("row"), column_coordinate: $(this).data("column")}}
       }).done(function(data){
+        console.log(data.update_attempt);
         if (data.update_attempt === 'invalid move') {
           ui.draggable.animate({left : 0, top: 0},"slow");
         } else {
           if (data.update_attempt === 'captured') {
             destination_square.empty();
+          }
+
+          if (data.update_attempt === 'castling') {
+            location.reload();
           }
 
           if (data.in_check === true) {
@@ -29,9 +34,11 @@ $(function(){
           else {
             $(".check-status").text("").removeClass(".alert alert-warning");
           }
-  
-          resetPieceFrontendLocation(ui.draggable, destination_square);
-
+          
+          if (data.update_attempt != 'castling'){
+            resetPieceFrontendLocation(ui.draggable, destination_square);  
+          }
+          
           if (data.promote_pawn !== null ) {
             $('#myModal').attr('data-pieceid', data.promote_pawn);
             $('#myModal').modal({

@@ -149,5 +149,9 @@ RSpec.describe King, type: :model do
       expect(king.valid_move?(1, 2)).to eq false
       expect(king.valid_move?(1, 4)).to eq false
     end
+
+    it 'should return true if king is castling' do
+      expect(black_king.valid_move?(queen_side_black_rook.row_coordinate, queen_side_black_rook.column_coordinate)).to eq true
+    end
   end
 end
