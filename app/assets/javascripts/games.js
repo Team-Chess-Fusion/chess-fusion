@@ -8,6 +8,7 @@ $(function(){
 
   $("td").droppable({
     drop: function(event, ui) {
+      var square = $(this);
       $.ajax({
           type: 'PUT',
           url: ui.draggable.data('update-url'),
@@ -17,6 +18,9 @@ $(function(){
         if (data.update_attempt === 'invalid move') {
           ui.draggable.animate({left : 0, top: 0},"slow");
         } else {
+          if (data.update_attempt === 'captured') {
+            square.empty();
+          }
           if (data.in_check === true) {
             $(".check-status").text("Check!").addClass(".alert alert-warning");
           }

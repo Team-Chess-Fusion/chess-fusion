@@ -10,7 +10,7 @@ class PiecesController < ApplicationController
     in_check = @piece.game.in_check?.present?
     pawn_to_promote = pawn_promotion(@piece)
 
-    render json: { update_attempt: 'success', in_check: in_check, promote_pawn: pawn_to_promote }
+    render json: { update_attempt: move_result, in_check: in_check, promote_pawn: pawn_to_promote }
   end
 
   def promote_pawn
