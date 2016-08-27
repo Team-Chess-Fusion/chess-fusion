@@ -3,7 +3,7 @@ class PiecesController < ApplicationController
   def update
     @piece = Piece.find(params[:id])
 
-    check_move_validity(@piece)
+    return render json: { update_attempt: 'invalid move' } unless check_move_validity(@piece)
 
     in_check = @piece.game.in_check?.present?
     pawn_to_promote = pawn_promotion(@piece)
@@ -37,9 +37,11 @@ class PiecesController < ApplicationController
   end
 
   def check_move_validity(piece)
-    return render json: { update_attempt: 'invalid move' } unless piece.valid_move?(params[:piece][:row_coordinate].to_i, params[:piece][:column_coordinate].to_i)
+    return false unless piece.valid_move?(params[:piece][:row_coordinate].to_i, params[:piece][:column_coordinate].to_i)
 
     move_result = piece.move_to!(params[:piece][:row_coordinate].to_i, params[:piece][:column_coordinate].to_i)
-    return render json: { update_attempt: 'invalid move' } if move_result == 'invalid'
+    return false if move_result == 'invalid'
+
+    true
   end
 end
