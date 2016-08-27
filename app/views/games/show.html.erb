@@ -31,7 +31,8 @@
 
 <div class="clear"></div>
 <table>
-  <% (0..7).each do |row| %>
+  <% rownum = [7, 6, 5, 4, 3, 2, 1, 0] %>
+  <% rownum.each do |row| %>
     <tr>
       <% (0..7).each do |col| %>
         <td data-row="<%= row %>" data-column="<%= col %>">
