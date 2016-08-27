@@ -7,7 +7,7 @@ ChessFusion::Application.routes.draw do
   root 'static_pages#index'
 
 
-  resources :users, only: [:show}
+  resources :users, only: [:show]
   resources :pieces, only: [:update] do
     put 'promote_pawn'
   end
