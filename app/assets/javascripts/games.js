@@ -32,6 +32,11 @@ $(function(){
           } else {
             $(".stalemate-status").text("").removeClass(".alert alert-warning");
           }
+          if (data.checkmate === true) {
+            $(".checkmate-status").text("Checkmate! Game Over!").addClass(".alert alert-warning");
+          } else {
+            $(".checkmate-status").text("").removeClass(".alert alert-warning");
+          }
           if (data.promote_pawn !== null ) {
             $('#myModal').attr('data-pieceid', data.promote_pawn);
             $('#myModal').modal({

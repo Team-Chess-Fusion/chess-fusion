@@ -6,10 +6,12 @@ class PiecesController < ApplicationController
     return render json: { update_attempt: 'invalid move' } unless check_move_validity(@piece)
 
     in_check = @piece.game.in_check?.present?
+    checkmate = @piece.game.checkmate?
     stalemate = @piece.game.stalemate?(@piece.color)
     pawn_to_promote = pawn_promotion(@piece)
 
-    render json: { update_attempt: 'success', in_check: in_check, stalemate: stalemate, promote_pawn: pawn_to_promote, move_color: @piece.game.current_move_color }
+    render json: { update_attempt: 'success', in_check: in_check, stalemate: stalemate, checkmate: checkmate,
+                   promote_pawn: pawn_to_promote, move_color: @piece.game.current_move_color }
   end
 
   def promote_pawn
