@@ -33,7 +33,7 @@ $(function(){
             $(".stalemate-status").text("").removeClass(".alert alert-warning");
           }
           if (data.checkmate === true) {
-            $(".checkmate-status").text("Checkmate!" + game_winner + " player wins the game").addClass(".alert alert-warning");
+            $(".checkmate-status").text("Checkmate! " + data.game_winner + " player wins the game").addClass(".alert alert-warning");
           } else {
             $(".checkmate-status").text("").removeClass(".alert alert-warning");
           }
