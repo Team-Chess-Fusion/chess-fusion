@@ -44,6 +44,7 @@ class Piece < ActiveRecord::Base
         end
       end
       other_piece.update_attributes(row_coordinate: nil, column_coordinate: nil)
+      update_attributes(row_coordinate: row, column_coordinate: col, has_moved?: true)
       game.update_attributes(current_move_color: switch_turn_color)
       return 'captured'
     end

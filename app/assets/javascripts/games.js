@@ -1,5 +1,5 @@
 $(function(){
-
+        
   $(".piece-font").draggable({
     snap: "td",
     snapMode: "inner",
@@ -21,6 +21,11 @@ $(function(){
             $(".check-status").text("Check!").addClass(".alert alert-warning");
           } else {
             $(".check-status").text("").removeClass(".alert alert-warning");
+          }
+          if (data.move_color === 'white') {
+           $(".move-turn").text("White to move");
+          } else {
+           $(".move-turn").text("Black to move");
           }
           if (data.stalemate === true) {
             $(".stalemate-status").text("Stalemate. Game Over!").addClass(".alert alert-warning");
