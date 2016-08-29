@@ -126,9 +126,9 @@ class Game < ActiveRecord::Base
     (0..7).each do |col|
       (0..7).each do |row|
         next if row == king.row_coordinate && col == king.column_coordinate
-        king_moves_list << [row, col] if king.valid_move?(row, col)
-        other_piece = piece_at_location(row, col)
+        king_moves_list << [row, col] if king.valid_move?(row, col) && piece_at_location(row, col).nil?
 
+        other_piece = piece_at_location(row, col)
         next if other_piece.nil?
         if other_piece.color == king.color
           friendly_list << other_piece

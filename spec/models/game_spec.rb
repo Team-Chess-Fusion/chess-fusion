@@ -10,6 +10,22 @@ RSpec.describe Game, type: :model do
     let!(:game2) { FactoryGirl.create(:game) }
 
     it 'should return true' do
+      FactoryGirl.create(:king, game: game2, row_coordinate: 7, column_coordinate: 4, color: 'black')
+      FactoryGirl.create(:king, game: game2, row_coordinate: 0, column_coordinate: 4, color: 'white')
+      FactoryGirl.create(:queen, game: game2, row_coordinate: 0, column_coordinate: 3, color: 'white')
+      FactoryGirl.create(:bishop, game: game2, row_coordinate: 0, column_coordinate: 5, color: 'white')
+      FactoryGirl.create(:knight, game: game2, row_coordinate: 0, column_coordinate: 6, color: 'white')
+      FactoryGirl.create(:rook, game: game2, row_coordinate: 0, column_coordinate: 7, color: 'white')
+      FactoryGirl.create(:pawn, game: game2, row_coordinate: 1, column_coordinate: 3, color: 'white')
+      FactoryGirl.create(:pawn, game: game2, row_coordinate: 1, column_coordinate: 4, color: 'white')
+      FactoryGirl.create(:pawn, game: game2, row_coordinate: 2, column_coordinate: 5, color: 'white')
+      FactoryGirl.create(:pawn, game: game2, row_coordinate: 3, column_coordinate: 6, color: 'white')
+      FactoryGirl.create(:pawn, game: game2, row_coordinate: 1, column_coordinate: 7, color: 'white')
+      FactoryGirl.create(:queen, game: game2, row_coordinate: 3, column_coordinate: 7, color: 'black')
+      expect(game2.checkmate?).to eq true
+    end
+
+    it 'should return true' do
       FactoryGirl.create(:king, game: game2, row_coordinate: 4, column_coordinate: 7, color: 'black')
       FactoryGirl.create(:king, game: game2, row_coordinate: 4, column_coordinate: 5, color: 'white')
       FactoryGirl.create(:rook, game: game2, row_coordinate: 0, column_coordinate: 7, color: 'white')
