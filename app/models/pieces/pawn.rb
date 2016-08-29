@@ -33,13 +33,13 @@ class Pawn < Piece
   end
 
   def check_left_for_pawn(column_coordinate)
-    opposing_color = color == 'white' ? 'black' : 'white'
+    opposing_color = game.opposite_color(color)
     left = game.pieces.find_by(column_coordinate: column_coordinate - 1, row_coordinate: row_coordinate)
     left.type == 'Pawn' && left.color == opposing_color
   end
 
   def check_right_for_pawn(column_coordinate)
-    opposing_color = color == 'white' ? 'black' : 'white'
+    opposing_color = game.opposite_color(color)
     right = game.pieces.find_by(column_coordinate: column_coordinate + 1, row_coordinate: row_coordinate)
     right.type == 'Pawn' && right.color == opposing_color
   end

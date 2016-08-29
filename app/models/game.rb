@@ -15,7 +15,7 @@ class Game < ActiveRecord::Base
 
   def stalemate?(color)
     stalemate = true
-    enemy_color = color == 'white' ? 'black' : 'white'
+    enemy_color = opposite_color(color)
     king = pieces.find_by(type: 'King', color: color)
 
     king_moves_list, _attackers, friendly_list = build_attackers_and_friendly_lists(king)
@@ -38,7 +38,7 @@ class Game < ActiveRecord::Base
     %w(white black).each do |king_color|
       king = pieces.find_by(type: 'King', color: king_color)
 
-      enemy_color =  %w(white black).select { |color| king_color != color }
+      enemy_color = opposite_color(king_color)
 
       return king if location_is_under_attack_by_color?(enemy_color, king.row_coordinate, king.column_coordinate)
     end
@@ -115,6 +115,10 @@ class Game < ActiveRecord::Base
     save
   end
 
+  def opposite_color(color)
+    color == 'white' ? 'black' : 'white'
+  end
+
   private
 
   def build_attackers_and_friendly_lists(king)
@@ -141,7 +145,7 @@ class Game < ActiveRecord::Base
   end
 
   def king_can_move_out_of_check?(king, king_moves_list)
-    opposite_color = %w(white black).select { |color| king.color != color }
+    opposite_color = opposite_color(king.color)
     save_row = king.row_coordinate
     save_column = king.column_coordinate
     king.update_attributes(row_coordinate: nil, column_coordinate: nil)

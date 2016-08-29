@@ -6,6 +6,18 @@ RSpec.describe Game, type: :model do
   let(:full_game) { FactoryGirl.create(:full_game) }
   let(:single_player_game) { FactoryGirl.create(:single_player_game) }
 
+  describe '#opposite_color method' do
+    let!(:game3) { FactoryGirl.create(:game) }
+
+    it 'should return white' do
+      expect(game3.opposite_color('black')).to eq 'white'
+    end
+
+    it 'should return black' do
+      expect(game3.opposite_color('white')).to eq 'black'
+    end
+  end
+
   describe '#checkmate? method' do
     let!(:game2) { FactoryGirl.create(:game) }
 

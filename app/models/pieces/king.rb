@@ -24,7 +24,7 @@ class King < Piece
   private
 
   def castle_into_or_through_or_out_of_check?(rook_col)
-    opposing_color = color == 'white' ? 'black' : 'white'
+    opposing_color = game.opposite_color(color)
 
     start_col = rook_col < column_coordinate ? 2 : column_coordinate
     end_col = rook_col < column_coordinate ? column_coordinate : 6
