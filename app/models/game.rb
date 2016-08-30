@@ -161,7 +161,7 @@ class Game < ActiveRecord::Base
     opposite_color = king.color == 'white' ? 'black' : 'white'
     return true if king.valid_move?(single_attacker.row_coordinate, single_attacker.column_coordinate) &&
                    !location_is_under_attack_by_color?(opposite_color, single_attacker.row_coordinate, single_attacker.column_coordinate)
-                  
+        
     friendly_list.each do |friendly|
       return true if friendly.valid_move?(single_attacker.row_coordinate, single_attacker.column_coordinate)
     end
