@@ -8,6 +8,8 @@ $(function(){
 
   $("td").droppable({
     drop: function(event, ui) {
+      var destination_square = $(this);
+      var origin_piece = ui.draggable;
       $.ajax({
           type: 'PUT',
           url: ui.draggable.data('update-url'),
@@ -17,11 +19,16 @@ $(function(){
         if (data.update_attempt === 'invalid move') {
           ui.draggable.animate({left : 0, top: 0},"slow");
         } else {
+          if (data.update_attempt === 'captured') {
+            destination_square.empty();
+          }
+
           if (data.in_check === true) {
             $(".check-status").text("Check!").addClass(".alert alert-warning");
           } else {
             $(".check-status").text("").removeClass(".alert alert-warning");
           }
+
           if (data.move_color === 'white') {
            $(".move-turn").text("White to move");
           } else {
@@ -37,6 +44,9 @@ $(function(){
           } else {
             $(".checkmate-status").text("").removeClass(".alert alert-warning");
           }
+
+          resetPieceFrontendLocation(ui.draggable, destination_square);
+          
           if (data.promote_pawn !== null ) {
             $('#myModal').attr('data-pieceid', data.promote_pawn);
             $('#myModal').modal({
@@ -44,10 +54,19 @@ $(function(){
               keyboard: false
             });            
           }
+
         }
       });
     },
   });
+
+function resetPieceFrontendLocation(piece, destination) {
+  piece.css({
+    'left': 0,
+    'top': 0
+  });
+  destination.append(piece);
+}
 
   $(".change-piece-button").click(function(){
     var url = "/pieces/"+$('#myModal').data('pieceid')+"/promote_pawn";
