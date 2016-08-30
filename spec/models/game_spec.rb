@@ -9,6 +9,14 @@ RSpec.describe Game, type: :model do
   describe '#checkmate? method' do
     let!(:game2) { FactoryGirl.create(:game) }
 
+    it 'should return true' do
+      FactoryGirl.create(:king, game: game2, row_coordinate: 7, column_coordinate: 4, color: 'white')
+      FactoryGirl.create(:king, game: game2, row_coordinate: 3, column_coordinate: 0, color: 'black')
+      FactoryGirl.create(:queen, game: game2, row_coordinate: 3, column_coordinate: 1, color: 'white')
+      FactoryGirl.create(:rook, game: game2, row_coordinate: 3, column_coordinate: 3, color: 'white')
+      expect(game2.checkmate?).to eq true
+    end
+
     it 'should return false - black king can capture white queen' do
       FactoryGirl.create(:king, game: game2, row_coordinate: 7, column_coordinate: 4, color: 'white')
       FactoryGirl.create(:king, game: game2, row_coordinate: 3, column_coordinate: 0, color: 'black')
