@@ -1,5 +1,5 @@
 $(function(){
-
+        
   $(".piece-font").draggable({
     snap: "td",
     snapMode: "inner",
@@ -30,11 +30,21 @@ $(function(){
 
           if (data.in_check === true) {
             $(".check-status").text("Check!").addClass(".alert alert-warning");
-          }
-          else {
+          } else {
             $(".check-status").text("").removeClass(".alert alert-warning");
           }
-          
+
+          if (data.move_color === 'white') {
+           $(".move-turn").text("White to move");
+          } else {
+           $(".move-turn").text("Black to move");
+          }
+          if (data.stalemate === true) {
+            $(".stalemate-status").text("Stalemate. Game Over!").addClass(".alert alert-warning");
+          } else {
+            $(".stalemate-status").text("").removeClass(".alert alert-warning");
+          }
+
           if (data.update_attempt != 'castling'){
             resetPieceFrontendLocation(ui.draggable, destination_square);  
           }
@@ -71,5 +81,4 @@ function resetPieceFrontendLocation(piece, destination) {
       location.reload();
     });
   });
-
 });

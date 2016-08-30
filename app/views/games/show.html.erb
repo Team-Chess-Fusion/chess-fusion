@@ -1,4 +1,5 @@
 <h5 class="check-status"></h5>
+<h5 class="stalemate-status"></h5>
 
 <h1>Game: <%= @game.name %></h1>
 <% if @game.active %>
@@ -6,6 +7,8 @@
 <% else %>
   <h5> Game status: <span id="inactive-status">Inactive</span><h5>
 <% end %>
+
+<h5 class="move-turn"><%= @game.current_move_color %> to move</h5>
 
 <% if @game.forfeit %>
   <p>Game forfeited!</p>
@@ -16,8 +19,6 @@
     <p>The black player has won!</p>
   <% end %>
 <% end %>
-
-<h2><%= @game.current_move_color %> to move</h2>
 
 <div class="gravatar">
   <%= image_tag @game.black_player.gravatar_url %>
@@ -31,7 +32,8 @@
 
 <div class="clear"></div>
 <table>
-  <% (0..7).each do |row| %>
+  <% rownum = [7, 6, 5, 4, 3, 2, 1, 0] %>
+  <% rownum.each do |row| %>
     <tr>
       <% (0..7).each do |col| %>
         <td data-row="<%= row %>" data-column="<%= col %>">
@@ -54,11 +56,6 @@
   <% end %>
 </div>
 
-<!-- Button trigger modal -->
-<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
-  Launch demo modal
-</button>
-
 <!-- Modal -->
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-pieceid='#'>
   <div class="modal-dialog" role="document">
@@ -79,7 +76,3 @@
     </div>
   </div>
 </div>
-
-
-
-
