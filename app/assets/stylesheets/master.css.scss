@@ -147,3 +147,15 @@ tr:nth-child(odd) td:nth-child(even), tr:nth-child(even) td:nth-child(odd) {
   margin: 0 auto;
   padding-top: 10px;
 }
+
+.move-turn {
+  margin: 0 auto;
+  padding-top: 10px;
+  font-weight: bold;
+  font-size: 20px;
+}
+
+.stalemate-status {
+  margin: 0 auto;
+  padding-top: 10px;
+}

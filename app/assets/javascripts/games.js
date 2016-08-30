@@ -1,5 +1,5 @@
 $(function(){
-
+        
   $(".piece-font").draggable({
     snap: "td",
     snapMode: "inner",
@@ -25,13 +25,23 @@ $(function(){
 
           if (data.in_check === true) {
             $(".check-status").text("Check!").addClass(".alert alert-warning");
-          }
-          else {
+          } else {
             $(".check-status").text("").removeClass(".alert alert-warning");
           }
-  
-          resetPieceFrontendLocation(ui.draggable, destination_square);
 
+          if (data.move_color === 'white') {
+           $(".move-turn").text("White to move");
+          } else {
+           $(".move-turn").text("Black to move");
+          }
+          if (data.stalemate === true) {
+            $(".stalemate-status").text("Stalemate. Game Over!").addClass(".alert alert-warning");
+          } else {
+            $(".stalemate-status").text("").removeClass(".alert alert-warning");
+          }
+
+          resetPieceFrontendLocation(ui.draggable, destination_square);
+          
           if (data.promote_pawn !== null ) {
             $('#myModal').attr('data-pieceid', data.promote_pawn);
             $('#myModal').modal({
@@ -64,5 +74,4 @@ function resetPieceFrontendLocation(piece, destination) {
       location.reload();
     });
   });
-
 });

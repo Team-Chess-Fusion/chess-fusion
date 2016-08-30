@@ -24,6 +24,8 @@ RSpec.describe Pawn, type: :model do
   let(:black_pawn_7) { FactoryGirl.create(:pawn, game_id: game.id, row_coordinate: 6, column_coordinate: 2, color: 'black') }
   let(:white_pawn_8) { FactoryGirl.create(:pawn, game_id: game.id, row_coordinate: 1, column_coordinate: 7, color: 'white') }
   let(:black_pawn_8) { FactoryGirl.create(:pawn, game_id: game.id, row_coordinate: 5, column_coordinate: 7, color: 'black') }
+  let(:white_pawn_9) { FactoryGirl.create(:pawn, game_id: game.id, row_coordinate: 5, column_coordinate: 2, color: 'white') }
+  let(:black_pawn_9) { FactoryGirl.create(:pawn, game_id: game.id, row_coordinate: 3, column_coordinate: 2, color: 'black') }
   let(:white_rook) { FactoryGirl.create(:rook, color: 'white', row_coordinate: 4, column_coordinate: 4, game_id: game.id) }
 
   describe 'valid_move? for pawn method' do
@@ -36,11 +38,16 @@ RSpec.describe Pawn, type: :model do
     end
 
     it 'should return true' do
+      expect(b_pawn.valid_move?(5, 2)).to eq false
+    end
+
+    it 'should return true if diagonal move is a capture' do
+      white_pawn_9
       expect(b_pawn.valid_move?(5, 2)).to eq true
     end
 
     it 'should return true' do
-      expect(b_pawn.valid_move?(5, 0)).to eq true
+      expect(b_pawn.valid_move?(5, 0)).to eq false
     end
 
     it 'should return false' do
@@ -57,6 +64,15 @@ RSpec.describe Pawn, type: :model do
 
     it 'should return true' do
       expect(w_pawn.valid_move?(3, 1)).to eq true
+    end
+
+    it 'should return false for diagonal move' do
+      expect(w_pawn.valid_move?(3, 2)).to eq false
+    end
+
+    it 'should return true for diagonal move if square is occupied' do
+      black_pawn_9
+      expect(w_pawn.valid_move?(3, 2)).to eq true
     end
 
     it 'should return false' do
