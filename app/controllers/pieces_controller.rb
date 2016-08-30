@@ -9,7 +9,7 @@ class PiecesController < ApplicationController
     stalemate = @piece.game.stalemate?(@piece.color)
     pawn_to_promote = pawn_promotion(@piece)
 
-    render json: { update_attempt: move_result, in_check: in_check, promote_pawn: pawn_to_promote, move_color: @piece.game.current_move_color }
+    render json: { update_attempt: move_result, in_check: in_check, stalemate: stalemate, promote_pawn: pawn_to_promote, move_color: @piece.game.current_move_color }
   end
 
   def promote_pawn
@@ -43,6 +43,6 @@ class PiecesController < ApplicationController
     move_result = piece.move_to!(params[:piece][:row_coordinate].to_i, params[:piece][:column_coordinate].to_i)
     return false if move_result == 'invalid'
 
-    return move_result
+    move_result
   end
 end
