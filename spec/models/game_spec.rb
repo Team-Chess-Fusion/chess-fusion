@@ -41,9 +41,9 @@ RSpec.describe Game, type: :model do
     end
 
     it 'should return true' do
-      FactoryGirl.create(:king, game: game2, row_coordinate: 4, column_coordinate: 7, color: 'black')
-      FactoryGirl.create(:king, game: game2, row_coordinate: 4, column_coordinate: 5, color: 'white')
-      FactoryGirl.create(:rook, game: game2, row_coordinate: 0, column_coordinate: 7, color: 'white')
+      FactoryGirl.create(:king, game: game2, has_moved?: true, row_coordinate: 4, column_coordinate: 7, color: 'black')
+      FactoryGirl.create(:king, game: game2, has_moved?: true, row_coordinate: 4, column_coordinate: 5, color: 'white')
+      FactoryGirl.create(:rook, game: game2, has_moved?: true, row_coordinate: 0, column_coordinate: 7, color: 'white')
       expect(game2.checkmate?).to eq true
     end
 
