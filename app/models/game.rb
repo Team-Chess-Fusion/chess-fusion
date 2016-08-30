@@ -59,7 +59,7 @@ class Game < ActiveRecord::Base
     return true if attackers.count > 1
 
     # determine if attacker can be captured
-    return false if king_attacker_can_be_captured?(attackers.first, friendly_list)
+    return false if king_attacker_can_be_captured?(king, attackers.first, friendly_list)
 
     # determine if check can be blocked
     return false if check_can_be_blocked?(king, attackers.first, friendly_list)
@@ -99,7 +99,7 @@ class Game < ActiveRecord::Base
 
   def location_is_under_attack_by_color?(color, row, col)
     pieces.where('color = ?', color).find_each do |enemy|
-      unless enemy.row_coordinate.nil?
+      unless enemy.row_coordinate.nil? || (enemy.row_coordinate == row && enemy.column_coordinate == col)
         return true if enemy.valid_move?(row, col)
       end
     end
@@ -157,7 +157,11 @@ class Game < ActiveRecord::Base
     false
   end
 
-  def king_attacker_can_be_captured?(single_attacker, friendly_list)
+  def king_attacker_can_be_captured?(king, single_attacker, friendly_list)
+    opposite_color = king.color == 'white' ? 'black' : 'white'
+    return true if king.valid_move?(single_attacker.row_coordinate, single_attacker.column_coordinate) &&
+                   !location_is_under_attack_by_color?(opposite_color, single_attacker.row_coordinate, single_attacker.column_coordinate)
+                  
     friendly_list.each do |friendly|
       return true if friendly.valid_move?(single_attacker.row_coordinate, single_attacker.column_coordinate)
     end
