@@ -54,6 +54,9 @@ gem 'devise', '>= 3.2.4'
 # Gravatar
 gem 'gravtastic'
 
+# Pusher
+gem 'pusher'
+
 # Rspec
 group :development, :test do
   gem 'rspec-rails', '~> 3.0'

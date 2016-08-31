@@ -1,4 +1,16 @@
 $(function(){
+// Enable pusher logging - don't include this in production
+    Pusher.logToConsole = true;
+
+    var pusher = new Pusher('00ac7dd60df12a2ee087', {
+      encrypted: true
+    });
+
+    var channel = pusher.subscribe('game_channel');
+    channel.bind('opponent_moved', function(data) {
+      alert(data.message);
+      alert(data.color_moved);
+    });
         
   $(".piece-font").draggable({
     snap: "td",

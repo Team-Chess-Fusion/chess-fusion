@@ -9,6 +9,11 @@ class PiecesController < ApplicationController
     stalemate = @piece.game.stalemate?(@piece.color)
     pawn_to_promote = pawn_promotion(@piece)
 
+    Pusher.trigger('game_channel', 'opponent_moved', {
+      message: 'hello world',
+      color_moved: @piece.color
+    })
+
     render json: { update_attempt: move_result, in_check: in_check, stalemate: stalemate, promote_pawn: pawn_to_promote, move_color: @piece.game.current_move_color }
   end
 
