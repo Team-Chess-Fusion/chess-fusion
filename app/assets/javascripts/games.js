@@ -34,11 +34,8 @@ $(function(){
             $(".check-status").text("").removeClass(".alert alert-warning");
           }
 
-          if (data.move_color === 'white') {
-           $(".move-turn").text("White to move");
-          } else {
-           $(".move-turn").text("Black to move");
-          }
+          $(".move-turn").text(data.move_color + " to move");
+          
           if (data.stalemate === true) {
             $(".stalemate-status").text("Stalemate. Game Over!").addClass(".alert alert-warning");
           } else {
