@@ -31,6 +31,9 @@ gem 'coffee-rails', '~> 4.0.0'
 # Pusher gem
 gem 'pusher'
 
+# Travis gem
+gem 'travis'
+
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
 
