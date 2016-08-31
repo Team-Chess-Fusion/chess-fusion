@@ -1,5 +1,19 @@
 $(function(){
-        
+
+// Enable pusher logging - don't include this in production
+  Pusher.logToConsole = true;
+  var pusher = new Pusher('00ac7dd60df12a2ee087', {
+    encrypted: true
+  });
+
+  var channel = pusher.subscribe('game_channel');
+  channel.bind('game1', function(data) {
+    if (data.player_color !== data.color_moved) {
+      //Refresh the page
+      location.reload();
+    }    
+  });
+
   $(".piece-font").draggable({
     snap: "td",
     snapMode: "inner",
