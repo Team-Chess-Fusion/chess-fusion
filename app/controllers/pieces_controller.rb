@@ -11,10 +11,11 @@ class PiecesController < ApplicationController
 
     current_player_color = current_user.id == @piece.game.white_player_id ? 'white' : 'black'
 
-    Pusher.trigger('game_channel', 'game1', message: 'hello world',
-                                            current_user: current_user.id,
-                                            color_moved: @piece.color,
-                                            player_color: current_player_color)
+    game_channel = 'game_channel-' + @piece.game.id.to_s
+    Pusher.trigger(game_channel, 'game1', message: 'hello world',
+                                          current_user: current_user.id,
+                                          color_moved: @piece.color,
+                                          player_color: current_player_color)
 
     render json: { update_attempt: move_result, in_check: in_check, stalemate: stalemate, promote_pawn: pawn_to_promote, move_color: @piece.game.current_move_color }
   end
