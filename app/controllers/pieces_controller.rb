@@ -2,6 +2,8 @@ class PiecesController < ApplicationController
   before_action :authenticate_user!
   def update
     @piece = Piece.find(params[:id])
+    return render json: { update_attempt: 'invalid move' } unless check_player_move(@piece)
+
     move_result = check_move_validity(@piece)
     return render json: { update_attempt: 'invalid move' } unless move_result
 
@@ -47,5 +49,16 @@ class PiecesController < ApplicationController
     return false if move_result == 'invalid'
 
     move_result
+  end
+
+  def check_player_move(piece)
+    if piece.game.black_player_id != piece.game.white_player_id
+      if current_user.id == piece.game.white_player_id
+        return false unless piece.color == 'white'
+      else
+        return false unless piece.color == 'black'
+      end
+    end
+    true
   end
 end
