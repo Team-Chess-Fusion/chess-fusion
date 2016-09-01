@@ -8,7 +8,7 @@ $(function(){
   var channel = pusher.subscribe('game_channel-'+game_id);
 
   // Binding channel to events
-  channel.bind('game1', function(data) {
+  channel.bind('game_id', function(data) {
     if (data.player_color !== data.color_moved) {
       //Refresh the page      
       location.reload();

@@ -12,7 +12,7 @@ class PiecesController < ApplicationController
     current_player_color = current_user.id == @piece.game.white_player_id ? 'white' : 'black'
 
     game_channel = 'game_channel-' + @piece.game.id.to_s
-    Pusher.trigger(game_channel, 'game1', message: 'hello world',
+    Pusher.trigger(game_channel, 'game_id', message: 'hello world',
                                           current_user: current_user.id,
                                           color_moved: @piece.color,
                                           player_color: current_player_color)
