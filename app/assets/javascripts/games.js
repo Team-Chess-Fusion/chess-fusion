@@ -9,11 +9,26 @@ $(function(){
   var channel = pusher.subscribe('game_channel-'+game_id);
 
   // Binding channel to events
-  channel.bind('game1', function(data) {
-    if (data.player_color !== data.color_moved) {
-      //Refresh the page      
-      location.reload();
-    }    
+  channel.bind('moved', function(data) {
+    movePiece(data.origin_square, data.destination_square);
+    changeTextStatus(data);
+  });
+
+  channel.bind('captured', function(data) {
+    movePiece(data.origin_square, data.destination_square);
+    var destination = $('td[data-row="'+data.destination_square['row']+'"][data-column="'+ data.destination_square['col']+'"]');
+    destination.children(':first').remove();
+    changeTextStatus(data);
+  });  
+
+  channel.bind('castling', function(data) {
+    location.reload();
+    changeTextStatus(data);
+  });  
+
+  channel.bind('promote_pawn', function(data) {
+    location.reload();
+    changeTextStatus(data);
   });
 
   $(".piece-font").draggable({
@@ -36,33 +51,11 @@ $(function(){
         if (data.update_attempt === 'invalid move') {
           ui.draggable.animate({left : 0, top: 0},"slow");
         } else {
-          if (data.update_attempt === 'captured') {
-            destination_square.empty();
-          }
-
-          if (data.update_attempt === 'castling') {
-            location.reload();
-          }
-
-          if (data.in_check === true) {
-            $(".check-status").text("Check!").addClass(".alert alert-warning");
-          } else {
-            $(".check-status").text("").removeClass(".alert alert-warning");
-          }
-
-          if (data.move_color === 'white') {
-           $(".move-turn").text("White to move");
-          } else {
-           $(".move-turn").text("Black to move");
-          }
-          if (data.stalemate === true) {
-            $(".stalemate-status").text("Stalemate. Game Over!").addClass(".alert alert-warning");
-          } else {
-            $(".stalemate-status").text("").removeClass(".alert alert-warning");
-          }
 
           if (data.update_attempt != 'castling'){
-            resetPieceFrontendLocation(ui.draggable, destination_square);  
+            // Required as movement using draggable will alter position of element.
+            // Subsequent moves will cause pieces to move out of position if not present
+            resetPieceFrontendLocation(ui.draggable);  
           }
           
           if (data.promote_pawn !== null ) {
@@ -78,13 +71,39 @@ $(function(){
     },
   });
 
-function resetPieceFrontendLocation(piece, destination) {
-  piece.css({
-    'left': 0,
-    'top': 0
-  });
-  destination.append(piece);
-}
+  function resetPieceFrontendLocation(piece) {
+    piece.css({
+      'left': 0,
+      'top': 0
+    });
+  }
+
+  function movePiece(origin_square, destination_square) {
+    var origin = $('td[data-row="'+origin_square['row']+'"][data-column="'+ origin_square['col']+'"]');
+    var destination = $('td[data-row="'+destination_square['row']+'"][data-column="'+ destination_square['col']+'"]');
+    var piece = origin.children('.piece-font').detach();
+    destination.append(piece);      
+  }
+
+  function changeTextStatus (data) {
+    if (data.in_check === true) {
+      $(".check-status").text("Check!").addClass(".alert alert-warning");
+    } else {
+      $(".check-status").text("").removeClass(".alert alert-warning");
+    }
+
+    if (data.color_moved === 'white') {
+     $(".move-turn").text("Black to move");
+    } else {
+     $(".move-turn").text("White to move");
+    }
+
+    if (data.stalemate === true) {
+      $(".stalemate-status").text("Stalemate. Game Over!").addClass(".alert alert-warning");
+    } else {
+      $(".stalemate-status").text("").removeClass(".alert alert-warning");
+    }  
+  }
 
   $(".change-piece-button").click(function(){
     var url = "/pieces/"+$('#myModal').data('pieceid')+"/promote_pawn";
@@ -93,8 +112,7 @@ function resetPieceFrontendLocation(piece, destination) {
       url: url,
       dataType: 'json',
       data: {piece: {type: $(this).data('type')}}
-    }).done(function(data){
-      location.reload();
     });
   });
+  
 });

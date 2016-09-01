@@ -10,7 +10,7 @@
   <h5> Game status: <span id="inactive-status">Inactive</span><h5>
 <% end %>
 
-<h5 class="move-turn"><%= @game.current_move_color %> to move</h5>
+<h5 class="move-turn"><%= @game.current_move_color.capitalize! %> to move</h5>
 
 <% if @game.forfeit %>
   <p>Game forfeited!</p>
