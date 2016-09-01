@@ -12,6 +12,7 @@ class PiecesController < ApplicationController
     pawn_to_promote = pawn_promotion(@piece)
 
     game_channel = 'game_channel-' + @piece.game.id.to_s
+
     Pusher.trigger(game_channel, move_result, message: 'hello world',
                                               current_user: current_user.id,
                                               color_moved: @piece.color,

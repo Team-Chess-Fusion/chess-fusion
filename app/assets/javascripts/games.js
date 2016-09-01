@@ -1,5 +1,4 @@
 $(function(){
-
 // Enable pusher logging - don't include this in production
   Pusher.logToConsole = true;
   var pusher = new Pusher('00ac7dd60df12a2ee087', {
@@ -35,6 +34,7 @@ $(function(){
     snap: "td",
     snapMode: "inner",
     snapTolerance: 30,
+    containment: "table"
   });
 
   $("td").droppable({
