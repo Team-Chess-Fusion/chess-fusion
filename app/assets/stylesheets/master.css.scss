@@ -59,7 +59,7 @@
   font-style: normal;
   font-variant: normal;
   font-weight: 400;
-  color: #4169e1;
+  color: black;
   line-height: 85px;
   text-align: center;
   margin-left: auto;
@@ -91,7 +91,7 @@ td {
 }
 
 tr:nth-child(odd) td:nth-child(even), tr:nth-child(even) td:nth-child(odd) {
-  background: black;
+  background: #535a5c;
   color: white;
 }
 
@@ -156,6 +156,11 @@ tr:nth-child(odd) td:nth-child(even), tr:nth-child(even) td:nth-child(odd) {
 }
 
 .stalemate-status {
+  margin: 0 auto;
+  padding-top: 10px;
+}
+
+.checkmate-status {
   margin: 0 auto;
   padding-top: 10px;
 }
