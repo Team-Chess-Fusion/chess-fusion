@@ -19,6 +19,7 @@ $(function(){
     snap: "td",
     snapMode: "inner",
     snapTolerance: 30,
+    containment: "table"
   });
 
   $("td").droppable({
