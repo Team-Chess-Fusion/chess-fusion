@@ -116,6 +116,15 @@ RSpec.describe Piece, type: :model do
       expect(@w_bishop_1.column_coordinate).to eq nil
     end
 
+    it 'should return invalid if moving onto same color' do
+      @game.update_attributes(current_move_color: 'black')
+      @game.reload
+      expect(@b_rook_1.move_to!(1, 0)).to eq 'invalid'
+      @b_pawn_1.reload
+      expect(@b_pawn_1.row_coordinate).to eq 1
+      expect(@b_pawn_1.column_coordinate).to eq 0
+    end
+
     context 'cannot move into check' do
       it 'should return invalid' do
         king = FactoryGirl.create(:king, color: 'white', game_id: game.id, row_coordinate: 3, column_coordinate: 4)

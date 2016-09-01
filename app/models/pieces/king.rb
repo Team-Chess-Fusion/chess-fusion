@@ -1,5 +1,7 @@
 class King < Piece
   def valid_move?(destination_row, destination_column)
+    destination_piece = game.pieces.find_by row_coordinate: destination_row, column_coordinate: destination_column
+    return true if destination_piece.present? && destination_piece.type == 'Rook' && can_castle?(destination_piece)
     (column_coordinate - destination_column).abs <= 1 && (row_coordinate - destination_row).abs <= 1
   end
 
@@ -24,7 +26,7 @@ class King < Piece
   private
 
   def castle_into_or_through_or_out_of_check?(rook_col)
-    opposing_color = color == 'white' ? 'black' : 'white'
+    opposing_color = game.opposite_color(color)
 
     start_col = rook_col < column_coordinate ? 2 : column_coordinate
     end_col = rook_col < column_coordinate ? column_coordinate : 6

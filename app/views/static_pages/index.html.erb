@@ -18,9 +18,8 @@ $(function(){
 <% else %>
   <%= link_to 'My Profile', user_path(current_user), class: 'btn btn-primary'%>
   <%= link_to 'Sign out', destroy_user_session_path, method: :delete, class: 'btn btn-primary'%>
+  <%= link_to 'Create new game', new_game_path, class: 'btn btn-primary' %>
 <% end %>
-
-
 
 <h1>Available Games!</h1>
 <h3>Join One Now!</h3>
