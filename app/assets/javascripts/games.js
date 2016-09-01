@@ -5,11 +5,13 @@ $(function(){
   var pusher = new Pusher('00ac7dd60df12a2ee087', {
     encrypted: true
   });
+  var game_id = $('.game-title').data('gameid');
+  var channel = pusher.subscribe('game_channel-'+game_id);
 
-  var channel = pusher.subscribe('game_channel');
+  // Binding channel to events
   channel.bind('game1', function(data) {
     if (data.player_color !== data.color_moved) {
-      //Refresh the page
+      //Refresh the page      
       location.reload();
     }    
   });
