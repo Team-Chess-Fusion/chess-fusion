@@ -6,7 +6,6 @@ class PiecesController < ApplicationController
     return render json: { update_attempt: 'invalid move' } unless move_result
 
     in_check = @piece.game.in_check?.present?
-    king = @piece.game.in_check?
     checkmate = @piece.game.checkmate?
     game_winner = @piece.color
     stalemate = @piece.game.stalemate?(@piece.color)
