@@ -52,12 +52,10 @@ class PiecesController < ApplicationController
   end
 
   def check_player_move(piece)
-    if piece.game.black_player_id != piece.game.white_player_id
-      if current_user.id == piece.game.white_player_id
-        return false unless piece.color == 'white'
-      else
-        return false unless piece.color == 'black'
-      end
+    if current_user.id == piece.game.white_player_id
+      return false unless piece.color == 'white'
+    else
+      return false unless piece.color == 'black'
     end
     true
   end
