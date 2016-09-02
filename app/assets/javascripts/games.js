@@ -51,7 +51,7 @@ $(function(){
         if (data.update_attempt === 'invalid move') {
           ui.draggable.animate({left : 0, top: 0},"slow");
         } else {
-
+          
           if (data.update_attempt != 'castling'){
             // Required as movement using draggable will alter position of element.
             // Subsequent moves will cause pieces to move out of position if not present
@@ -103,6 +103,12 @@ $(function(){
     } else {
       $(".stalemate-status").text("").removeClass(".alert alert-warning");
     }  
+
+    if (data.checkmate === true) {
+      $(".checkmate-status").text("Checkmate! " + data.game_winner + " player wins the game").addClass(".alert alert-warning");
+    } else {
+      $(".checkmate-status").text("").removeClass(".alert alert-warning");
+    }    
   }
 
   $(".change-piece-button").click(function(){

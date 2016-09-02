@@ -33,13 +33,13 @@ class Pawn < Piece
   end
 
   def check_left_for_pawn(column_coordinate)
-    opposing_color = color == 'white' ? 'black' : 'white'
+    opposing_color = game.opposite_color(color)
     left = game.pieces.find_by(column_coordinate: column_coordinate - 1, row_coordinate: row_coordinate)
     left.type == 'Pawn' && left.color == opposing_color
   end
 
   def check_right_for_pawn(column_coordinate)
-    opposing_color = color == 'white' ? 'black' : 'white'
+    opposing_color = game.opposite_color(color)
     right = game.pieces.find_by(column_coordinate: column_coordinate + 1, row_coordinate: row_coordinate)
     right.type == 'Pawn' && right.color == opposing_color
   end
@@ -93,13 +93,13 @@ class Pawn < Piece
     return true if (row_coordinate - destination_row == 1) && (destination_column == column_coordinate)
     return true if (row_coordinate - destination_row == 1) && ((destination_column - column_coordinate).abs == 1) && square_taken?(destination_row, destination_column)
     row_coordinate == 6 && (row_coordinate - destination_row) == 2 &&
-      (destination_column == column_coordinate) && !obstructed?(destination_row, destination_column)
+      (destination_column == column_coordinate) && !obstructed?(destination_row, destination_column) && !square_taken?(destination_row, destination_column)
   end
 
   def white_pawn_valid?(destination_row, destination_column)
     return true if (destination_row - row_coordinate == 1) && (destination_column == column_coordinate)
     return true if (destination_row - row_coordinate == 1) && ((destination_column - column_coordinate).abs == 1) && square_taken?(destination_row, destination_column)
     row_coordinate == 1 && (destination_row - row_coordinate) == 2 &&
-      (destination_column == column_coordinate) && !obstructed?(destination_row, destination_column)
+      (destination_column == column_coordinate) && !obstructed?(destination_row, destination_column) && !square_taken?(destination_row, destination_column)
   end
 end

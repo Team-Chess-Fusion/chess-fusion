@@ -6,13 +6,56 @@ RSpec.describe Game, type: :model do
   let(:full_game) { FactoryGirl.create(:full_game) }
   let(:single_player_game) { FactoryGirl.create(:single_player_game) }
 
+  describe '#opposite_color method' do
+    let!(:game3) { FactoryGirl.create(:game) }
+
+    it 'should return white' do
+      expect(game3.opposite_color('black')).to eq 'white'
+    end
+
+    it 'should return black' do
+      expect(game3.opposite_color('white')).to eq 'black'
+    end
+  end
+
   describe '#checkmate? method' do
     let!(:game2) { FactoryGirl.create(:game) }
 
     it 'should return true' do
-      FactoryGirl.create(:king, game: game2, row_coordinate: 4, column_coordinate: 7, color: 'black')
-      FactoryGirl.create(:king, game: game2, row_coordinate: 4, column_coordinate: 5, color: 'white')
+      FactoryGirl.create(:king, game: game2, row_coordinate: 7, column_coordinate: 4, color: 'white')
+      FactoryGirl.create(:king, game: game2, row_coordinate: 3, column_coordinate: 0, color: 'black')
+      FactoryGirl.create(:queen, game: game2, row_coordinate: 3, column_coordinate: 1, color: 'white')
+      FactoryGirl.create(:rook, game: game2, row_coordinate: 3, column_coordinate: 3, color: 'white')
+      expect(game2.checkmate?).to eq true
+    end
+
+    it 'should return false - black king can capture white queen' do
+      FactoryGirl.create(:king, game: game2, row_coordinate: 7, column_coordinate: 4, color: 'white')
+      FactoryGirl.create(:king, game: game2, row_coordinate: 3, column_coordinate: 0, color: 'black')
+      FactoryGirl.create(:queen, game: game2, row_coordinate: 3, column_coordinate: 1, color: 'white')
+      expect(game2.checkmate?).to eq false
+    end
+
+    it 'should return true' do
+      FactoryGirl.create(:king, game: game2, row_coordinate: 7, column_coordinate: 4, color: 'black')
+      FactoryGirl.create(:king, game: game2, row_coordinate: 0, column_coordinate: 4, color: 'white')
+      FactoryGirl.create(:queen, game: game2, row_coordinate: 0, column_coordinate: 3, color: 'white')
+      FactoryGirl.create(:bishop, game: game2, row_coordinate: 0, column_coordinate: 5, color: 'white')
+      FactoryGirl.create(:knight, game: game2, row_coordinate: 0, column_coordinate: 6, color: 'white')
       FactoryGirl.create(:rook, game: game2, row_coordinate: 0, column_coordinate: 7, color: 'white')
+      FactoryGirl.create(:pawn, game: game2, row_coordinate: 1, column_coordinate: 3, color: 'white')
+      FactoryGirl.create(:pawn, game: game2, row_coordinate: 1, column_coordinate: 4, color: 'white')
+      FactoryGirl.create(:pawn, game: game2, row_coordinate: 2, column_coordinate: 5, color: 'white')
+      FactoryGirl.create(:pawn, game: game2, row_coordinate: 3, column_coordinate: 6, color: 'white')
+      FactoryGirl.create(:pawn, game: game2, row_coordinate: 1, column_coordinate: 7, color: 'white')
+      FactoryGirl.create(:queen, game: game2, row_coordinate: 3, column_coordinate: 7, color: 'black')
+      expect(game2.checkmate?).to eq true
+    end
+
+    it 'should return true' do
+      FactoryGirl.create(:king, game: game2, has_moved?: true, row_coordinate: 4, column_coordinate: 7, color: 'black')
+      FactoryGirl.create(:king, game: game2, has_moved?: true, row_coordinate: 4, column_coordinate: 5, color: 'white')
+      FactoryGirl.create(:rook, game: game2, has_moved?: true, row_coordinate: 0, column_coordinate: 7, color: 'white')
       expect(game2.checkmate?).to eq true
     end
 

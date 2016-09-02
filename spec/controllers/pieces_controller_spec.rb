@@ -54,7 +54,9 @@ RSpec.describe PiecesController, type: :controller do
                                                        origin_square: { row: 0, col: 1 },
                                                        destination_square: { row: 2, col: 2 },
                                                        stalemate: false,
-                                                       in_check: false)
+                                                       in_check: false,
+                                                       checkmate: false,
+                                                       game_winner: 'white')
       end
 
       it 'should return 404 error if piece not found' do
