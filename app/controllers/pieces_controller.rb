@@ -11,17 +11,15 @@ class PiecesController < ApplicationController
     stalemate = @piece.game.stalemate?(@piece.color)
     pawn_to_promote = pawn_promotion(@piece)
 
-    game_channel = 'game_channel-' + @piece.game.id.to_s
-
-    Pusher.trigger(game_channel, move_result, message: 'hello world',
-                                              current_user: current_user.id,
-                                              color_moved: @piece.color,
-                                              origin_square: { row: origin_row,
-                                                               col: origin_col },
-                                              destination_square: { row: @piece.row_coordinate,
-                                                                    col: @piece.column_coordinate },
-                                              stalemate: stalemate,
-                                              in_check: in_check)
+    Pusher.trigger(@piece.game.web_socket_channel, move_result,
+                   current_user: current_user.id,
+                   color_moved: @piece.color,
+                   origin_square: { row: origin_row,
+                                    col: origin_col },
+                   destination_square: { row: @piece.row_coordinate,
+                                         col: @piece.column_coordinate },
+                   stalemate: stalemate,
+                   in_check: in_check)
 
     render json: { update_attempt: move_result, in_check: in_check, stalemate: stalemate, promote_pawn: pawn_to_promote, move_color: @piece.game.current_move_color }
   end

@@ -31,9 +31,6 @@ gem 'coffee-rails', '~> 4.0.0'
 # Pusher gem
 gem 'pusher'
 
-# Travis gem
-gem 'travis'
-
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
 
@@ -60,13 +57,12 @@ gem 'devise', '>= 3.2.4'
 # Gravatar
 gem 'gravtastic'
 
-# Pusher
-gem 'pusher'
-
 # Rspec
 group :development, :test do
   gem 'rspec-rails', '~> 3.0'
   gem 'factory_girl_rails', '~> 4.0'
+  # Travis gem
+  gem 'travis'
 end
 
 group :doc do

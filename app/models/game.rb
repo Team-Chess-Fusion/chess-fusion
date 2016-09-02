@@ -7,6 +7,10 @@ class Game < ActiveRecord::Base
   belongs_to :white_player, class_name: 'User'
   belongs_to :winner, class_name: 'User'
 
+  def web_socket_channel
+    "game_channel-#{id}"
+  end
+
   def self.create_and_populate_board!(params)
     new_game = create(params)
     new_game.populate_board!
