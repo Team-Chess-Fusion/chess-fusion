@@ -231,13 +231,6 @@ class Game < ActiveRecord::Base
     start_x = [king.row_coordinate, single_attacker.row_coordinate].min + 1
     start_y_increment = slope > 0 ? 1 : -1
     start_y = slope > 0 ? [king.column_coordinate, single_attacker.column_coordinate].min + start_y_increment : [king.column_coordinate, single_attacker.column_coordinate].max + start_y_increment
-    # if slope > 0
-    #   start_y_increment = 1
-    #   start_y = [king.column_coordinate, single_attacker.column_coordinate].min + start_y_increment
-    # else
-    #   start_y_increment = -1
-    #   start_y = [king.column_coordinate, single_attacker.column_coordinate].max + start_y_increment
-    # end
     end_x = [king.row_coordinate, single_attacker.row_coordinate].max - 1
 
     while start_x <= end_x
