@@ -45,22 +45,23 @@ $(function(){
 
 <div class='game-index-div'>
   <h1>Your Active Games</h1>
-
-  <%@user.games.each do |game| %>
-    <% if game.active? %>
-    <div class='game-box col-xs-3 col-xs-offset-1'>
-      <h1><%= game.name %></h1>
-      <br/>
-      <% if game.white_player.present? %>
-        <p>White Player: <%= game.white_player.email %></p>
+  <% if user_signed_in? %>
+    <%current_user.games.each do |game| %>
+      <% if game.active? %>
+      <div class='game-box col-xs-3 col-xs-offset-1'>
+        <h1><%= game.name %></h1>
+        <br/>
+        <% if game.white_player.present? %>
+          <p>White Player: <%= game.white_player.email %></p>
+        <% end %>
+        <% if game.black_player.present? %>
+          <p>Black Player: <%= game.black_player.email %></p>
+        <% end %>
+        <% unless @available_games.include?(game) %>
+          <%= link_to 'Join Game', game_path(game), class: 'btn btn-primary join-button'%>
+        <% end %>
+      </div>
       <% end %>
-      <% if game.black_player.present? %>
-        <p>Black Player: <%= game.black_player.email %></p>
-      <% end %>
-      <% unless @available_games.include?(game) %>
-        <%= link_to 'Join Game', game_path(game), class: 'btn btn-primary join-button'%>
-      <% end %>
-    </div>
     <% end %>
   <% end %>
 </div>
