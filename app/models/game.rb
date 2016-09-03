@@ -7,6 +7,10 @@ class Game < ActiveRecord::Base
   belongs_to :white_player, class_name: 'User'
   belongs_to :winner, class_name: 'User'
 
+  def web_socket_channel
+    "game_channel-#{id}"
+  end
+
   def self.create_and_populate_board!(params)
     new_game = create(params)
     new_game.populate_board!
@@ -50,12 +54,10 @@ class Game < ActiveRecord::Base
     # scan entire board to collect required data
     king_moves_list, attackers, friendly_list = build_attackers_and_friendly_lists(king)
 
-    # determine if King can move out of check
     return false if king_can_move_out_of_check?(king, king_moves_list)
 
     return true if attackers.count > 1
 
-    # determine if attacker can be captured
     return false if king_attacker_can_be_captured?(king, attackers.first, friendly_list)
 
     # determine if check can be blocked
@@ -228,13 +230,8 @@ class Game < ActiveRecord::Base
   def attacker_can_be_blocked_diagonally?(king, single_attacker, friendly_list)
     slope = (king.column_coordinate - single_attacker.column_coordinate) / (king.row_coordinate - single_attacker.row_coordinate)
     start_x = [king.row_coordinate, single_attacker.row_coordinate].min + 1
-    if slope > 0
-      start_y_increment = 1
-      start_y = [king.column_coordinate, single_attacker.column_coordinate].min + start_y_increment
-    else
-      start_y_increment = -1
-      start_y = [king.column_coordinate, single_attacker.column_coordinate].max + start_y_increment
-    end
+    start_y_increment = slope > 0 ? 1 : -1
+    start_y = slope > 0 ? [king.column_coordinate, single_attacker.column_coordinate].min + start_y_increment : [king.column_coordinate, single_attacker.column_coordinate].max + start_y_increment
     end_x = [king.row_coordinate, single_attacker.row_coordinate].max - 1
 
     while start_x <= end_x
