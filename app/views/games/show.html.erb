@@ -27,11 +27,12 @@
   <% if @game.active && current_user == @game.black_player %>
     <%= simple_form_for @game, url: forfeit_game_path(@game), method: :put do |f| %>
       <%= f.button :submit, 'Forfeit', class: "btn btn-danger btn-sm" %>
-    <% end %>  
-  <% end %> 
+    <% end %>
+  <% end %>
 </div>
 
 <div class="clear"></div>
+
 <table>
   <% rownum = [7, 6, 5, 4, 3, 2, 1, 0] %>
   <% rownum.each do |row| %>
@@ -53,7 +54,7 @@
   <% if @game.active && current_user == @game.white_player %>
     <%= simple_form_for @game, url: forfeit_game_path(@game), method: :put do |f| %>
       <%= f.button :submit, 'Forfeit', class: "btn btn-danger btn-sm" %>
-    <% end %>  
+    <% end %>
   <% end %>
 </div>
 

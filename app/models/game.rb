@@ -27,8 +27,7 @@ class Game < ActiveRecord::Base
 
     # if the king is the only one left, no need to check if there are blockers
     unless friendly_list.empty?
-      blockers = find_blockers(friendly_list, king)
-      stalemate = false unless blockers.count == friendly_list.count
+      stalemate = false unless find_blockers(friendly_list, king).count == friendly_list.count
     end
 
     stalemate
@@ -38,9 +37,7 @@ class Game < ActiveRecord::Base
     %w(white black).each do |king_color|
       king = pieces.find_by(type: 'King', color: king_color)
 
-      enemy_color = opposite_color(king_color)
-
-      return king if location_is_under_attack_by_color?(enemy_color, king.row_coordinate, king.column_coordinate)
+      return king if location_is_under_attack_by_color?(opposite_color(king_color), king.row_coordinate, king.column_coordinate)
     end
 
     nil
@@ -63,6 +60,9 @@ class Game < ActiveRecord::Base
 
     # determine if check can be blocked
     return false if check_can_be_blocked?(king, attackers.first, friendly_list)
+
+    self.winner_id = white_player_id if king.color == 'black'
+    self.winner_id = black_player_id if king.color == 'white'
 
     true
   end
@@ -110,6 +110,7 @@ class Game < ActiveRecord::Base
   def forfeiting_user(user)
     players = [black_player, white_player]
     self.winner = players.find { |player| player.id != user.id }
+    self.forfeit_id = players.find { |player| player.id == user.id }
     self.forfeit = true
     self.active = false
     save
