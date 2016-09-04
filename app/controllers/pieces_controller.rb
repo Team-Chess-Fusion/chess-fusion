@@ -2,6 +2,8 @@ class PiecesController < ApplicationController
   before_action :authenticate_user!
   def update
     @piece = Piece.find(params[:id])
+    origin_row = @piece.row_coordinate
+    origin_col = @piece.column_coordinate
     move_result = check_move_validity(@piece)
     return render json: { update_attempt: 'invalid move' } unless move_result
 
@@ -10,6 +12,18 @@ class PiecesController < ApplicationController
     game_winner = @piece.color
     stalemate = @piece.game.stalemate?(@piece.color)
     pawn_to_promote = pawn_promotion(@piece)
+
+    Pusher.trigger(@piece.game.web_socket_channel, move_result,
+                   current_user: current_user.id,
+                   color_moved: @piece.color,
+                   origin_square: { row: origin_row,
+                                    col: origin_col },
+                   destination_square: { row: @piece.row_coordinate,
+                                         col: @piece.column_coordinate },
+                   stalemate: stalemate,
+                   in_check: in_check,
+                   checkmate: checkmate,
+                   game_winner: game_winner)
 
     render json: { update_attempt: move_result, in_check: in_check, stalemate: stalemate, checkmate: checkmate,
                    game_winner: game_winner, promote_pawn: pawn_to_promote, move_color: @piece.game.current_move_color }
@@ -20,6 +34,8 @@ class PiecesController < ApplicationController
     old_piece = pawn.color + '_' + pawn.type.downcase
     new_piece = pawn.game.pieces.create(pawn_promotion_params.merge(color: pawn.color, row_coordinate: pawn.row_coordinate, column_coordinate: pawn.column_coordinate, has_moved?: true))
     pawn.destroy
+    game_channel = 'game_channel-' + new_piece.game.id.to_s
+    Pusher.trigger(game_channel, 'promote_pawn', message: 'hello world')
     render json: { promotion_attempt: 'success', promoted_to: new_piece.type, color: new_piece.color, id: new_piece.id, old_piece: old_piece, row: new_piece.row_coordinate, col: new_piece.column_coordinate }
   end
 

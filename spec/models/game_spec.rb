@@ -19,7 +19,7 @@ RSpec.describe Game, type: :model do
   end
 
   describe '#checkmate? method' do
-    let!(:game2) { FactoryGirl.create(:game) }
+    let!(:game2) { FactoryGirl.create(:full_game) }
 
     it 'should return true' do
       FactoryGirl.create(:king, game: game2, row_coordinate: 7, column_coordinate: 4, color: 'white')
@@ -27,6 +27,7 @@ RSpec.describe Game, type: :model do
       FactoryGirl.create(:queen, game: game2, row_coordinate: 3, column_coordinate: 1, color: 'white')
       FactoryGirl.create(:rook, game: game2, row_coordinate: 3, column_coordinate: 3, color: 'white')
       expect(game2.checkmate?).to eq true
+      expect(game2.winner_id).to eq game2.white_player_id
     end
 
     it 'should return false - black king can capture white queen' do
@@ -34,6 +35,7 @@ RSpec.describe Game, type: :model do
       FactoryGirl.create(:king, game: game2, row_coordinate: 3, column_coordinate: 0, color: 'black')
       FactoryGirl.create(:queen, game: game2, row_coordinate: 3, column_coordinate: 1, color: 'white')
       expect(game2.checkmate?).to eq false
+      expect(game2.winner_id).to eq nil
     end
 
     it 'should return true' do
@@ -50,6 +52,7 @@ RSpec.describe Game, type: :model do
       FactoryGirl.create(:pawn, game: game2, row_coordinate: 1, column_coordinate: 7, color: 'white')
       FactoryGirl.create(:queen, game: game2, row_coordinate: 3, column_coordinate: 7, color: 'black')
       expect(game2.checkmate?).to eq true
+      expect(game2.winner_id).to eq game2.black_player_id
     end
 
     it 'should return true' do
@@ -57,6 +60,7 @@ RSpec.describe Game, type: :model do
       FactoryGirl.create(:king, game: game2, has_moved?: true, row_coordinate: 4, column_coordinate: 5, color: 'white')
       FactoryGirl.create(:rook, game: game2, has_moved?: true, row_coordinate: 0, column_coordinate: 7, color: 'white')
       expect(game2.checkmate?).to eq true
+      expect(game2.winner_id).to eq game2.white_player_id
     end
 
     it 'should return true' do
@@ -64,6 +68,7 @@ RSpec.describe Game, type: :model do
       FactoryGirl.create(:king, game: game2, row_coordinate: 5, column_coordinate: 2, color: 'white')
       FactoryGirl.create(:queen, game: game2, row_coordinate: 5, column_coordinate: 1, color: 'white')
       expect(game2.checkmate?).to eq true
+      expect(game2.winner_id).to eq game2.white_player_id
     end
 
     it 'should return false - black rook can block check' do

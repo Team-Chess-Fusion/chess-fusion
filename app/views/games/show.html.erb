@@ -1,15 +1,17 @@
+<%= javascript_include_tag "games" %>
+
 <h5 class="check-status"></h5>
 <h5 class="stalemate-status"></h5>
 <h5 class="checkmate-status"></h5>
 
-<h1>Game: <%= @game.name %></h1>
+<h1 class='game-title' data-gameid=<%= @game.id %>>Game: <%= @game.name %></h1>
 <% if @game.active %>
   <h5>Game status: <span id="active-status">Active<span></h5>
 <% else %>
   <h5> Game status: <span id="inactive-status">Inactive</span><h5>
 <% end %>
 
-<h5 class="move-turn"><%= @game.current_move_color %> to move</h5>
+<h5 class="move-turn"><%= @game.current_move_color.capitalize! %> to move</h5>
 
 <% if @game.forfeit %>
   <p>Game forfeited!</p>
@@ -27,11 +29,12 @@
   <% if @game.active && current_user == @game.black_player %>
     <%= simple_form_for @game, url: forfeit_game_path(@game), method: :put do |f| %>
       <%= f.button :submit, 'Forfeit', class: "btn btn-danger btn-sm" %>
-    <% end %>  
-  <% end %> 
+    <% end %>
+  <% end %>
 </div>
 
 <div class="clear"></div>
+
 <table>
   <% rownum = [7, 6, 5, 4, 3, 2, 1, 0] %>
   <% rownum.each do |row| %>
@@ -53,7 +56,7 @@
   <% if @game.active && current_user == @game.white_player %>
     <%= simple_form_for @game, url: forfeit_game_path(@game), method: :put do |f| %>
       <%= f.button :submit, 'Forfeit', class: "btn btn-danger btn-sm" %>
-    <% end %>  
+    <% end %>
   <% end %>
 </div>
 

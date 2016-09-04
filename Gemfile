@@ -28,6 +28,9 @@ gem 'coffee-rails', '~> 4.0.0'
 # See https://github.com/sstephenson/execjs#readme for more supported runtimes
 # gem 'therubyracer', platforms: :ruby
 
+# Pusher gem
+gem 'pusher'
+
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
 
@@ -58,6 +61,8 @@ gem 'gravtastic'
 group :development, :test do
   gem 'rspec-rails', '~> 3.0'
   gem 'factory_girl_rails', '~> 4.0'
+  # Travis gem
+  gem 'travis'
 end
 
 group :doc do
