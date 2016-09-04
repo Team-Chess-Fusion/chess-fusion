@@ -3,25 +3,34 @@
 <h5 class="check-status"></h5>
 <h5 class="stalemate-status"></h5>
 <h5 class="checkmate-status"></h5>
+<div class="frosty col-xs-10 col-xs-offset-1 text-center">
 
-<h1 class='game-title' data-gameid=<%= @game.id %>>Game: <%= @game.name %></h1>
-<% if @game.active %>
-  <h5>Game status: <span id="active-status">Active<span></h5>
-<% else %>
-  <h5> Game status: <span id="inactive-status">Inactive</span><h5>
-<% end %>
+  <h1 class='game-title' data-gameid=<%= @game.id %>>Game: <%= @game.name %></h1>
+  <% if @game.active %>
+    <h5>Game status: <span id="active-status">Active<span></h5>
+  <% else %>
+    <h5> Game status: <span id="inactive-status">Inactive</span><h5>
+  <% end %>
+  <br/>
+  <%= link_to 'Home', root_path, class: 'btn btn-primary' %>
+</div>
+<br/><br/>
+<div class="clear"></div>
+<br/>
 
 <h5 class="move-turn"><%= @game.current_move_color.capitalize! %> to move</h5>
 
-<% if @game.forfeit %>
-  <p>Game forfeited!</p>
-  <p><%= current_user.email %> forfeits the game</p>
-  <% if @game.winner_id == @game.white_player_id %>
-    <p>The white player has won!</p>
-  <% else %>
-    <p>The black player has won!</p>
+<div style="text-align:center">
+  <% if @game.forfeit %>
+    <p>Game forfeited!</p>
+    <p><%= current_user.email %> forfeits the game</p>
+    <% if @game.winner_id == @game.white_player_id %>
+      <p>The white player has won!</p>
+    <% else %>
+      <p>The black player has won!</p>
+    <% end %>
   <% end %>
-<% end %>
+</div>
 
 <div class="gravatar">
   <%= image_tag @game.black_player.gravatar_url %>
