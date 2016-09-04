@@ -35,6 +35,8 @@ RSpec.describe PiecesController, type: :controller do
     context 'user signed in' do
       before do
         sign_in user
+        fullgame.update_attributes(white_player_id: user.id, black_player_id: user.id)
+        fullgame.reload
       end
       it 'should update piece position' do
         knight = fullgame.pieces.where('type = ? AND color = ?', 'Knight', 'white').first

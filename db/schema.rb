@@ -22,10 +22,10 @@ ActiveRecord::Schema.define(version: 20160827221423) do
     t.datetime "updated_at"
     t.integer  "black_player_id"
     t.integer  "white_player_id"
+    t.string   "current_move_color", default: "white"    
     t.boolean  "forfeit",            default: false
     t.boolean  "active",             default: true
     t.integer  "winner_id"
-    t.string   "current_move_color", default: "white"
     t.integer  "forfeit_id"
   end
 

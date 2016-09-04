@@ -15,7 +15,7 @@ class Piece < ActiveRecord::Base
 
   def move_to!(new_row_coordinate, new_column_coordinate)
     return 'invalid' if color != game.current_move_color
-    return 'invalid' if type == 'King' && game.location_is_under_attack_by_color?(color == 'white' ? 'black' : 'white', new_row_coordinate, new_column_coordinate)
+    return 'invalid' if type == 'King' && game.location_is_under_attack_by_color?(game.opposite_color(color), new_row_coordinate, new_column_coordinate)
     move_piece(new_row_coordinate, new_column_coordinate)
   end
 

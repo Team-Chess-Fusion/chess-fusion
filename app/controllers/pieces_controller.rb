@@ -2,10 +2,14 @@ class PiecesController < ApplicationController
   before_action :authenticate_user!
   def update
     @piece = Piece.find(params[:id])
+    # return render json: { update_attempt: 'invalid move' } unless check_player_move(@piece)
+
+    check_player_move(@piece)
+
     origin_row = @piece.row_coordinate
     origin_col = @piece.column_coordinate
+
     move_result = check_move_validity(@piece)
-    return render json: { update_attempt: 'invalid move' } unless move_result
 
     in_check = @piece.game.in_check?.present?
     checkmate = @piece.game.checkmate?
@@ -60,11 +64,20 @@ class PiecesController < ApplicationController
   end
 
   def check_move_validity(piece)
-    return false unless piece.valid_move?(params[:piece][:row_coordinate].to_i, params[:piece][:column_coordinate].to_i)
+    return render json: { update_attempt: 'invalid move' } unless piece.valid_move?(params[:piece][:row_coordinate].to_i, params[:piece][:column_coordinate].to_i)
 
     move_result = piece.move_to!(params[:piece][:row_coordinate].to_i, params[:piece][:column_coordinate].to_i)
-    return false if move_result == 'invalid'
+    return render json: { update_attempt: 'invalid move' } if move_result == 'invalid'
 
     move_result
+  end
+
+  def check_player_move(piece)
+    if piece.color == 'white'
+      return render json: { update_attempt: 'invalid move' } unless current_user.id == piece.game.white_player_id
+    else
+      return render json: { update_attempt: 'invalid move' } unless current_user.id == piece.game.black_player_id
+    end
+    true
   end
 end
