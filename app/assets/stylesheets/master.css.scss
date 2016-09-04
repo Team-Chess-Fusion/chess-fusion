@@ -5,6 +5,13 @@
   font-style: normal;
 }
 
+body {
+  background: url('connect.png');
+  font-family: Constantia, "Lucida Bright", Lucidabright, "Lucida Serif", 
+  Lucida, "DejaVu Serif", "Bitstream Vera Serif", "Liberation Serif", 
+  Georgia, serif;
+}
+
 .white-king:after {
   content: '\2654';
 }
@@ -75,7 +82,7 @@
   margin-bottom: 10px;
 }
 
-h1, h5 {
+h1, h3, h5 {
   text-align: center;
   padding-bottom: 10px;
 }
@@ -163,4 +170,31 @@ tr:nth-child(odd) td:nth-child(even), tr:nth-child(even) td:nth-child(odd) {
 .checkmate-status {
   margin: 0 auto;
   padding-top: 10px;
+}
+
+.hero {
+  background: url('chess.jpeg') no-repeat center center;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  height:370px;
+  box-shadow: 0px 3px 8px #2a2a2a;
+}
+
+.frosty {
+  background:rgba(0,0,0,0.5);
+  color:white;
+}
+
+.frosty h1 {
+  font-family: "Helvetica Neue", Helvetica;
+  font-weight: 100;
+  text-shadow: rgba(0,0,0,0.95) 1px 1px;
+}
+
+.frosty h2 {
+  font-family: "Helvetica Neue", Helvetica;
+  font-weight: 200;
+  text-shadow: rgba(0,0,0,0.95) 1px 1px;
 }
