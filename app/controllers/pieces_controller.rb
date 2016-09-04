@@ -12,6 +12,7 @@ class PiecesController < ApplicationController
     game_winner = @piece.color
     stalemate = @piece.game.stalemate?(@piece.color)
     pawn_to_promote = pawn_promotion(@piece)
+    en_passant_status = @piece.change_enpassant_status
 
     Pusher.trigger(@piece.game.web_socket_channel, move_result,
                    current_user: current_user.id,
@@ -23,10 +24,12 @@ class PiecesController < ApplicationController
                    stalemate: stalemate,
                    in_check: in_check,
                    checkmate: checkmate,
-                   game_winner: game_winner)
+                   game_winner: game_winner,
+                   en_passant_status: en_passant_status)
 
     render json: { update_attempt: move_result, in_check: in_check, stalemate: stalemate, checkmate: checkmate,
-                   game_winner: game_winner, promote_pawn: pawn_to_promote, move_color: @piece.game.current_move_color }
+                   game_winner: game_winner, promote_pawn: pawn_to_promote, move_color: @piece.game.current_move_color,
+                   en_passant_status: en_passant_status }
   end
 
   def promote_pawn

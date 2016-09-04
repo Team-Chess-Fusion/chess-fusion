@@ -11,27 +11,6 @@ class Pawn < Piece
     end
   end
 
-  def change_enpassant_status
-    case color
-    when 'black'
-      if row_coordinate == 4 && en_passant.nil?
-        update_attributes(en_passant: true)
-      elsif game.current_move_color == color && en_passant == true
-        update_attributes(en_passant: false)
-      else
-        update_attributes(en_passant: false)
-      end
-    when 'white'
-      if row_coordinate == 3 && en_passant.nil?
-        update_attributes(en_passant: true)
-      elsif game.current_move_color == color && en_passant == true
-        update_attributes(en_passant: false)
-      else
-        update_attributes(en_passant: false)
-      end
-    end
-  end
-
   def check_left_for_pawn(column_coordinate)
     opposing_color = game.opposite_color(color)
     left = game.pieces.find_by(column_coordinate: column_coordinate - 1, row_coordinate: row_coordinate)

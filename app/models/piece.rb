@@ -19,6 +19,35 @@ class Piece < ActiveRecord::Base
     move_piece(new_row_coordinate, new_column_coordinate)
   end
 
+ def change_enpassant_status
+    return nil unless is_a? Pawn
+    case color
+    when 'black'
+      if row_coordinate == 4 && en_passant.nil?
+        update_attributes(en_passant: true)
+        return true
+      elsif game.current_move_color == color && en_passant == true
+        update_attributes(en_passant: false)
+        return false
+      else
+        update_attributes(en_passant: false)
+        return false
+      end
+    when 'white'
+      if row_coordinate == 3 && en_passant.nil?
+        update_attributes(en_passant: true)
+        return true
+      elsif game.current_move_color == color && en_passant == true
+        update_attributes(en_passant: false)
+        return false
+      else
+        update_attributes(en_passant: false)
+        return false
+      end
+    end
+  end
+
+
   private
 
   def square_taken?(x, y)
@@ -104,3 +133,5 @@ class Piece < ActiveRecord::Base
     game.pieces.find_by(column_coordinate: column_coordinate + 1, row_coordinate: row_coordinate)
   end
 end
+
+
