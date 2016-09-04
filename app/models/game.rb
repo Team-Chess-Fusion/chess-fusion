@@ -165,7 +165,7 @@ class Game < ActiveRecord::Base
   end
 
   def king_attacker_can_be_captured?(king, single_attacker, friendly_list)
-    opposite_color = king.color == 'white' ? 'black' : 'white'
+    opposite_color = opposite_color(king.color)
     return true if king.valid_move?(single_attacker.row_coordinate, single_attacker.column_coordinate) &&
                    !location_is_under_attack_by_color?(opposite_color, single_attacker.row_coordinate, single_attacker.column_coordinate)
 
