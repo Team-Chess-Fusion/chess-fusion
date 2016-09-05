@@ -35,7 +35,7 @@ class Game < ActiveRecord::Base
     end
 
     stalemate
-  end  
+  end
 
   def in_check?
     %w(white black).each do |king_color|
