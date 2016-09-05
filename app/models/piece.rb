@@ -9,13 +9,13 @@ class Piece < ActiveRecord::Base
     elsif (row_coordinate - destination_row).abs == (column_coordinate - destination_column).abs
       return check_diagonal(destination_row, destination_column)
     else
-      return 'invalid'
+      return 'invalid move'
     end
   end
 
   def move_to!(new_row_coordinate, new_column_coordinate)
-    return 'invalid' if color != game.current_move_color
-    return 'invalid' if type == 'King' && game.location_is_under_attack_by_color?(game.opposite_color(color), new_row_coordinate, new_column_coordinate)
+    return 'invalid move' if color != game.current_move_color
+    return 'invalid move' if type == 'King' && game.location_is_under_attack_by_color?(game.opposite_color(color), new_row_coordinate, new_column_coordinate)
     move_piece(new_row_coordinate, new_column_coordinate)
   end
 
@@ -54,7 +54,7 @@ class Piece < ActiveRecord::Base
           game.update_attributes(current_move_color: switch_turn_color)
           return 'castling'
         else
-          return 'invalid'
+          return 'invalid move'
         end
       end
 
