@@ -19,34 +19,19 @@ class Piece < ActiveRecord::Base
     move_piece(new_row_coordinate, new_column_coordinate)
   end
 
- def change_enpassant_status
+  def change_enpassant_status
     return nil unless is_a? Pawn
-    case color
-    when 'black'
-      if row_coordinate == 4 && en_passant.nil?
-        update_attributes(en_passant: true)
-        return true
-      elsif game.current_move_color == color && en_passant == true
-        update_attributes(en_passant: false)
-        return false
-      else
-        update_attributes(en_passant: false)
-        return false
-      end
-    when 'white'
-      if row_coordinate == 3 && en_passant.nil?
-        update_attributes(en_passant: true)
-        return true
-      elsif game.current_move_color == color && en_passant == true
-        update_attributes(en_passant: false)
-        return false
-      else
-        update_attributes(en_passant: false)
-        return false
-      end
+    if (row_coordinate == 4 || row_coordinate == 3) && en_passant.nil?
+      update_attributes(en_passant: true)
+      return true
+    elsif game.pieces.where(en_passant: true) && game.current_move_color == color
+      update_attributes(en_passant: false)
+      return false
+    else
+      update_attributes(en_passant: false)
+      return false
     end
   end
-
 
   private
 

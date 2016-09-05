@@ -162,8 +162,10 @@ RSpec.describe Pawn, type: :model do
         expect(game.current_move_color).to eq 'white'
         white_rook.move_to!(4, 5)
         game.reload
+        expect(game.current_move_color).to eq 'black'
         black_pawn_7.change_enpassant_status
         expect(game.current_move_color).to eq 'black'
+        black_pawn_7.reload
         expect(black_pawn_7.en_passant).to eq false
         expect(white_pawn_7.capture_for_enpassant).to eq false
       end
