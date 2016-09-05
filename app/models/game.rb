@@ -13,8 +13,9 @@ class Game < ActiveRecord::Base
 
   def self.create_and_populate_board!(params)
     new_game = create(params)
-    new_game.populate_board!
-    new_game
+
+    # new_game.populate_board!
+    Game::BoardPopulator.new(new_game).run
   end
 
   def stalemate?(color)
@@ -69,31 +70,31 @@ class Game < ActiveRecord::Base
     true
   end
 
-  def populate_board!
-    [0, 1, 6, 7].each do |row|
-      color = row <= 1 ? 'white' : 'black'
+  # def populate_board!
+  #   [0, 1, 6, 7].each do |row|
+  #     color = row <= 1 ? 'white' : 'black'
 
-      (0..7).each do |column|
-        if row == 1 || row == 6
-          type = 'Pawn'
-        else
-          case column
-          when 0, 7
-            type = 'Rook'
-          when 1, 6
-            type = 'Knight'
-          when 2, 5
-            type = 'Bishop'
-          when 4
-            type = 'King'
-          else
-            type = 'Queen'
-          end
-        end
-        pieces.create(type: type, color: color, row_coordinate: row, column_coordinate: column)
-      end
-    end
-  end
+  #     (0..7).each do |column|
+  #       if row == 1 || row == 6
+  #         type = 'Pawn'
+  #       else
+  #         case column
+  #         when 0, 7
+  #           type = 'Rook'
+  #         when 1, 6
+  #           type = 'Knight'
+  #         when 2, 5
+  #           type = 'Bishop'
+  #         when 4
+  #           type = 'King'
+  #         else
+  #           type = 'Queen'
+  #         end
+  #       end
+  #       pieces.create(type: type, color: color, row_coordinate: row, column_coordinate: column)
+  #     end
+  #   end
+  # end
 
   def piece_at_location(row, col)
     pieces.find_by('row_coordinate = ? AND column_coordinate = ?', row, col)

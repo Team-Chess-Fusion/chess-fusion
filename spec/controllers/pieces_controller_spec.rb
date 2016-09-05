@@ -29,7 +29,7 @@ RSpec.describe PiecesController, type: :controller do
 
   describe '#update' do
     before do
-      fullgame.populate_board!
+      Game::BoardPopulator.new(fullgame).run
       allow(Pusher).to receive(:trigger)
     end
     context 'user signed in' do
