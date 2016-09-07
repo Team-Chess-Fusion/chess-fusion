@@ -109,4 +109,12 @@ class Piece < ActiveRecord::Base
     end
     false
   end
+
+  def left_piece_check
+    game.pieces.find_by(column_coordinate: column_coordinate - 1, row_coordinate: row_coordinate)
+  end
+
+  def right_piece_check
+    game.pieces.find_by(column_coordinate: column_coordinate + 1, row_coordinate: row_coordinate)
+  end
 end

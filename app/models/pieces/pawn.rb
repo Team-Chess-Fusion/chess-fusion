@@ -11,45 +11,23 @@ class Pawn < Piece
     end
   end
 
-  def check_left_right_pawn(column_coordinate)
+  def capture_enpassant
     opposing_color = game.opposite_color(color)
-    left = game.pieces.find_by(column_coordinate: column_coordinate - 1, row_coordinate: row_coordinate)
-    right = game.pieces.find_by(column_coordinate: column_coordinate + 1, row_coordinate: row_coordinate)
+    left = left_piece_check
+    right = right_piece_check
     if !left.nil?
       left.type == 'Pawn' && left.color == opposing_color
+      opposing_pawn = left
     elsif !right.nil?
       right.type == 'Pawn' && right.color == opposing_color
+      opposing_pawn = right
     else
       return false
     end
-  end
-
-  def enpassant_left
-    check_left_right_pawn(column_coordinate)
-    opposing_pawn = game.pieces.find_by(column_coordinate: column_coordinate - 1, row_coordinate: row_coordinate)
     return false if opposing_pawn.en_passant == false
     add_coordinate = color == 'black' ? -1 : 1
     move_to!((opposing_pawn.row_coordinate + add_coordinate), opposing_pawn.column_coordinate)
     opposing_pawn.update_attributes(row_coordinate: nil, column_coordinate: nil)
-  end
-
-  def enpassant_right
-    check_left_right_pawn(column_coordinate)
-    opposing_pawn = game.pieces.find_by(column_coordinate: column_coordinate + 1, row_coordinate: row_coordinate)
-    return false if opposing_pawn.en_passant == false
-    add_coordinate = color == 'black' ? -1 : 1
-    move_to!((opposing_pawn.row_coordinate + add_coordinate), opposing_pawn.column_coordinate)
-    opposing_pawn.update_attributes(row_coordinate: nil, column_coordinate: nil)
-  end
-
-  def capture_enpassant
-    if square_taken?(row_coordinate, column_coordinate - 1)
-      enpassant_left
-    elsif square_taken?(row_coordinate, column_coordinate + 1)
-      enpassant_right
-    else
-      return false
-    end
   end
 
   def capture_for_enpassant
