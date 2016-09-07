@@ -2,7 +2,9 @@ require 'rails_helper'
 
 RSpec.describe Pawn, type: :model do
   let(:game) { FactoryGirl.create(:game) }
-  let(:pawn) { FactoryGirl.create(:pawn) }
+  let(:pawn) { FactoryGirl.create(:pawn, game_id: game.id) }
+  let!(:black_king) { FactoryGirl.create(:king, game_id: game.id, row_coordinate: 7, column_coordinate: 4, color: 'black') }
+  let!(:white_king) { FactoryGirl.create(:king, game_id: game.id, row_coordinate: 0, column_coordinate: 4, color: 'white') }
   let(:b_pawn) { FactoryGirl.create(:pawn, game_id: game.id, row_coordinate: 6, column_coordinate: 1, color: 'black') }
   let(:w_pawn) { FactoryGirl.create(:pawn, game_id: game.id, row_coordinate: 2, column_coordinate: 1, color: 'white') }
   let(:b_pawn_2) { FactoryGirl.create(:pawn, game_id: game.id, row_coordinate: 6, column_coordinate: 7, color: 'black') }

@@ -27,8 +27,7 @@ class Piece < ActiveRecord::Base
 
   def move_piece(row, col)
     saved_state = save_game_data(row, col)
-
-    return update_piece_after_move(saved_state) unless square_taken?(row, col)
+    return update_piece_after_move(saved_state, row, col) unless square_taken?(row, col)
 
     other_piece = game.pieces.find_by(row_coordinate: row, column_coordinate: col)
     if color == other_piece.color
@@ -39,9 +38,9 @@ class Piece < ActiveRecord::Base
       else
         return 'invalid'
       end
+    else
+      update_pieces_after_capture(saved_state, row, col, other_piece)
     end
-
-    update_pieces_after_capture(saved_state)
   end
 
   def check_horizontal(destination_column)
@@ -129,7 +128,7 @@ class Piece < ActiveRecord::Base
     'invalid'
   end
 
-  def update_pieces_after_capture(saved_state)
+  def update_pieces_after_capture(saved_state, row, col, other_piece)
     other_piece.update_attributes(row_coordinate: nil, column_coordinate: nil)
     update_attributes(row_coordinate: row, column_coordinate: col, has_moved?: true)
     game.update_attributes(current_move_color: game.opposite_color(game.current_move_color))
@@ -137,7 +136,7 @@ class Piece < ActiveRecord::Base
     verify_check_status(saved_state, 'captured')
   end
 
-  def update_piece_after_move(saved_state)
+  def update_piece_after_move(saved_state, row, col)
     update_attributes(row_coordinate: row, column_coordinate: col, has_moved?: true)
     game.update_attributes(current_move_color: game.opposite_color(game.current_move_color))
     verify_check_status(saved_state, 'moved')
