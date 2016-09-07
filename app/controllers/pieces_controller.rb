@@ -2,35 +2,30 @@ class PiecesController < ApplicationController
   before_action :authenticate_user!
   def update
     @piece = Piece.find(params[:id])
-    # return render json: { update_attempt: 'invalid move' } unless check_player_move(@piece)
 
-    check_player_move(@piece)
-
-    origin_row = @piece.row_coordinate
-    origin_col = @piece.column_coordinate
-
-    move_result = check_move_validity(@piece)
+    origin_square = { row: @piece.row_coordinate, col: @piece.column_coordinate }
 
     in_check = @piece.game.in_check?.present?
     checkmate = @piece.game.checkmate?
-    game_winner = @piece.color
+    color_moved = @piece.color
     stalemate = @piece.game.stalemate?(@piece.color)
     pawn_to_promote = pawn_promotion(@piece)
 
+    move_result = check_player_move(@piece) ? check_move_validity(@piece) : check_player_move(@piece)
+
     Pusher.trigger(@piece.game.web_socket_channel, move_result,
                    current_user: current_user.id,
-                   color_moved: @piece.color,
-                   origin_square: { row: origin_row,
-                                    col: origin_col },
+                   color_moved: color_moved,
+                   origin_square: origin_square,
                    destination_square: { row: @piece.row_coordinate,
                                          col: @piece.column_coordinate },
                    stalemate: stalemate,
                    in_check: in_check,
                    checkmate: checkmate,
-                   game_winner: game_winner)
+                   game_winner: color_moved)
 
     render json: { update_attempt: move_result, in_check: in_check, stalemate: stalemate, checkmate: checkmate,
-                   game_winner: game_winner, promote_pawn: pawn_to_promote, move_color: @piece.game.current_move_color }
+                   game_winner: color_moved, promote_pawn: pawn_to_promote, move_color: @piece.game.current_move_color }
   end
 
   def promote_pawn
@@ -61,19 +56,16 @@ class PiecesController < ApplicationController
   end
 
   def check_move_validity(piece)
-    return render json: { update_attempt: 'invalid move' } unless piece.valid_move?(params[:piece][:row_coordinate].to_i, params[:piece][:column_coordinate].to_i)
+    return 'invalid move' unless piece.valid_move?(params[:piece][:row_coordinate].to_i, params[:piece][:column_coordinate].to_i)
 
-    move_result = piece.move_to!(params[:piece][:row_coordinate].to_i, params[:piece][:column_coordinate].to_i)
-    return render json: { update_attempt: 'invalid move' } if move_result == 'invalid'
-
-    move_result
+    piece.move_to!(params[:piece][:row_coordinate].to_i, params[:piece][:column_coordinate].to_i)
   end
 
   def check_player_move(piece)
     if piece.color == 'white'
-      return render json: { update_attempt: 'invalid move' } unless current_user.id == piece.game.white_player_id
+      return 'invalid move' unless current_user.id == piece.game.white_player_id
     else
-      return render json: { update_attempt: 'invalid move' } unless current_user.id == piece.game.black_player_id
+      return 'invalid move' unless current_user.id == piece.game.black_player_id
     end
     true
   end
