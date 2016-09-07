@@ -89,8 +89,8 @@ RSpec.describe Piece, type: :model do
       expect(game2.current_move_color).to eq 'black'
     end
 
-    it 'should return invalid' do
-      expect(black_pawn.move_to!(5, 4)).to eq 'invalid'
+    it 'should return invalid move' do
+      expect(black_pawn.move_to!(5, 4)).to eq 'invalid move'
     end
   end
 
@@ -115,15 +115,15 @@ RSpec.describe Piece, type: :model do
       expect(queen_side_black_rook.column_coordinate).to eq 3
     end
 
-    it 'should return invalid if castling is possible' do
+    it 'should return invalid move if castling is possible' do
       game
       Piece.destroy_all
       black_king.update_attributes(has_moved?: true)
-      expect(black_king.move_to!(queen_side_black_rook.row_coordinate, queen_side_black_rook.column_coordinate)).to eq 'invalid'
+      expect(black_king.move_to!(queen_side_black_rook.row_coordinate, queen_side_black_rook.column_coordinate)).to eq 'invalid move'
     end
 
-    it 'should return invalid' do
-      expect(@b_knight_2.move_to!(1, 4)).to eq 'invalid'
+    it 'should return invalid move' do
+      expect(@b_knight_2.move_to!(1, 4)).to eq 'invalid move'
     end
 
     it 'should return captured' do
@@ -137,8 +137,8 @@ RSpec.describe Piece, type: :model do
       expect(@w_rook_1.move_to!(7, 2)).to eq 'moved'
     end
 
-    it 'should return invalid' do
-      expect(@w_rook_1.move_to!(7, 3)).to eq 'invalid'
+    it 'should return invalid move' do
+      expect(@w_rook_1.move_to!(7, 3)).to eq 'invalid move'
     end
 
     it 'should return moved' do
@@ -156,29 +156,29 @@ RSpec.describe Piece, type: :model do
       expect(@w_bishop_1.column_coordinate).to eq nil
     end
 
-    it 'should return invalid if moving onto same color' do
+    it 'should return invalid move if moving onto same color' do
       @game.update_attributes(current_move_color: 'black')
       @game.reload
-      expect(@b_rook_1.move_to!(1, 0)).to eq 'invalid'
+      expect(@b_rook_1.move_to!(1, 0)).to eq 'invalid move'
       @b_pawn_1.reload
       expect(@b_pawn_1.row_coordinate).to eq 1
       expect(@b_pawn_1.column_coordinate).to eq 0
     end
 
     context 'cannot move into check' do
-      it 'should return invalid' do
+      it 'should return invalid move' do
         king = FactoryGirl.create(:king, color: 'white', game_id: game.id, row_coordinate: 3, column_coordinate: 4)
         FactoryGirl.create(:king, color: 'black', game_id: game.id, row_coordinate: 7, column_coordinate: 4)
         FactoryGirl.create(:rook, color: 'black', game_id: game.id, row_coordinate: 1, column_coordinate: 3)
         FactoryGirl.create(:queen, color: 'black', game_id: game.id, row_coordinate: 2, column_coordinate: 6)
 
-        expect(king.move_to!(2, 3)).to eq 'invalid'
-        expect(king.move_to!(2, 4)).to eq 'invalid'
-        expect(king.move_to!(2, 5)).to eq 'invalid'
-        expect(king.move_to!(3, 3)).to eq 'invalid'
-        expect(king.move_to!(3, 5)).to eq 'invalid'
-        expect(king.move_to!(4, 3)).to eq 'invalid'
-        expect(king.move_to!(4, 4)).to eq 'invalid'
+        expect(king.move_to!(2, 3)).to eq 'invalid move'
+        expect(king.move_to!(2, 4)).to eq 'invalid move'
+        expect(king.move_to!(2, 5)).to eq 'invalid move'
+        expect(king.move_to!(3, 3)).to eq 'invalid move'
+        expect(king.move_to!(3, 5)).to eq 'invalid move'
+        expect(king.move_to!(4, 3)).to eq 'invalid move'
+        expect(king.move_to!(4, 4)).to eq 'invalid move'
         expect(king.move_to!(4, 5)).to eq 'moved'
       end
     end
@@ -198,7 +198,7 @@ RSpec.describe Piece, type: :model do
     end
 
     it 'should return invalid' do
-      expect(@w_knight_1.obstructed?(4, 1)).to eq 'invalid'
+      expect(@w_knight_1.obstructed?(4, 1)).to eq 'invalid move'
     end
 
     it 'should return false' do
@@ -218,7 +218,7 @@ RSpec.describe Piece, type: :model do
     end
 
     it 'should return invalid' do
-      expect(@w_rook_2.obstructed?(3, 5)).to eq 'invalid'
+      expect(@w_rook_2.obstructed?(3, 5)).to eq 'invalid move'
     end
 
     it 'should return false' do
