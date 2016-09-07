@@ -61,13 +61,13 @@ RSpec.describe Piece, type: :model do
 
     it 'should return invalid' do
       expect(game3.in_check?).to eq white_king
-      expect(white_knight.move_to!(6, 5)).to eq 'invalid'
+      expect(white_knight.move_to!(6, 5)).to eq 'invalid move'
       expect(game3.in_check?).to eq white_king
     end
 
     it 'should return invalid' do
       expect(game3.in_check?).to eq white_king
-      expect(white_knight.move_to!(3, 6)).to eq 'invalid'
+      expect(white_knight.move_to!(3, 6)).to eq 'invalid move'
       white_knight.reload
       expect(white_knight.row_coordinate).to eq 5
       expect(white_knight.column_coordinate).to eq 7
