@@ -5,13 +5,13 @@ class PiecesController < ApplicationController
 
     origin_square = { row: @piece.row_coordinate, col: @piece.column_coordinate }
 
+    move_result = check_player_move(@piece) ? check_move_validity(@piece) : check_player_move(@piece)
+
     in_check = @piece.game.in_check?.present?
     checkmate = @piece.game.checkmate?
     color_moved = @piece.color
     stalemate = @piece.game.stalemate?(@piece.color)
     pawn_to_promote = pawn_promotion(@piece)
-
-    move_result = check_player_move(@piece) ? check_move_validity(@piece) : check_player_move(@piece)
 
     Pusher.trigger(@piece.game.web_socket_channel, move_result,
                    current_user: current_user.id,
