@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Piece::obstructed? do
+RSpec.describe Piece::Obstructed do
   let(:game) { FactoryGirl.create(:game) }
 
   before :each do
@@ -38,67 +38,67 @@ RSpec.describe Piece::obstructed? do
 
   describe 'obstructed? method' do
     it 'should return false' do
-      obstructed_check = Piece::obstructed?.new(@w_bishop_1, 3, 2)
+      obstructed_check = Piece::Obstructed.new(@game, @w_bishop_1, 3, 2)
       expect(obstructed_check.run).to eq false
     end
 
     it 'should return true' do
-      obstructed_check = Piece::obstructed?.new(@b_bishop_1, 2, 3)
+      obstructed_check = Piece::Obstructed.new(@game, @b_bishop_1, 2, 3)
       expect(obstructed_check.run).to eq true
     end
 
     it 'should return true' do
-      obstructed_check = Piece::obstructed?.new(@b_rook_1, 3, 0)
-      expect(obstructed_check.run).to eq true
-    end
-
-    it 'should return invalid' do
-      obstructed_check = Piece::obstructed?.new(@w_knight_1, 4, 1)
-      expect(obstructed_check.run).to eq 'invalid move'
-    end
-
-    it 'should return false' do
-      obstructed_check = Piece::obstructed?.new(@w_rook_1, 5, 0)
-      expect(obstructed_check.run).to eq false
-    end
-
-    it 'should return false' do
-      obstructed_check = Piece::obstructed?.new(@w_rook_1, 7, 2)
-      expect(obstructed_check.run).to eq false
-    end
-
-    it 'should return false' do
-      obstructed_check = Piece::obstructed?.new(@b_pawn_7, 2, 7)
-      expect(obstructed_check.run).to eq false
-    end
-
-    it 'should return true' do
-      obstructed_check = Piece::obstructed?.new(@w_rook_2, 3, 7)
+      obstructed_check = Piece::Obstructed.new(@game, @b_rook_1, 3, 0)
       expect(obstructed_check.run).to eq true
     end
 
     it 'should return invalid' do
-      obstructed_check = Piece::obstructed?.new(@w_rook_2, 3, 5)
+      obstructed_check = Piece::Obstructed.new(@game, @w_knight_1, 4, 1)
       expect(obstructed_check.run).to eq 'invalid move'
     end
 
     it 'should return false' do
-      obstructed_check = Piece::obstructed?.new(@w_pawn_2, 1, 7)
+      obstructed_check = Piece::Obstructed.new(@game, @w_rook_1, 5, 0)
       expect(obstructed_check.run).to eq false
     end
 
     it 'should return false' do
-      obstructed_check = Piece::obstructed?.new(@w_rook_1, 1, 6)
+      obstructed_check = Piece::Obstructed.new(@game, @w_rook_1, 7, 2)
       expect(obstructed_check.run).to eq false
     end
 
     it 'should return false' do
-      obstructed_check = Piece::obstructed?.new(@b_knight_1, 6, 7)
+      obstructed_check = Piece::Obstructed.new(@game, @b_pawn_7, 2, 7)
       expect(obstructed_check.run).to eq false
     end
 
     it 'should return true' do
-      obstructed_check = Piece::obstructed?.new(@w_pawn_1, 2, 4)
+      obstructed_check = Piece::Obstructed.new(@game, @w_rook_2, 3, 7)
+      expect(obstructed_check.run).to eq true
+    end
+
+    it 'should return invalid' do
+      obstructed_check = Piece::Obstructed.new(@game, @w_rook_2, 3, 5)
+      expect(obstructed_check.run).to eq 'invalid move'
+    end
+
+    it 'should return false' do
+      obstructed_check = Piece::Obstructed.new(@game, @w_pawn_2, 1, 7)
+      expect(obstructed_check.run).to eq false
+    end
+
+    it 'should return false' do
+      obstructed_check = Piece::Obstructed.new(@game, @w_rook_1, 1, 6)
+      expect(obstructed_check.run).to eq false
+    end
+
+    it 'should return false' do
+      obstructed_check = Piece::Obstructed.new(@game, @b_knight_1, 6, 7)
+      expect(obstructed_check.run).to eq false
+    end
+
+    it 'should return true' do
+      obstructed_check = Piece::Obstructed.new(@game, @w_pawn_1, 2, 4)
       expect(obstructed_check.run).to eq true
     end
   end
