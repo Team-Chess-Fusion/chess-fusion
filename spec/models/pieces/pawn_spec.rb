@@ -82,7 +82,7 @@ RSpec.describe Pawn, type: :model do
     end
 
     it 'should return false' do
-      obstructed_check = Piece::Obstructed.new(game, b_pawn_3, 4, 5)
+      obstructed_check = Piece::Obstructed.new(b_pawn_3, 4, 5)
       expect(w_pawn_2.row_coordinate).to eq 5
       expect(w_pawn_2.column_coordinate).to eq 5
       expect(obstructed_check.run).to eq true

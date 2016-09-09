@@ -1,8 +1,8 @@
 class Piece::Obstructed
   attr_accessor :game, :piece, :destination_row, :destination_column
 
-  def initialize(game, piece, destination_row, destination_column)
-    @game = game
+  def initialize(piece, destination_row, destination_column)
+    @game = piece.game
     @piece = piece
     @destination_row = destination_row
     @destination_column = destination_column
