@@ -30,6 +30,11 @@ $(function(){
     changeTextStatus(data);
   });
 
+  channel.bind('capture_for_enpassant', function(data) {
+    location.reload();
+    changeTextStatus(data);
+  });
+
   $(".piece-font").draggable({
     snap: "td",
     snapMode: "inner",

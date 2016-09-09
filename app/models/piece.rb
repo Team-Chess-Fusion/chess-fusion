@@ -23,13 +23,45 @@ class Piece < ActiveRecord::Base
     return nil unless is_a? Pawn
     if (row_coordinate == 4 || row_coordinate == 3) && en_passant.nil?
       update_attributes(en_passant: true)
-      return true
+      return 'en_passant_true'
     elsif game.pieces.where(en_passant: true) && game.current_move_color == color
       update_attributes(en_passant: false)
-      return false
+      return 'en_passant_removed'
     else
       update_attributes(en_passant: false)
+      return 'en_passant_false'
+    end
+   end
+
+  def capture_enpassant
+    opposing_color = game.opposite_color(color)
+    left = left_piece_check
+    right = right_piece_check
+    if !left.nil?
+      left.type == 'Pawn' && left.color == opposing_color
+      opposing_pawn = left
+    elsif !right.nil?
+      right.type == 'Pawn' && right.color == opposing_color
+      opposing_pawn = right
+    else
       return false
+    end
+    return false if opposing_pawn.en_passant == false
+    opposing_pawn.update_attributes(row_coordinate: nil, column_coordinate: nil)
+    return true
+  end
+
+  def capture_for_enpassant
+    return nil unless is_a? Pawn    
+    case color
+    when 'white'
+      return false if row_coordinate != 4
+      capture_enpassant
+      return true
+    when 'black'
+      return false if row_coordinate != 3
+      capture_enpassant
+      return true
     end
   end
 
