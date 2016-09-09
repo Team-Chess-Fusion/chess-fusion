@@ -7,8 +7,9 @@ class King < Piece
 
   def can_castle?(rook)
     # Not required to check if king and rook are on player's first rank as it is implied that the king or rook has moved.
+    obstructed_check = Piece::obstructed?.new(rook, rook.row_coordinate, rook.column_coordinate)
     return false if has_moved? || rook.has_moved?
-    return false if obstructed?(rook.row_coordinate, rook.column_coordinate)
+    return false if obstructed_check.run
     return false if castle_into_or_through_or_out_of_check?(rook.column_coordinate)
 
     true

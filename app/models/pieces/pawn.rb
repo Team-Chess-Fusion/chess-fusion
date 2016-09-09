@@ -90,16 +90,18 @@ class Pawn < Piece
   private
 
   def black_pawn_valid?(destination_row, destination_column)
+    obstructed_check = Piece::obstructed?.new(self, destination_row, destination_column)
     return true if (row_coordinate - destination_row == 1) && (destination_column == column_coordinate)
     return true if (row_coordinate - destination_row == 1) && ((destination_column - column_coordinate).abs == 1) && square_taken?(destination_row, destination_column)
     row_coordinate == 6 && (row_coordinate - destination_row) == 2 &&
-      (destination_column == column_coordinate) && !obstructed?(destination_row, destination_column) && !square_taken?(destination_row, destination_column)
+      (destination_column == column_coordinate) && !obstructed_check.run && !square_taken?(destination_row, destination_column)
   end
 
   def white_pawn_valid?(destination_row, destination_column)
+    obstructed_check = Piece::obstructed?.new(self, destination_row, destination_column).run
     return true if (destination_row - row_coordinate == 1) && (destination_column == column_coordinate)
     return true if (destination_row - row_coordinate == 1) && ((destination_column - column_coordinate).abs == 1) && square_taken?(destination_row, destination_column)
     row_coordinate == 1 && (destination_row - row_coordinate) == 2 &&
-      (destination_column == column_coordinate) && !obstructed?(destination_row, destination_column) && !square_taken?(destination_row, destination_column)
+      (destination_column == column_coordinate) && !obstructed_check.run && !square_taken?(destination_row, destination_column)
   end
 end
