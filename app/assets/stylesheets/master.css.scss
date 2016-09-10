@@ -1,3 +1,5 @@
+@import 'https://fonts.googleapis.com/css?family=Arimo:700|Varela+Round';
+
 @font-face {
   font-family: 'merifont';
   src: url('chess-merida-unicode.ttf') format('ttf');
@@ -76,15 +78,19 @@ body {
 
 .game-box {
   border: 1px solid black; 
+  margin: 20px;
+  padding: 10px;
 }
 
 .join-button {
   margin-bottom: 10px;
 }
 
-h1, h2, h3, h5 {
+h1, h2, h3, h4, h5, p {
   text-align: center;
   padding-bottom: 10px;
+  font-family: 'Varela Round', sans-serif;
+
 }
 
 table {
@@ -126,6 +132,7 @@ tr:nth-child(odd) td:nth-child(even), tr:nth-child(even) td:nth-child(odd) {
 
 .gravatar {
   text-align: center;
+  font-family: 'Varela Round', sans-serif;
 }
 .gravatar img {
   margin:0 auto;
@@ -185,6 +192,7 @@ tr:nth-child(odd) td:nth-child(even), tr:nth-child(even) td:nth-child(odd) {
 .frosty {
   background:rgba(0,0,0,0.5);
   color:white;
+  padding: 10px;
 }
 
 .frosty h1 {
@@ -197,6 +205,12 @@ tr:nth-child(odd) td:nth-child(even), tr:nth-child(even) td:nth-child(odd) {
   font-family: "Helvetica Neue", Helvetica;
   font-weight: 200;
   text-shadow: rgba(0,0,0,0.95) 1px 1px;
+}
+
+.frosty-hero {
+  width: 100%;
+  display: block;
+  margin: 0 auto;
 }
 
 .booyah-box {
@@ -215,4 +229,11 @@ tr:nth-child(odd) td:nth-child(even), tr:nth-child(even) td:nth-child(odd) {
 
 .btn {
   border-radius:0;
+  margin: 5px;
+  font-family: 'Varela Round', sans-serif;  
+}
+
+.app-name {
+  font-family: 'Arimo', sans-serif;
+  color: #373838;
 }
