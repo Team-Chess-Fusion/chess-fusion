@@ -1,19 +1,24 @@
 <div class="container">
   <br class='clear'/>
 
+  <h1>User Dashboard</h1>
   <div class= "gravatar">
     <%= image_tag @user.gravatar_url %>
     <%= @user.email %>
   </div>
-
-  <%= link_to "Home", root_path, class: 'btn btn-primary' %>
-
-  <div class='stats'>
-    <h4><%= @user.games.count %> total games played</h4>
-    <h4><%= @user.games.where(winner_id: current_user.id).count %> wins</h4>
-    <h4><%= @user.games.where.not(winner_id: current_user.id).count %> losses</h4>
-    <h4><%= @user.games.where(forfeit_id: current_user.id).count %> forfeits</h4>
-    <h4><%= @user.games.where(white_player_id: current_user.id).count %> games on white side</h4>
-    <h4><%= @user.games.where(black_player_id: current_user.id).count %> games on black side</h4>
+  <br />
+  <div class="text-center">
+    <%= link_to "Home", root_path, class: 'btn btn-primary' %>
+  </div>
+  <br />
+  <div class="booyah-box">
+    <div class='stats'>
+      <h4><%= @user.games.count %> total games played</h4>
+      <h4><%= @user.games.where(winner_id: current_user.id).count %> wins</h4>
+      <h4><%= @user.games.where.not(winner_id: current_user.id).count %> losses</h4>
+      <h4><%= @user.games.where(forfeit_id: current_user.id).count %> forfeits</h4>
+      <h4><%= @user.games.where(white_player_id: current_user.id).count %> games on white side</h4>
+      <h4><%= @user.games.where(black_player_id: current_user.id).count %> games on black side</h4>
+    </div>
   </div>
 </div>
