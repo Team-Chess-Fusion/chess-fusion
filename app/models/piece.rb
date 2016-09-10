@@ -34,18 +34,18 @@ class Piece < ActiveRecord::Base
   end
 
   def check_enpassant_status
-   opposing_color = game.opposite_color(color)
-   left = left_piece_check
-   right = right_piece_check
-   if !left.nil?
-     return false if left.type != 'Pawn' && left.color != opposing_color
-     return left.en_passant
-   elsif !right.nil?
-     return false if right.type != 'Pawn' && right.color != opposing_color
-   return right.en_passant
-   else
-     return false
-   end
+    opposing_color = game.opposite_color(color)
+    left = left_piece_check
+    right = right_piece_check
+    if !left.nil?
+      return false if left.type != 'Pawn' && left.color != opposing_color
+      return left.en_passant
+    elsif !right.nil?
+      return false if right.type != 'Pawn' && right.color != opposing_color
+      return right.en_passant
+    else
+      return false
+    end
   end
 
   def capture_for_enpassant
