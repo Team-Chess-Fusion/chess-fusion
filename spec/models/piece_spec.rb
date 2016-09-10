@@ -38,10 +38,50 @@ RSpec.describe Piece, type: :model do
     @w_rook_2 = FactoryGirl.create(:piece, game_id: @game.id, type: 'Rook', color: 'white', row_coordinate: 7, column_coordinate: 7)
   end
 
+  describe 'verify check logic within #move_to! method' do
+    let!(:game3) { FactoryGirl.create(:game) }
+    let!(:white_king) { FactoryGirl.create(:king, game: game3, row_coordinate: 0, column_coordinate: 0, color: 'white') }
+    let!(:black_king) { FactoryGirl.create(:king, game: game3, row_coordinate: 7, column_coordinate: 4, color: 'black') }
+    let!(:black_rook) { FactoryGirl.create(:rook, game: game3, row_coordinate: 0, column_coordinate: 5, color: 'black') }
+    let!(:white_bishop) { FactoryGirl.create(:bishop, game: game3, row_coordinate: 2, column_coordinate: 7, color: 'white') }
+    let!(:black_knight) { FactoryGirl.create(:knight, game: game3, row_coordinate: 3, column_coordinate: 6, color: 'black') }
+    let!(:white_knight) { FactoryGirl.create(:knight, game: game3, row_coordinate: 5, column_coordinate: 7, color: 'white') }
+
+    it 'should return moved' do
+      expect(game3.in_check?).to eq white_king
+      expect(white_king.move_to!(1, 0)).to eq 'moved'
+      expect(game3.in_check?).to eq nil
+    end
+
+    it 'should return captured' do
+      expect(game3.in_check?).to eq white_king
+      expect(white_bishop.move_to!(0, 5)).to eq 'captured'
+      expect(game3.in_check?).to eq nil
+    end
+
+    it 'should return invalid' do
+      expect(game3.in_check?).to eq white_king
+      expect(white_knight.move_to!(6, 5)).to eq 'invalid move'
+      expect(game3.in_check?).to eq white_king
+    end
+
+    it 'should return invalid' do
+      expect(game3.in_check?).to eq white_king
+      expect(white_knight.move_to!(3, 6)).to eq 'invalid move'
+      white_knight.reload
+      expect(white_knight.row_coordinate).to eq 5
+      expect(white_knight.column_coordinate).to eq 7
+      expect(black_knight.column_coordinate).to eq 6
+      expect(black_knight.row_coordinate).to eq 3
+    end
+  end
+
   describe 'move turn logic within #move_to! method' do
     let!(:game2) { FactoryGirl.create(:game) }
     let!(:white_pawn) { FactoryGirl.create(:pawn, game: game2, row_coordinate: 1, column_coordinate: 4, color: 'white') }
     let!(:black_pawn) { FactoryGirl.create(:pawn, game: game2, row_coordinate: 6, column_coordinate: 4, color: 'black') }
+    let!(:white_king) { FactoryGirl.create(:king, game: game2, row_coordinate: 0, column_coordinate: 4, color: 'white') }
+    let!(:black_king) { FactoryGirl.create(:king, game: game2, row_coordinate: 7, column_coordinate: 4, color: 'black') }
 
     it 'should return black to move' do
       expect(white_pawn.move_to!(2, 4)).to eq 'moved'
@@ -128,6 +168,7 @@ RSpec.describe Piece, type: :model do
     context 'cannot move into check' do
       it 'should return invalid move' do
         king = FactoryGirl.create(:king, color: 'white', game_id: game.id, row_coordinate: 3, column_coordinate: 4)
+        FactoryGirl.create(:king, color: 'black', game_id: game.id, row_coordinate: 7, column_coordinate: 4)
         FactoryGirl.create(:rook, color: 'black', game_id: game.id, row_coordinate: 1, column_coordinate: 3)
         FactoryGirl.create(:queen, color: 'black', game_id: game.id, row_coordinate: 2, column_coordinate: 6)
 
