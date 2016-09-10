@@ -1,21 +1,21 @@
-<h1>Hey guys, lets get this party started!</h1>
-<img src='https://media.giphy.com/media/BuHELiSSKeP4c/giphy.gif'>
-<button class='btn btn-primary' id="test-button">Hi there</button>
+<html>
+<h1 class="app-name">CHESS FUSION</h1>
 
-<script>
-$(function(){
-  $('#test-button').click(function(){
-    alert('Chess Fusion is gonna be awesome!');
-  })
-});
-</script>
+<div class="frosty frosty-hero col-xs-10 col-xs-offset-1 text-center">
+<br/>
+<% unless user_signed_in? %>
+  <%= link_to 'Sign in', new_user_session_path, class: 'btn btn-primary'%>
+  <%= link_to 'Sign up', new_user_registration_path, class: 'btn btn-primary'%>
+  <%= link_to 'Sign in with Facebook', user_omniauth_authorize_path(:facebook), class: 'btn btn-primary' %>
+<% else %>
+  <%= link_to 'My Profile', user_path(current_user), class: 'btn btn-primary'%>
+  <%= link_to 'Sign out', destroy_user_session_path, method: :delete, class: 'btn btn-primary'%>
+  <%= link_to 'Create new game', new_game_path, class: 'btn btn-primary' %>
+<% end %>
+<br/><br/>
+</div>
 
-<%= link_to 'Sign in', new_user_session_path, class: 'btn btn-primary'%>
-<%= link_to 'Sign up', new_user_registration_path, class: 'btn btn-primary'%>
-<%= link_to 'Sign in with Facebook', user_omniauth_authorize_path(:facebook), class: 'btn btn-primary' %>
-
-<%= link_to 'Sign out', destroy_user_session_path, method: :delete, class: 'btn btn-primary'%>
-<%= link_to 'Create new game', new_game_path, class: 'btn btn-primary' %>
+<div class="hero"></div>
 
 <h1>Available Games!</h1>
 <h3 class='text-center'>Join One Now!</h3>
@@ -29,12 +29,12 @@ $(function(){
       <% if game.white_player.present? %>
         <p>White Player: <%= game.white_player.email %></p>
       <% else %>
-        <%= button_to 'Join as white player', game_path(game), method: :patch, class: 'btn btn-primary join-button'%>
+        <%= button_to 'Join as white player', game_path(game), method: :patch, class: 'btn btn-primary btn-sm join-button'%>
       <% end %>
       <% if game.black_player.present? %>
         <p>Black Player: <%= game.black_player.email %></p>
       <% else %>
-        <%= button_to 'Join as black player', game_path(game), method: :patch, class: 'btn btn-primary join-button'%>
+        <%= button_to 'Join as black player', game_path(game), method: :patch, class: 'btn btn-primary btn-sm join-button'%>
       <% end %>
     </div>
 
@@ -43,25 +43,20 @@ $(function(){
 
 <div class="clear"></div>
 
-<div class='game-index-div'>
-  <h1>Your Active Games</h1>
-  <% if user_signed_in? %>
-    <%current_user.games.each do |game| %>
-      <% if game.active? %>
-      <div class='game-box col-xs-3 col-xs-offset-1'>
-        <h1><%= game.name %></h1>
-        <br/>
-        <% if game.white_player.present? %>
-          <p>White Player: <%= game.white_player.email %></p>
-        <% end %>
-        <% if game.black_player.present? %>
-          <p>Black Player: <%= game.black_player.email %></p>
-        <% end %>
-        <% unless @available_games.include?(game) %>
-          <%= link_to 'Join Game', game_path(game), class: 'btn btn-primary join-button'%>
-        <% end %>
-      </div>
+<div id="footer">
+  <div class="container">
+    <div class="col-xs-12 col-sm-4">
+        <div class="footer-left">
+          <h3><%= link_to "CHESS FUSION", root_path %></h3>
+        </div>
+    </div>
+    <div class="col-xs-12 col-sm-4">
+      <h3><a href="https://www.chess.com/learn-how-to-play-chess">How to play chess</h3>
+    </div>
+    <div class="col-xs-12 col-sm-4 social">
+      <%= link_to 'https://github.com/Team-Chess-Fusion/chess-fusion' do %>
+        <%= image_tag 'github.png' %>
       <% end %>
-    <% end %>
-  <% end %>
+    </div>
+  </div>
 </div>

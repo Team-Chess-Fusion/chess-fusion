@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160822163839) do
+ActiveRecord::Schema.define(version: 20160827221423) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -26,6 +26,7 @@ ActiveRecord::Schema.define(version: 20160822163839) do
     t.boolean  "forfeit",            default: false
     t.boolean  "active",             default: true
     t.integer  "winner_id"
+    t.integer  "forfeit_id"
   end
 
   add_index "games", ["active"], name: "index_games_on_active", using: :btree

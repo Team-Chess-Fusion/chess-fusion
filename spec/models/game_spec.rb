@@ -19,7 +19,7 @@ RSpec.describe Game, type: :model do
   end
 
   describe '#checkmate? method' do
-    let!(:game2) { FactoryGirl.create(:game) }
+    let!(:game2) { FactoryGirl.create(:full_game) }
 
     it 'should return true' do
       FactoryGirl.create(:king, game: game2, row_coordinate: 7, column_coordinate: 4, color: 'white')
@@ -27,6 +27,7 @@ RSpec.describe Game, type: :model do
       FactoryGirl.create(:queen, game: game2, row_coordinate: 3, column_coordinate: 1, color: 'white')
       FactoryGirl.create(:rook, game: game2, row_coordinate: 3, column_coordinate: 3, color: 'white')
       expect(game2.checkmate?).to eq true
+      expect(game2.winner_id).to eq game2.white_player_id
     end
 
     it 'should return false - black king can capture white queen' do
@@ -34,6 +35,7 @@ RSpec.describe Game, type: :model do
       FactoryGirl.create(:king, game: game2, row_coordinate: 3, column_coordinate: 0, color: 'black')
       FactoryGirl.create(:queen, game: game2, row_coordinate: 3, column_coordinate: 1, color: 'white')
       expect(game2.checkmate?).to eq false
+      expect(game2.winner_id).to eq nil
     end
 
     it 'should return true' do
@@ -50,6 +52,7 @@ RSpec.describe Game, type: :model do
       FactoryGirl.create(:pawn, game: game2, row_coordinate: 1, column_coordinate: 7, color: 'white')
       FactoryGirl.create(:queen, game: game2, row_coordinate: 3, column_coordinate: 7, color: 'black')
       expect(game2.checkmate?).to eq true
+      expect(game2.winner_id).to eq game2.black_player_id
     end
 
     it 'should return true' do
@@ -57,6 +60,7 @@ RSpec.describe Game, type: :model do
       FactoryGirl.create(:king, game: game2, has_moved?: true, row_coordinate: 4, column_coordinate: 5, color: 'white')
       FactoryGirl.create(:rook, game: game2, has_moved?: true, row_coordinate: 0, column_coordinate: 7, color: 'white')
       expect(game2.checkmate?).to eq true
+      expect(game2.winner_id).to eq game2.white_player_id
     end
 
     it 'should return true' do
@@ -64,6 +68,7 @@ RSpec.describe Game, type: :model do
       FactoryGirl.create(:king, game: game2, row_coordinate: 5, column_coordinate: 2, color: 'white')
       FactoryGirl.create(:queen, game: game2, row_coordinate: 5, column_coordinate: 1, color: 'white')
       expect(game2.checkmate?).to eq true
+      expect(game2.winner_id).to eq game2.white_player_id
     end
 
     it 'should return false - black rook can block check' do
@@ -147,7 +152,6 @@ RSpec.describe Game, type: :model do
 
   describe 'determine_check method' do
     before do
-      allow_any_instance_of(Game).to receive(:populate_board!).and_return true
       @white_king = FactoryGirl.create(:king, color: 'white', game_id: game.id, row_coordinate: 0, column_coordinate: 4)
       @black_king = FactoryGirl.create(:king, color: 'black', game_id: game.id, row_coordinate: 7, column_coordinate: 4)
     end
@@ -213,7 +217,7 @@ RSpec.describe Game, type: :model do
 
   describe 'stalemate?' do
     it 'should return false at start of game' do
-      game.populate_board!
+      Game::BoardPopulator.new(game).run
       expect(game.stalemate?('white')).to eq false
       expect(game.stalemate?('black')).to eq false
     end
@@ -304,34 +308,6 @@ RSpec.describe Game, type: :model do
 
     it 'should return no games if no games have been created' do
       expect(Game.available).to be_empty
-    end
-  end
-
-  describe 'populate board!' do
-    before do
-      game.populate_board!
-    end
-    it 'should have a white knight located at row 0 column 1' do
-      expect(game.pieces.where(type: 'Knight', color: 'white').first.row_coordinate).to eq(0)
-      expect(game.pieces.where(type: 'Knight', color: 'white').first.column_coordinate).to eq(1)
-    end
-    it 'should have the white king located at row 0 column 4' do
-      expect(game.pieces.where(type: 'King', color: 'white').first.row_coordinate).to eq(0)
-      expect(game.pieces.where(type: 'King', color: 'white').first.column_coordinate).to eq(4)
-    end
-    it 'should have a black knight located at row 7 column 1' do
-      expect(game.pieces.where(type: 'Knight', color: 'black').first.row_coordinate).to eq(7)
-      expect(game.pieces.where(type: 'Knight', color: 'black').first.column_coordinate).to eq(1)
-    end
-    it 'should have the black king located at row 7 column 4' do
-      expect(game.pieces.where(type: 'King', color: 'black').first.row_coordinate).to eq(7)
-      expect(game.pieces.where(type: 'King', color: 'black').first.column_coordinate).to eq(4)
-    end
-    it 'the game should have 32 pieces' do
-      expect(game.pieces.count).to eq(32)
-    end
-    it 'sets white to move first' do
-      expect(game.current_move_color).to eq 'white'
     end
   end
 

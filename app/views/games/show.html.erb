@@ -1,25 +1,36 @@
+<%= javascript_include_tag "games" %>
+
 <h5 class="check-status"></h5>
 <h5 class="stalemate-status"></h5>
 <h5 class="checkmate-status"></h5>
+<div class="frosty col-xs-10 col-xs-offset-1 text-center">
 
-<h1>Game: <%= @game.name %></h1>
-<% if @game.active %>
-  <h5>Game status: <span id="active-status">Active<span></h5>
-<% else %>
-  <h5> Game status: <span id="inactive-status">Inactive</span><h5>
-<% end %>
-
-<h5 class="move-turn"><%= @game.current_move_color %> to move</h5>
-
-<% if @game.forfeit %>
-  <p>Game forfeited!</p>
-  <p><%= current_user.email %> forfeits the game</p>
-  <% if @game.winner_id == @game.white_player_id %>
-    <p>The white player has won!</p>
+  <h1 class='game-title' data-gameid=<%= @game.id %>>Game: <%= @game.name %></h1>
+  <% if @game.active %>
+    <h4>Game status: <span id="active-status">Active<span></h4>
   <% else %>
-    <p>The black player has won!</p>
+    <h5> Game status: <span id="inactive-status">Inactive</span><h5>
   <% end %>
-<% end %>
+  <br/>
+  <%= link_to 'Home', root_path, class: 'btn btn-primary' %>
+</div>
+<br/><br/>
+<div class="clear"></div>
+<br/>
+
+<h5 class="move-turn"><%= @game.current_move_color.capitalize! %> to move</h5>
+
+<div style="text-align:center">
+  <% if @game.forfeit %>
+    <p>Game forfeited!</p>
+    <p><%= current_user.email %> forfeits the game</p>
+    <% if @game.winner_id == @game.white_player_id %>
+      <p>The white player has won!</p>
+    <% else %>
+      <p>The black player has won!</p>
+    <% end %>
+  <% end %>
+</div>
 
 <div class="gravatar">
   <%= image_tag @game.black_player.gravatar_url %>
@@ -27,11 +38,12 @@
   <% if @game.active && current_user == @game.black_player %>
     <%= simple_form_for @game, url: forfeit_game_path(@game), method: :put do |f| %>
       <%= f.button :submit, 'Forfeit', class: "btn btn-danger btn-sm" %>
-    <% end %>  
-  <% end %> 
+    <% end %>
+  <% end %>
 </div>
 
 <div class="clear"></div>
+
 <table>
   <% rownum = [7, 6, 5, 4, 3, 2, 1, 0] %>
   <% rownum.each do |row| %>
@@ -53,7 +65,7 @@
   <% if @game.active && current_user == @game.white_player %>
     <%= simple_form_for @game, url: forfeit_game_path(@game), method: :put do |f| %>
       <%= f.button :submit, 'Forfeit', class: "btn btn-danger btn-sm" %>
-    <% end %>  
+    <% end %>
   <% end %>
 </div>
 

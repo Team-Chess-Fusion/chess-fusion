@@ -29,11 +29,14 @@ RSpec.describe PiecesController, type: :controller do
 
   describe '#update' do
     before do
-      fullgame.populate_board!
+      Game::BoardPopulator.new(fullgame).run
+      allow(Pusher).to receive(:trigger)
     end
     context 'user signed in' do
       before do
         sign_in user
+        fullgame.update_attributes(white_player_id: user.id, black_player_id: user.id)
+        fullgame.reload
       end
       it 'should update piece position' do
         knight = fullgame.pieces.where('type = ? AND color = ?', 'Knight', 'white').first
@@ -46,6 +49,16 @@ RSpec.describe PiecesController, type: :controller do
 
         expect(knight.row_coordinate).to eq 2
         expect(knight.column_coordinate).to eq 2
+        expect(Pusher).to have_received(:trigger).with("game_channel-#{fullgame.id}",
+                                                       'moved',
+                                                       current_user: user.id,
+                                                       color_moved: 'white',
+                                                       origin_square: { row: 0, col: 1 },
+                                                       destination_square: { row: 2, col: 2 },
+                                                       stalemate: false,
+                                                       in_check: false,
+                                                       checkmate: false,
+                                                       game_winner: 'white')
       end
 
       it 'should return 404 error if piece not found' do
