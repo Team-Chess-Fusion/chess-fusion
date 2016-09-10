@@ -192,11 +192,11 @@ tr:nth-child(odd) td:nth-child(even), tr:nth-child(even) td:nth-child(odd) {
 .frosty {
   background:rgba(0,0,0,0.5);
   color:white;
-  padding: 10px;
+  padding: 1px;
 }
 
 .frosty h1 {
-  font-family: "Helvetica Neue", Helvetica;
+  font-family: 'Varela Round', sans-serif;  
   font-weight: 100;
   text-shadow: rgba(0,0,0,0.95) 1px 1px;
 }
@@ -220,7 +220,7 @@ tr:nth-child(odd) td:nth-child(even), tr:nth-child(even) td:nth-child(odd) {
   background: #fff;
   border: 1px solid #ccc;
   border-color: #e4e4e4 #bebebd #bebebd #e4e4e4;
-  padding:25px;
+  padding:15px;
 }
 
 .booyah-box h2, .booyah-box h1 {
@@ -230,7 +230,9 @@ tr:nth-child(odd) td:nth-child(even), tr:nth-child(even) td:nth-child(odd) {
 .btn {
   border-radius:0;
   margin: 5px;
-  font-family: 'Varela Round', sans-serif;  
+  margin-bottom: 10px;
+  font-family: 'Varela Round', sans-serif;
+
 }
 
 .app-name {

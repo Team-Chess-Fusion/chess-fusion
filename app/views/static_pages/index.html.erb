@@ -46,15 +46,16 @@
 
 <div id="footer">
   <div class="container">
-    <div class="col-xs-12 col-sm-4">
-        <div class="footer-left">
-          <h3><%= link_to "CHESS FUSION", root_path %></h3>
-        </div>
+    <div class="col-xs-12 col-sm-3 center-footer">
+      <h4><%= link_to "CHESS FUSION", root_path %></h4>
     </div>
-    <div class="col-xs-12 col-sm-4">
-      <h3><a href="https://www.chess.com/learn-how-to-play-chess">How to play chess</h3>
+    <div class="col-xs-12 col-sm-3 center-footer">
+      <h4><a href="https://www.chess.com/learn-how-to-play-chess">How to play chess</h4>
     </div>
-    <div class="col-xs-12 col-sm-4 social">
+    <div class="col-xs-12 col-sm-3 center-footer">
+      <h4><%= link_to 'About', static_pages_about_path %></h4>
+    </div>
+    <div class="col-xs-12 col-sm-3 social center-footer">
       <%= link_to 'https://github.com/Team-Chess-Fusion/chess-fusion' do %>
         <%= image_tag 'github.png' %>
       <% end %>

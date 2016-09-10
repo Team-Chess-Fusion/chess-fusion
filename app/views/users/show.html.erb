@@ -4,21 +4,40 @@
   <h1>User Dashboard</h1>
   <div class= "gravatar">
     <%= image_tag @user.gravatar_url %>
-    <%= @user.email %>
+    <h4><%= @user.email %></h4>
   </div>
-  <br />
   <div class="text-center">
     <%= link_to "Home", root_path, class: 'btn btn-primary' %>
   </div>
-  <br />
   <div class="booyah-box">
     <div class='stats'>
+      <h2>User Statistics</h2>
       <h4><%= @user.games.count %> total games played</h4>
       <h4><%= @user.games.where(winner_id: current_user.id).count %> wins</h4>
       <h4><%= @user.games.where.not(winner_id: current_user.id).count %> losses</h4>
       <h4><%= @user.games.where(forfeit_id: current_user.id).count %> forfeits</h4>
       <h4><%= @user.games.where(white_player_id: current_user.id).count %> games on white side</h4>
       <h4><%= @user.games.where(black_player_id: current_user.id).count %> games on black side</h4>
+    </div>
+  </div>
+</div>
+<div class="clear"></div>
+
+<div id="footer">
+  <div class="container">
+    <div class="col-xs-12 col-sm-3 center-footer">
+      <h4><%= link_to "CHESS FUSION", root_path %></h4>
+    </div>
+    <div class="col-xs-12 col-sm-3 center-footer">
+      <h4><a href="https://www.chess.com/learn-how-to-play-chess">How to play chess</h4>
+    </div>
+    <div class="col-xs-12 col-sm-3 center-footer">
+      <h4><%= link_to 'About', static_pages_about_path %></h4>
+    </div>
+    <div class="col-xs-12 col-sm-3 social center-footer">
+      <%= link_to 'https://github.com/Team-Chess-Fusion/chess-fusion' do %>
+        <%= image_tag 'github.png' %>
+      <% end %>
     </div>
   </div>
 </div>
