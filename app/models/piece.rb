@@ -58,7 +58,7 @@ class Piece < ActiveRecord::Base
       return false if row_coordinate != 3 || capture_enpassant == false
       return true
     end
-    return true
+    true
   end
 
   private
