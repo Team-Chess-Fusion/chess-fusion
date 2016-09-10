@@ -23,5 +23,7 @@ module ChessFusion
     # Let Rails know to look at pieces subfolder
     config.autoload_paths += %W(#{config.root}/app/models/pieces)
     config.autoload_paths += %W(#{config.root}/app/services/piece)
+    # Let Rails know to look at services and game subfolder
+    config.autoload_paths += %W(#{config.root}/app/services/game)
   end
 end

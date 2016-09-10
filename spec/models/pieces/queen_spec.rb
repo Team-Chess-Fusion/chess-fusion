@@ -5,7 +5,7 @@ RSpec.describe Queen, type: :model do
 
   describe 'valid_move?' do
     before do
-      queen.game.populate_board!
+      Game::BoardPopulator.new(queen.game).run
     end
     it 'should return true if destination is (row 1, col 6)' do
       expect(queen.valid_move?(1, 6)).to eq true
