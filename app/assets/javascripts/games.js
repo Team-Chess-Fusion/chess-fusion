@@ -66,6 +66,10 @@ $(function(){
             });            
           }
 
+          if (data.checkmate === true || data.stalemate === true) {
+            $(".piece-font").draggable('disable');
+          }          
+
         }
       });
     },
