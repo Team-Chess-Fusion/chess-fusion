@@ -59,7 +59,8 @@ RSpec.describe PiecesController, type: :controller do
                                                        in_check: false,
                                                        checkmate: false,
                                                        game_winner: 'white',
-                                                       en_passant_status: nil)
+                                                       en_passant_status: nil,
+                                                       capture_for_enpassant: nil)
       end
 
       it 'should return 404 error if piece not found' do

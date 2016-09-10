@@ -31,8 +31,8 @@ $(function(){
   });
 
   channel.bind('capture_for_enpassant', function(data) {
+    movePiece(data.origin_square, data.destination_square);
     location.reload();
-    changeTextStatus(data);
   });
 
   $(".piece-font").draggable({

@@ -30,7 +30,7 @@ class PiecesController < ApplicationController
 
     render json: { update_attempt: move_result, in_check: in_check, stalemate: stalemate, checkmate: checkmate,
                    game_winner: color_moved, promote_pawn: pawn_to_promote, move_color: @piece.game.current_move_color,
-                   en_passant_status: en_passant_status }
+                   en_passant_status: en_passant_status, capture_for_enpassant: capture_for_enpassant }
   end
 
   def promote_pawn
