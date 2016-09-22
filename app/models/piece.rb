@@ -7,6 +7,48 @@ class Piece < ActiveRecord::Base
     move_piece(new_row_coordinate, new_column_coordinate)
   end
 
+  def change_enpassant_status
+    return nil unless is_a? Pawn
+    if (row_coordinate == 4 || row_coordinate == 3) && en_passant.nil?
+      update_attributes(en_passant: true)
+      return true
+    elsif game.pieces.where(en_passant: true) && game.current_move_color == color
+      update_attributes(en_passant: false)
+      return false
+    else
+      update_attributes(en_passant: false)
+      return false
+    end
+  end
+
+  def check_enpassant_status
+    opposing_color = game.opposite_color(color)
+    left = left_piece_check
+    right = right_piece_check
+    if !left.nil?
+      return false if left.type != 'Pawn' && left.color != opposing_color
+      return left.en_passant
+    elsif !right.nil?
+      return false if right.type != 'Pawn' && right.color != opposing_color
+      return right.en_passant
+    else
+      return false
+    end
+  end
+
+  def capture_for_enpassant
+    return nil unless is_a? Pawn
+    case color
+    when 'white'
+      return false if row_coordinate != 4 || capture_enpassant == false
+      return true
+    when 'black'
+      return false if row_coordinate != 3 || capture_enpassant == false
+      return true
+    end
+    true
+  end
+
   private
 
   def square_taken?(x, y)
@@ -83,5 +125,13 @@ class Piece < ActiveRecord::Base
     update_attributes(row_coordinate: row, column_coordinate: col, has_moved?: true)
     game.update_attributes(current_move_color: game.opposite_color(game.current_move_color))
     verify_check_status(saved_state, 'moved')
+  end
+
+  def left_piece_check
+    game.pieces.find_by(column_coordinate: column_coordinate - 1, row_coordinate: row_coordinate)
+  end
+
+  def right_piece_check
+    game.pieces.find_by(column_coordinate: column_coordinate + 1, row_coordinate: row_coordinate)
   end
 end
