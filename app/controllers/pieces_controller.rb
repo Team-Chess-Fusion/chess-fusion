@@ -7,10 +7,8 @@ class PiecesController < ApplicationController
 
     move_result = check_player_move(@piece) ? check_move_validity(@piece) : check_player_move(@piece)
 
-    in_check = @piece.game.in_check?.present?
-    checkmate = @piece.game.checkmate?
-    color_moved = @piece.color
-    stalemate = @piece.game.stalemate?(@piece.color)
+    in_check, checkmate, color_moved, stalemate = check_game_state
+
     pawn_to_promote = pawn_promotion(@piece)
     en_passant_status = @piece.change_enpassant_status
     capture_for_enpassant = @piece.capture_for_enpassant
@@ -44,6 +42,14 @@ class PiecesController < ApplicationController
   end
 
   private
+
+  def check_game_state
+    in_check = @piece.game.in_check?.present?
+    checkmate = @piece.game.checkmate?
+    color_moved = @piece.color
+    stalemate = @piece.game.stalemate?(@piece.color)
+    [in_check, checkmate, color_moved, stalemate]
+  end
 
   def piece_params
     params.require(:piece).permit(:row_coordinate, :column_coordinate)
