@@ -30,6 +30,11 @@ $(function(){
     changeTextStatus(data);
   });
 
+  channel.bind('capture_for_enpassant', function(data) {
+    movePiece(data.origin_square, data.destination_square);
+    location.reload();
+  });
+
   $(".piece-font").draggable({
     snap: "td",
     snapMode: "inner",
